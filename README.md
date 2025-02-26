@@ -45,7 +45,8 @@ Clique [aqui]() para acessar o protótipo do projeto
 - **RNF.02** Exibir os resultados em gráficos interativos. 
 
 ### Requisitos designados por matéria
-
+  ## Banco de Dados Relacional
+   - **BDR.01** Junção de tabelas
 <br>
 
 # EQUIPE 👨🏻‍💻
