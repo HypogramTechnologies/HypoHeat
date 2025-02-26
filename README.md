@@ -4,7 +4,7 @@ risco de fogo e focos de calor do Programa Queimadas do INPE
 
 ## Descrição 📝
 
-** objetivo do projeto é especificar e desenvolver uma aplicação web interativa que permita aos usuários consultar e visualizar de forma intuitiva os dados de área queimada, risco de fogo e focos de calor, obtidos diretamente da base de dados BDQueimadas do Programa Queimadas do INPE.**
+**objetivo do projeto é especificar e desenvolver uma aplicação web interativa que permita aos usuários consultar e visualizar de forma intuitiva os dados de área queimada, risco de fogo e focos de calor, obtidos diretamente da base de dados BDQueimadas do Programa Queimadas do INPE.**
 
 ## Link para o Trello 📒
 
