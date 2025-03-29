@@ -18,7 +18,7 @@ Clique [aqui]() para acessar o protótipo do projeto
 
 | SPRINT | LINK          | INÍCIO     | ENTREGA    | STATUS        |
 | ------ | ------------- | ---------- | ---------- | ------------- |
-| 01     | [Sprint 01]() | 24/03/2025 | 17/04/2025 |  Pendente     |
+| 01     | [Sprint 01]() | 24/03/2025 | 17/04/2025 |  Em andamento |
 | 02     | [Sprint 02]() | 22/04/2025 | 15/05/2025 |  Pendente     |
 | 03     | [Sprint 03]() | 16/05/2024 | 10/06/2025 |  Pendente     |
 
@@ -60,5 +60,4 @@ Clique [aqui]() para acessar o protótipo do projeto
 | Adson Ottoni Balbino Filho        | Developer     | [adsonfilho](https://github.com/adsonfilho)               |
 | Andressa Stephane Toledo da Silva | Scrum Master     | [andressatoledo](https://github.com/andressatoledo)       |
 | Eduardo Henrique Alves Arantes    | Developer     | [eduardohalves](https://github.com/eduardohalves)         |
-| Juan Santos do Vale              | Developer     | [juansantosvale](https://github.com/JuanSantosVale)               |
 |                                   |               |
