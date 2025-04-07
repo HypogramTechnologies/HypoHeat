@@ -12,7 +12,7 @@ Clique [aqui](https://trello.com/invite/b/67b50de51e4b4f5c15bd32dd/ATTI9b7a19e1d
 
 ## Link para o Figma 🖼️
 
-Clique [aqui]() para acessar o protótipo do projeto
+Clique [aqui](https://www.figma.com/design/GD5tvYECJTti4SODi0g0xC/HypoHeat?node-id=0-1&t=8QAw5FUGv43DtDRS-1) para acessar o protótipo do projeto
 
 ## SPRINTS 📊
 
