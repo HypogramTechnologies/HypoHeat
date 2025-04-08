@@ -1,0 +1,86 @@
+.filter-container {
+    background-color: #1a1a1a; 
+    padding: 16px;
+    border-radius: 8px;
+    width: 250px;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  
+  .input-group input,
+  .input-group select {
+    background-color: #333;
+    color: white;
+    border: 1px solid #444;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  
+  .input-group input:focus,
+  .input-group select:focus {
+    outline: none;
+    border-color: #ff4500;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    margin-right: 8px;
+    background: #333;
+    position: relative;
+  }
+  
+  .checkbox-group input[type="checkbox"]:checked {
+    background: #0f0; 
+    border: none;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .apply-button,
+  .reset-button {
+    background-color: #b30000;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .apply-button:hover,
+  .reset-button:hover {
+    background-color: #ff0000;
+  }  
