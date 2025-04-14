@@ -46,7 +46,7 @@ Clique [aqui](https://www.figma.com/design/GD5tvYECJTti4SODi0g0xC/HypoHeat?node-
 
 # Sprints📈🏃🏻
 
-## Sprint 1
+## Sprint 1📈🏃🏻
 A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do projeto, com as seguintes atividades e objetivos principais:
 
 - **Preparação do ambiente de desenvolvimento**:  
@@ -64,7 +64,7 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 - **Modelagem do banco de dados**:  
   Desenvolvimento e ajuste do banco de dados, preparado para atender às três formas de normalização, assegurando eficiência e consistência na gestão dos dados.  
 
-###Backlog Sprint 1
+### Backlog Sprint 1 📃
 <br>
 
 | ID  | Nome                                                 | Estimativa | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
