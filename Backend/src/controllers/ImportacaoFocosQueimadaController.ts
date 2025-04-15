@@ -6,9 +6,7 @@ import { from } from "pg-copy-streams";
 async function processarCargaQueimadas() {
   const conexao = await pool.connect();
   try {
-    const { nomeArquivo, caminhoArquivo } = await downloadArquivoFocosQueimada(
-      "20250411"
-    );
+    const { nomeArquivo, caminhoArquivo } = await downloadArquivoFocosQueimada();
 
     await conexao.query(`
         DROP TABLE IF EXISTS Temp_Ocorrencia;

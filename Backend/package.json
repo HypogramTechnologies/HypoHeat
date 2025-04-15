@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "setup": "yarn ts-node ./src/controllers/init.ts",
+    "importacao": "yarn ts-node ./src/controllers/ImportacaoFocosQueimadaController.ts",
     "start": "yarn ts-node ./src/index.ts",
     "dev": "nodemon --watch src --ext ts --exec ts-node ./src/index.ts",
     "lint": "eslint .",
@@ -10,12 +12,15 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "nodemon": "^3.1.9",
-    "pg": "^8.14.1"
+    "pg": "^8.14.1",
+    "pg-copy-streams": "^6.0.6",
+    "selenium-webdriver": "^4.31.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@types/express": "^5.0.1",
     "@types/pg": "^8.11.12",
+    "@types/pg-copy-streams": "^1.2.5",
     "eslint": "^9.23.0",
     "globals": "^16.0.0",
     "ts-node-dev": "^2.0.0",
