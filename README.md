@@ -18,7 +18,7 @@ Clique [aqui](https://www.figma.com/design/GD5tvYECJTti4SODi0g0xC/HypoHeat?node-
 
 | SPRINT | LINK          | INÍCIO     | ENTREGA    | STATUS        |
 | ------ | ------------- | ---------- | ---------- | ------------- |
-| 01     | [Sprint 01]() | 24/03/2025 | 17/04/2025 |  Em andamento |
+| 01     | [Sprint 01]() | 24/03/2025 | 17/04/2025 | Concluída |
 | 02     | [Sprint 02]() | 22/04/2025 | 15/05/2025 |  Pendente     |
 | 03     | [Sprint 03]() | 16/05/2024 | 10/06/2025 |  Pendente     |
 
@@ -87,7 +87,7 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 
 ### Burndown Chart 🔥
 <p align="center">
-  ![BurndownChart](https://github.com/user-attachments/assets/ed9f2703-d523-4128-97f3-89e6d631aaec)
+   <img width="687" height="353" src="[https://github.com/user-attachments/assets/058e9f4d-1b5e-469f-8738-47ca8a1510ff](https://github.com/user-attachments/assets/ed9f2703-d523-4128-97f3-89e6d631aaec)">
 </p>
 <br>
 
