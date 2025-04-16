@@ -87,7 +87,7 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 
 ### Burndown Chart 🔥
 <p align="center">
-   <img width="687" height="353" src="[https://github.com/user-attachments/assets/058e9f4d-1b5e-469f-8738-47ca8a1510ff](https://github.com/user-attachments/assets/ed9f2703-d523-4128-97f3-89e6d631aaec)">
+   <img width="687" height="353" src="https://github.com/user-attachments/assets/ed9f2703-d523-4128-97f3-89e6d631aaec">
 </p>
 <br>
 
