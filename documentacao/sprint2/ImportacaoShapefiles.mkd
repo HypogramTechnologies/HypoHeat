@@ -1,0 +1,24 @@
+# Importando dados de Estados
+
+## Passo 1: Converter o shapefile de estados para SQL
+```cmd
+"C:\Program Files\PostgreSQL\17\bin\shp2pgsql.exe" -I -s 4326 "C:\caminho\para\seu\arquivo\estados.shp" estados_areas > estados_areas.sql
+```
+
+## Passo 2: Importar o SQL gerado para o banco de dados
+```cmd
+"C:\Program Files\PostgreSQL\17\bin\psql.exe" -U postgres -d nome_do_banco_de_dados -f estados_areas.sql
+```
+
+# Importando dados de Biomas
+
+## Passo 1: Converter o shapefile de biomas para SQL
+```cmd
+""C:\Program Files\PostgreSQL\17\bin\shp2pgsql.exe" -I -s 4326 "C:\caminho\para\seu\arquivo\biomas.shp" biomas_areas > biomas_areas.sql
+```
+
+## Passo 2: Importar o SQL gerado para o banco de dados
+```cmd
+"C:\Program Files\PostgreSQL\17\bin\psql.exe" -U postgres -d nome_do_banco_de_dados -f biomas_areas.sql
+```
+
