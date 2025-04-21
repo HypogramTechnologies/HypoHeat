@@ -5,6 +5,11 @@ async function init() {
     START TRANSACTION;
 
     DROP VIEW IF EXISTS view_Ocorrencias;
+    DROP TRIGGER IF EXISTS trg_insert_localizacao_ocorrencia ON Ocorrencia;
+    DROP FUNCTION IF EXISTS insert_localizacao_ocorrencia;
+    DROP TRIGGER IF EXISTS trg_delete_localizacao_ocorrencia ON Ocorrencia;
+    DROP FUNCTION IF EXISTS delete_localizacao_ocorrencia;
+    DROP TABLE IF EXISTS localizacao_ocorrencia;
     DROP TABLE IF EXISTS Ocorrencia;
     DROP TABLE IF EXISTS Municipio;
     DROP TABLE IF EXISTS Estado;
