@@ -1,5 +1,5 @@
 import fs from "fs";
-const { Builder, Browser } = require("selenium-webdriver");
+const { Builder, Browser, Options } = require("selenium-webdriver");
 const path = require("path");
 const os = require("os");
 
@@ -26,6 +26,7 @@ export async function downloadArquivoFocosQueimada(dataParametro?: string) {
     });
     await arquivo.click();
     await driver.sleep(1000);
+    console.log("Aguardando download do arquivo...");
 
     if (fs.existsSync(caminhoArquivoTemporario)) {
       fs.renameSync(caminhoArquivoTemporario, caminhoArquivo);
