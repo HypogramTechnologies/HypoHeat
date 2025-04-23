@@ -1,6 +1,6 @@
 import express from "express";
-import {pool} from "./db";
-
+import { pool } from "./db";
+import cors from "cors";
 pool
   .connect()
   .then(() => {
@@ -11,6 +11,9 @@ pool
   });
 
 const server = express();
+
+server.use(cors());
+server.use(express.json());
 
 server.get("/", (req, res) => {
   res.send("Hello HypoHeat!");

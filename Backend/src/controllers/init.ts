@@ -5,6 +5,13 @@ async function init() {
     START TRANSACTION;
 
     DROP VIEW IF EXISTS view_Ocorrencias;
+    DROP TRIGGER IF EXISTS trg_insert_localizacao_ocorrencia ON Ocorrencia;
+    DROP FUNCTION IF EXISTS insert_localizacao_ocorrencia;
+    DROP TRIGGER IF EXISTS trg_delete_localizacao_ocorrencia ON Ocorrencia;
+    DROP FUNCTION IF EXISTS delete_localizacao_ocorrencia;
+    DROP TABLE IF EXISTS estados_areas;
+    DROP TABLE IF EXISTS biomas_areas;
+    DROP TABLE IF EXISTS localizacao_ocorrencia;
     DROP TABLE IF EXISTS Ocorrencia;
     DROP TABLE IF EXISTS Municipio;
     DROP TABLE IF EXISTS Estado;
@@ -131,6 +138,49 @@ async function init() {
     INNER JOIN Estado AS ET ON MC.EstadoID = ET.EstadoID
     INNER JOIN Pais AS PS ON ET.PaisID = PS.PaisID;
 
+    CREATE TABLE localizacao_ocorrencia (
+    localizacao_ocorrenciaid SERIAL PRIMARY KEY,
+    ocorrenciaid INTEGER NOT NULL,
+    localizacao_ocorrenciageometria GEOMETRY(POINT, 4326),
+    CONSTRAINT fk_ocorrencia FOREIGN KEY (ocorrenciaid) REFERENCES ocorrencia(ocorrenciaid)
+    );
+
+    CREATE FUNCTION insert_localizacao_ocorrencia() RETURNS TRIGGER LANGUAGE 'plpgsql' AS $$ BEGIN
+    INSERT INTO
+        public.localizacao_ocorrencia (ocorrenciaid, localizacao_ocorrenciageometria)
+    VALUES
+        (
+            NEW.ocorrenciaid,
+            ST_SetSRID(
+                ST_MakePoint(NEW.ocorrencialongitude, NEW.ocorrencialatitude),
+                4326
+            )
+        );
+
+    RETURN NEW;
+    END;
+    $$;
+
+    CREATE TRIGGER trg_insert_localizacao_ocorrencia
+    AFTER
+    INSERT
+        ON ocorrencia FOR EACH ROW EXECUTE FUNCTION insert_localizacao_ocorrencia();
+
+    CREATE
+    OR REPLACE FUNCTION delete_localizacao_ocorrencia() RETURNS TRIGGER LANGUAGE plpgsql AS $$ BEGIN
+    DELETE FROM
+        localizacao_ocorrencia
+    WHERE
+        ocorrenciaid = OLD.ocorrenciaid;
+
+    RETURN OLD;
+    END;
+    $$;
+
+    CREATE TRIGGER trg_delete_localizacao_ocorrencia
+      AFTER DELETE ON ocorrencia FOR EACH ROW EXECUTE FUNCTION delete_localizacao_ocorrencia();
+
+
     CREATE OR REPLACE PROCEDURE ProcessarOcorrencias()
     LANGUAGE plpgsql
     AS $$
@@ -207,3 +257,5 @@ init()
   .catch((err) => {
     console.error(err);
   });
+
+
