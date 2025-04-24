@@ -1,4 +1,40 @@
-import { query } from "../server/db";
+import { query } from "../models/db";
+
+async function installPostGIS() {
+  try {
+    console.log("Verificando se a extensão PostGIS está instalada...");
+
+    // Verifica se a extensão já está instalada
+    const result = await query(`
+        SELECT COUNT(*) AS count
+        FROM pg_extension
+        WHERE extname = 'postgis';
+      `);
+
+    const isInstalled =
+      result.rows ||
+      result.rows.length > 0 ||
+      parseInt(result.rows[0].count, 10) > 0;
+    if (isInstalled) {
+      console.log("A extensão PostGIS já está instalada.");
+    } else {
+      console.log("Instalando a extensão PostGIS...");
+      await query(`CREATE EXTENSION IF NOT EXISTS postgis;`);
+      console.log("Extensão PostGIS instalada com sucesso.");
+    }
+  } catch (error) {
+    console.error("Erro ao verificar ou instalar a extensão PostGIS:", error);
+    throw error;
+  }
+}
+
+installPostGIS()
+  .then(() => {
+    console.log("Processo concluído.");
+  })
+  .catch((err) => {
+    console.error("Erro durante a instalação do PostGIS:", err);
+  });
 
 async function init() {
   return await query(`
@@ -257,5 +293,3 @@ init()
   .catch((err) => {
     console.error(err);
   });
-
-

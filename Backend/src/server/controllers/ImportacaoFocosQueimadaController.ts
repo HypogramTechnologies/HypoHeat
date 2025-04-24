@@ -1,12 +1,13 @@
 import { downloadArquivoFocosQueimada } from "./BaixarArquivoFocosQueimada";
 import fs from "fs";
-import { pool } from "../server/db";
+import { pool } from "../models/db";
 import { from } from "pg-copy-streams";
 
 async function processarCargaQueimadas() {
   const conexao = await pool.connect();
   try {
-    const { nomeArquivo, caminhoArquivo } = await downloadArquivoFocosQueimada();
+    const { nomeArquivo, caminhoArquivo } =
+      await downloadArquivoFocosQueimada();
 
     await conexao.query(`
         DROP TABLE IF EXISTS Temp_Ocorrencia;
