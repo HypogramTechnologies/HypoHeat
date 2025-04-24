@@ -1,6 +1,8 @@
 import express from "express";
 import { pool } from "./db";
 import cors from "cors";
+import ocorrenciaRoutes from "../routes/ocorrenciaRoutes"; 
+
 pool
   .connect()
   .then(() => {
@@ -14,6 +16,8 @@ const server = express();
 
 server.use(cors());
 server.use(express.json());
+
+server.use("/api", ocorrenciaRoutes);
 
 server.get("/", (req, res) => {
   res.send("Hello HypoHeat!");

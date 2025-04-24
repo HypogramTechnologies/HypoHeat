@@ -1,10 +1,6 @@
 import fs from "fs";
-<<<<<<< HEAD
 const { Builder, Browser, Options } = require("selenium-webdriver");
-=======
-const { Builder, Browser } = require("selenium-webdriver");
-const { Options: ChromeOptions } = require("selenium-webdriver/chrome");
->>>>>>> f319417aa9c6df73fce24ca5fd4ce614731962d6
+
 const path = require("path");
 const os = require("os");
 
@@ -12,9 +8,8 @@ export async function downloadArquivoFocosQueimada(dataParametro?: string) {
   const pastaTemporaria = path.join(os.homedir(), "Downloads");
   const pastaDownload = "C:\\Program Files\\PostgreSQL\\17\\data\\";
   
-  const options = new ChromeOptions();
-  options.addArguments('--headless=new');
-  let driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(options).build();
+  Options.addArguments('--headless=new');
+  let driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(Options).build();
 
   const dataOntem = new Date();
   dataOntem.setDate(dataOntem.getDate() - 1);
