@@ -1,7 +1,7 @@
 {
   "scripts": {
     "setup": "yarn ts-node ./src/server/controllers/init.ts",
-    "importacao": "yarn ts-node ./src/controllers/ImportacaoFocosQueimadaController.ts",
+    "importacao": "yarn ts-node ./src/server/controllers/ImportacaoFocosQueimadaController.ts",
     "start": "yarn ts-node ./src/index.ts",
     "dev": "nodemon --watch src --ext ts --exec ts-node ./src/index.ts",
     "lint": "eslint .",
