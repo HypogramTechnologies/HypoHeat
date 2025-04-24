@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-interface Foco  {
+interface Foco {
   estadonome: string;
   ocorrenciaLatitude: number;
   ocorrenciaLongitude: number;
-};
+}
 
 const Mapa = () => {
   const [focos, setFocos] = useState<Foco[]>([]);
@@ -15,12 +15,17 @@ const Mapa = () => {
     fetch("http://localhost:3000/api/focos-calor")
       .then((res) => res.json())
       .then((data) => {
-        const focosFormatados = data.map((foco: any) => ({
-          estadonome: foco.estadonome,
-          ocorrenciaLatitude: parseFloat(foco.ocorrencialatitude),
-          ocorrenciaLongitude: parseFloat(foco.ocorrencialongitude),
-        }));
-        setFocos(focosFormatados);
+        if (Array.isArray(data)) {
+          // Verifica se 'data' é um array
+          const focosFormatados = data.map((foco: any) => ({
+            estadonome: foco.estadonome,
+            ocorrenciaLatitude: parseFloat(foco.ocorrencialatitude),
+            ocorrenciaLongitude: parseFloat(foco.ocorrencialongitude),
+          }));
+          setFocos(focosFormatados);
+        } else {
+          console.error("Erro: Resposta da API não é um array.", data);
+        }
       })
       .catch((err) => console.error("Erro ao buscar focos:", err));
   }, []);
@@ -43,7 +48,8 @@ const Mapa = () => {
           position={[foco.ocorrenciaLatitude, foco.ocorrenciaLongitude]}
         >
           <Popup>
-            <strong>{foco.estadonome}</strong><br />
+            <strong>{foco.estadonome}</strong>
+            <br />
             Lat: {foco.ocorrenciaLatitude}, Lng: {foco.ocorrenciaLongitude}
           </Popup>
         </Marker>
