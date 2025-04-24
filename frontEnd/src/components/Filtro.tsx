@@ -15,8 +15,16 @@ const Filtro: React.FC = () => {
     fetch("http://localhost:3000/api/estados")
       .then((response) => response.json())
       .then((data) => {
-        const estados = data.map((estado: any) => estado.estadonome);
-        setStates(estados);
+
+        if (Array.isArray(data)) {
+          // Verifica se 'data' é um array
+          const estadosFormatados = data.map(
+            (estado: any) => estado.estadonome
+          );
+          setStates(estadosFormatados);
+        } else {
+          console.error("Erro: Resposta da API não é um array.", data);
+        }
       })
       .catch((error) => console.error("Erro ao buscar estados:", error));
 
@@ -24,8 +32,14 @@ const Filtro: React.FC = () => {
     fetch("http://localhost:3000/api/biomas")
       .then((response) => response.json())
       .then((data) => {
-        const biomas = data.map((bioma: any) => bioma.biomanome);
-        setBiomes(biomas);
+
+        if (Array.isArray(data)) {
+          // Verifica se 'data' é um array
+          const biomasFormatados = data.map((bioma: any) => bioma.biomanome);
+          setBiomes(biomasFormatados);
+        } else {
+          console.error("Erro: Resposta da API não é um array.", data);
+        }
       })
       .catch((error) => console.error("Erro ao buscar biomas:", error));
   }, []);

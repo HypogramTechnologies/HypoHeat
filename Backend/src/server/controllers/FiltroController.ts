@@ -12,5 +12,4 @@ class FiltroController {
     res.json(r);
   }
 }
-
 export default new FiltroController();

@@ -34,13 +34,13 @@ const mapaStyle: CSSProperties = {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <FiltroProvider>
-      <div style={containerStyle}>
-        <div style={filtroStyle}>
+    <div style={containerStyle}>
+      <div style={filtroStyle}>
+        <FiltroProvider>
           <Filtro />
-        </div>
-        <Mapa />
+        </FiltroProvider>
       </div>
-    </FiltroProvider>
+      <Mapa />
+    </div>
   </StrictMode>
 );
