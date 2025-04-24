@@ -7,44 +7,6 @@ import Mapa from "./components/Mapa";
 import { FiltroProvider } from "./context/FiltroContext";
 import { CSSProperties } from "react";
 
-const biomes = [
-  "Amazônia",
-  "Cerrado",
-  "Caatinga",
-  "Mata Atlântica",
-  "Pampa",
-  "Pantanal",
-];
-const states = [
-  "AC",
-  "AL",
-  "AP",
-  "AM",
-  "BA",
-  "CE",
-  "DF",
-  "ES",
-  "GO",
-  "MA",
-  "MT",
-  "MS",
-  "MG",
-  "PA",
-  "PB",
-  "PR",
-  "PE",
-  "PI",
-  "RJ",
-  "RN",
-  "RS",
-  "RO",
-  "RR",
-  "SC",
-  "SP",
-  "SE",
-  "TO",
-];
-
 const containerStyle: CSSProperties = {
   display: "flex",
   height: "100vh",
@@ -75,7 +37,7 @@ createRoot(document.getElementById("root")!).render(
     <div style={containerStyle}>
       <div style={filtroStyle}>
         <FiltroProvider>
-          <Filtro biomes={biomes} states={states} />
+          <Filtro />
         </FiltroProvider>
       </div>
       <Mapa />
