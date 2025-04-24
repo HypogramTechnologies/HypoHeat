@@ -1,7 +1,7 @@
 import express from "express";
-import { pool } from "./db";
+import { pool } from "./models/db";
 import cors from "cors";
-import ocorrenciaRoutes from "../routes/ocorrenciaRoutes"; 
+import ocorrenciaRoutes from "./routes/ocorrenciaRoutes";
 
 pool
   .connect()
@@ -18,9 +18,5 @@ server.use(cors());
 server.use(express.json());
 
 server.use("/api", ocorrenciaRoutes);
-
-server.get("/", (req, res) => {
-  res.send("Hello HypoHeat!");
-});
 
 export { server };
