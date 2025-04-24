@@ -14,7 +14,7 @@ const containerStyle: CSSProperties = {
 };
 
 const filtroStyle: CSSProperties = {
-  width: "500px",
+  width: "300px",
   backgroundColor: "#1e1e1e",
   padding: "16px",
   overflowY: "auto",

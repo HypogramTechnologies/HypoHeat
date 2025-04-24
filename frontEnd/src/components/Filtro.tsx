@@ -15,6 +15,7 @@ const Filtro: React.FC = () => {
     fetch("http://localhost:3000/api/estados")
       .then((response) => response.json())
       .then((data) => {
+
         if (Array.isArray(data)) {
           // Verifica se 'data' é um array
           const estadosFormatados = data.map(
@@ -31,6 +32,7 @@ const Filtro: React.FC = () => {
     fetch("http://localhost:3000/api/biomas")
       .then((response) => response.json())
       .then((data) => {
+
         if (Array.isArray(data)) {
           // Verifica se 'data' é um array
           const biomasFormatados = data.map((bioma: any) => bioma.biomanome);
