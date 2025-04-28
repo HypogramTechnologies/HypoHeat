@@ -19,8 +19,32 @@ Clique [aqui](https://www.figma.com/design/GD5tvYECJTti4SODi0g0xC/HypoHeat?node-
 | SPRINT | LINK          | INÍCIO     | ENTREGA    | STATUS        |
 | ------ | ------------- | ---------- | ---------- | ------------- |
 | 01     | [Sprint 01]() | 24/03/2025 | 17/04/2025 | Concluída |
-| 02     | [Sprint 02]() | 22/04/2025 | 15/05/2025 |  Pendente     |
+| 02     | [Sprint 02]() | 22/04/2025 | 15/05/2025 |  Em andamento     |
 | 03     | [Sprint 03]() | 16/05/2024 | 10/06/2025 |  Pendente     |
+
+## USER STORIES 🧾
+
+<br>
+
+| ID REFERÊNCIA | Remetente | Instrução                                                                                           | Finalidade                                                                                                                          |
+| ------------- | --------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| RF-01         | Usuário   | Como usuário do sistema, quero filtrar os focos de calor por estado.                             | Para entender melhor as queimadas e tomar decisões.                                                |
+| RF-02 | Usuário   |  Como usuário do sistema, eu quero visualizar e filtrar as incidências de focos de calor por bioma.                 |  Para entender quais biomas são mais impactados pelas queimadas e fazer análises específicas. |
+| RF-03 | Usuário   | Como um usuário do sistema, quero poder visualizar o risco de fogo por estado.                                 | Para entender quais estados apresentam maior ou menor risco de fogo, e tomar decisões baseadas nesses dados. |
+| RF-04  | Usuário |  Como um usuário do sistema, quero visualizar o risco de fogo por bioma, com base na média do risco total para cada bioma.              |  Para saber quais biomas têm maior ou menor risco de fogo.                     |
+| RF-05  | Usuário   |  Como um usuário do sistema, quero visualizar a área queimada por estado.     | Para entender o impacto das queimadas em cada região.               |
+| RF-06  | Usuário   |  Como um usuário do sistema, quero visualizar a área queimada por bioma. |  Para entender o impacto das queimadas em diferentes ecossistemas.                                                                              |
+| RF-07    | Usuário   |  Como um usuário do sistema,  quero visualizar gráficos que mostrem a distribuição dos focos de calor por estado e por bioma.        |  Para analisar a intensidade e a frequência dos incêndios em diferentes regiões e ecossistema.   |
+| RF-08     | Usuário   | Como um usuário do sistema, quero visualizar gráficos que mostrem o risco de fogo por estado e bioma.      |  Para analisar o grau de risco de fogo em diferentes regiões e ecossistemas.    |
+| RF-09    | Usuário   |  Como um usuário do sistema, 1uero poder visualizar gráficos sobre a área queimada por estado e por bioma.     |   Para entender a extensão dos incêndios nas diferentes regiões e ecossistemas.       |
+| RF-10   | Usuário   |   Como um usuário do sistema, quero visualizar os dados de focos de calor e queimadas em um intervalo de tempo específico.        |  Para os dados de forma mais focada, de acordo com o período de interesse.     |
+| RF-11 | Usuário   |   Como um usuário do sistema, quero responder à pergunta "quais meses o risco de fogo é maior?" através de um gráfico.    |  Para identificar os períodos de maior risco de fogo e planejar ações de prevenção mais eficazes. |
+| RF-12   | Usuário  | Como um usuário do sistema, quero responder à pergunta "O risco de fogo está associado a uma maior área queimada?" através de um gráfico.  | Para entender se existe uma relação direta entre o risco de fogo e a extensão das áreas queimadas. |
+|               |           |                                                                                                     |
+
+<br>
+<br>
+
 
 ## Requisitos 📜
 
@@ -87,7 +111,8 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 
 ### Burndown Chart 🔥
 <p align="center">
-   <img width="687" height="353" src="https://github.com/user-attachments/assets/ed9f2703-d523-4128-97f3-89e6d631aaec">
+   <img width="687" height="353" src="https://github.com/user-attachments/assets/64cfbbc6-b36f-416f-bfec-998cb0fa0298">
+
 </p>
 <br>
 
