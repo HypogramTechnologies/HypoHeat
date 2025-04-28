@@ -28,39 +28,18 @@ Clique [aqui](https://www.figma.com/design/GD5tvYECJTti4SODi0g0xC/HypoHeat?node-
 
 | ID REFERÊNCIA | Remetente | Instrução                                                                                           | Finalidade                                                                                                                          |
 | ------------- | --------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| RF-01         | Usuário   | Como usuário do sistema, 
-quero filtrar os focos de calor por estado.                             | Para entender melhor as queimadas e tomar decisões.                                                |
-| RF-02 | Usuário   |  Como usuário do sistema, eu quero visualizar e filtrar as incidências de focos de calor por bioma.                 |  Para entender quais biomas são mais impactados pelas queimadas e fazer 
-análises específicas.                                        |
+| RF-01         | Usuário   | Como usuário do sistema, quero filtrar os focos de calor por estado.                             | Para entender melhor as queimadas e tomar decisões.                                                |
+| RF-02 | Usuário   |  Como usuário do sistema, eu quero visualizar e filtrar as incidências de focos de calor por bioma.                 |  Para entender quais biomas são mais impactados pelas queimadas e fazer análises específicas. |
 | RF-03 | Usuário   | Como um usuário do sistema, quero poder visualizar o risco de fogo por estado.                                 | Para entender quais estados apresentam maior ou menor risco de fogo, e tomar decisões baseadas nesses dados. |
-| RF-04         | Usuário |  Como um usuário do sistema,
- quero visualizar o risco de fogo por bioma, com base na média do risco total 
-para cada bioma.                                      |  Para saber quais biomas têm maior ou menor risco de fogo.                                                             |
-| RF-05         | Usuário   |  Como um usuário do sistema,
- quero visualizar a área queimada por estado.                | Para entender o impacto das queimadas em cada região.                                                             |
-| RF-06         | Usuário   |  Como um usuário do sistema,
- quero visualizar a área queimada por bioma. |  Para entender o impacto das queimadas em diferentes ecossistemas.                                                                              |
-| RF-07         | Usuário   |  Como um usuário do sistema,
- quero visualizar gráficos que mostrem a distribuição dos focos de calor por 
-estado e por bioma.        |  Para analisar a intensidade e a frequência dos incêndios em diferentes regiões 
-e ecossistema.                                                                                     |
-| RF-8         | Usuário   | Como um usuário do sistema,
- quero visualizar gráficos que mostrem o risco de fogo por estado e bioma.                            |  Para analisar o grau de risco de fogo em diferentes regiões e ecossistemas.                                   |
- | RF-09         | Usuário   |  Como um usuário do sistema,
- Quero poder visualizar gráficos sobre a área queimada por estado e por 
-bioma.        |   Para entender a extensão dos incêndios nas diferentes regiões e ecossistemas.                                                                                     |
-| RF-10         | Usuário   |   Como um usuário do sistema,
- quero visualizar os dados de focos de calor e queimadas em um intervalo de 
-tempo específico.        |  Para os dados de forma mais focada, de acordo com o período de interesse.                                                                                     |
-| RF-11         | Usuário   |   Como um usuário do sistema,
- quero responder à pergunta "quais meses o risco de fogo é maior?" através de 
-um gráfico.        |  Para identificar os períodos de maior risco de fogo e planejar ações de 
-prevenção mais eficazes.                                                                                     |
-| RF-12         | Usuário   |Como um usuário do sistema,
- Quero responder à pergunta "O risco de fogo está associado a uma maior área 
-queimada?" através de um gráfico.        |   Para entender se existe uma relação direta entre o risco de fogo e a extensão 
-das áreas queimadas.                                                                                     |
- 
+| RF-04  | Usuário |  Como um usuário do sistema, quero visualizar o risco de fogo por bioma, com base na média do risco total para cada bioma.              |  Para saber quais biomas têm maior ou menor risco de fogo.                     |
+| RF-05  | Usuário   |  Como um usuário do sistema, quero visualizar a área queimada por estado.     | Para entender o impacto das queimadas em cada região.               |
+| RF-06  | Usuário   |  Como um usuário do sistema, quero visualizar a área queimada por bioma. |  Para entender o impacto das queimadas em diferentes ecossistemas.                                                                              |
+| RF-07    | Usuário   |  Como um usuário do sistema,  quero visualizar gráficos que mostrem a distribuição dos focos de calor por estado e por bioma.        |  Para analisar a intensidade e a frequência dos incêndios em diferentes regiões e ecossistema.   |
+| RF-8     | Usuário   | Como um usuário do sistema, quero visualizar gráficos que mostrem o risco de fogo por estado e bioma.      |  Para analisar o grau de risco de fogo em diferentes regiões e ecossistemas.    |
+| RF-09    | Usuário   |  Como um usuário do sistema, 1uero poder visualizar gráficos sobre a área queimada por estado e por bioma.     |   Para entender a extensão dos incêndios nas diferentes regiões e ecossistemas.       |
+| RF-10   | Usuário   |   Como um usuário do sistema, quero visualizar os dados de focos de calor e queimadas em um intervalo de tempo específico.        |  Para os dados de forma mais focada, de acordo com o período de interesse.     |
+| RF-11 | Usuário   |   Como um usuário do sistema, quero responder à pergunta "quais meses o risco de fogo é maior?" através de um gráfico.    |  Para identificar os períodos de maior risco de fogo e planejar ações de prevenção mais eficazes. |
+| RF-12   | Usuário  | Como um usuário do sistema, quero responder à pergunta "O risco de fogo está associado a uma maior área queimada?" através de um gráfico.  | Para entender se existe uma relação direta entre o risco de fogo e a extensão das áreas queimadas. |
 |               |           |                                                                                                     |
 
 <br>
