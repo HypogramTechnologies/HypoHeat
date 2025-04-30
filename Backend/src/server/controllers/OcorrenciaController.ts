@@ -11,9 +11,52 @@ interface Filtro {
 class OcorrenciaController {
   public async Filtrar_foco_calor(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
-    let consulta: string = "SELECT * FROM view_ocorrencias";
-    let condicoes: string[] = [];
+    const condicaoFiltroCalor: string = `ocorrenciafrp > 0 ORDER BY ocorrenciafrp DESC`;
+    const consultaEstruturada: string = estrutrarConsulta(
+      filtro,
+      condicaoFiltroCalor
+    );
+    const r: any = await query(consultaEstruturada);
 
+    res.json(r);
+  }
+
+  public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
+    const filtro: Filtro = req.body;
+    const condicaoRiscoFogo: string = `ocorrenciariscofogo > 0 ORDER BY ocorrenciariscofogo DESC`;
+    const consultaEstruturada: string = estrutrarConsulta(
+      filtro,
+      condicaoRiscoFogo
+    );
+    const r: any = await query(consultaEstruturada);
+
+    res.json(r);
+  }
+
+
+  public async Filtrar_area_queimada(req: Request, res: Response): Promise<void> {
+    /* Validar a área de insterseção entre o bioma e o estado, validar os pontos dentro dessa área, estabelecer a área queimada e a intesidade (frp) para colorir o mapa. */
+
+
+/*     const filtro: Filtro = req.body;
+    const condicaoFiltroCalor: string = `ocorrenciariscofogo > 0`;
+    const consultaEstruturada: string = estrutrarConsulta(
+      filtro,
+      condicaoFiltroCalor
+    );
+    const r: any = await query(consultaEstruturada); */
+
+    res.json({status: "EM DESENVOLVIMENTO"});
+  }
+}
+
+export default new OcorrenciaController();
+
+function estrutrarConsulta(filtro: Filtro, condicaoExtra: string): string {
+  let consulta: string = "SELECT * FROM view_ocorrencias";
+  let condicoes: string[] = [];
+
+  if (filtro) {
     if (filtro.estado) {
       condicoes.push(`estadonome = '${filtro.estado}'`);
     }
@@ -29,16 +72,15 @@ class OcorrenciaController {
     if (filtro.dataFinal) {
       condicoes.push(`ocorrenciadatahora <= '${filtro.dataFinal}'`);
     }
-
-    if (condicoes.length > 0) {
-      consulta += " WHERE " + condicoes.join(" AND ");
-      console.log(consulta);
-    }
-
-    const r: any = await query(consulta);
-
-    res.json(r);
   }
-}
 
-export default new OcorrenciaController();
+  if (condicaoExtra) {
+    condicoes.push(condicaoExtra);
+  }
+
+  if (condicoes.length > 0) {
+    consulta += " WHERE " + condicoes.join(" AND ");
+  }
+
+  return consulta;
+}
