@@ -41,6 +41,7 @@ async function init() {
     START TRANSACTION;
 
     DROP VIEW IF EXISTS view_Ocorrencias;
+    DROP VIEW IF EXISTS view_risco_fogo;
     DROP TRIGGER IF EXISTS trg_insert_localizacao_ocorrencia ON Ocorrencia;
     DROP FUNCTION IF EXISTS insert_localizacao_ocorrencia;
     DROP TRIGGER IF EXISTS trg_delete_localizacao_ocorrencia ON Ocorrencia;
@@ -173,6 +174,11 @@ async function init() {
     INNER JOIN Municipio AS MC ON OC.MunicipioID = MC.MunicipioID
     INNER JOIN Estado AS ET ON MC.EstadoID = ET.EstadoID
     INNER JOIN Pais AS PS ON ET.PaisID = PS.PaisID;
+
+    CREATE OR REPLACE VIEW view_risco_fogo
+    AS
+    SELECT * FROM view_ocorrencias 
+    WHERE ocorrenciaRiscofogo > 0;
 
     CREATE TABLE localizacao_ocorrencia (
     localizacao_ocorrenciaid SERIAL PRIMARY KEY,

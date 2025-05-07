@@ -10,9 +10,12 @@ interface Filtro {
 
 class OcorrenciaController {
   public async Filtrar_foco_calor(req: Request, res: Response): Promise<void> {
+    //Filtrar por satélite (validar)
     const filtro: Filtro = req.body;
+    const consulta:string = `SELECT * FROM view_ocorrencias`
     const condicaoFiltroCalor: string = `ocorrenciafrp > 0 ORDER BY ocorrenciafrp DESC`;
     const consultaEstruturada: string = estrutrarConsulta(
+      consulta,
       filtro,
       condicaoFiltroCalor
     );
@@ -23,10 +26,10 @@ class OcorrenciaController {
 
   public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
-    const condicaoRiscoFogo: string = `ocorrenciariscofogo > 0 ORDER BY ocorrenciariscofogo DESC`;
+    const consulta:string = `SELECT * FROM view_risco_fogo`
     const consultaEstruturada: string = estrutrarConsulta(
-      filtro,
-      condicaoRiscoFogo
+      consulta,
+      filtro
     );
     const r: any = await query(consultaEstruturada);
 
@@ -52,8 +55,7 @@ class OcorrenciaController {
 
 export default new OcorrenciaController();
 
-function estrutrarConsulta(filtro: Filtro, condicaoExtra: string): string {
-  let consulta: string = "SELECT * FROM view_ocorrencias";
+function estrutrarConsulta(consulta:string, filtro: Filtro, condicaoExtra?: string): string {
   let condicoes: string[] = [];
 
   if (filtro) {
