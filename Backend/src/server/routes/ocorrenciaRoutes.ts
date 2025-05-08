@@ -4,7 +4,7 @@ import filtro from "../controllers/FiltroController";
 
 const routes = Router();
 
-routes.get("/focos-calor", ocorrencia.Filtrar_foco_calor);
+routes.post("/focos-calor", ocorrencia.Filtrar_foco_calor);
 routes.get("/risco-fogo", ocorrencia.Filtrar_risco_fogo);
 routes.get("/area-queimada", ocorrencia.Filtrar_area_queimada);
 routes.get("/estados", filtro.Estados);
