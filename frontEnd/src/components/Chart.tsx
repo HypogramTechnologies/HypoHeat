@@ -1,83 +1,90 @@
-import { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import "../Index.css";
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { useFiltro } from "../context/FiltroContext";
+
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const Chart: React.FC = () => {
-  // Defina o estado para armazenar os dados da API
-  const [chartData, setChartData] = useState<any[]>([]);
+  const { filtro } = useFiltro();
+  const [focoCalorData, setFocoCalorData] = useState<any[]>([]);
+  const [riscoFogoData, setRiscoFogoData] = useState<any[]>([]);
+  const [areaQueimadaData, setAreaQueimadaData] = useState<any[]>([]);
 
-  // useEffect para buscar os dados da API
   useEffect(() => {
-    const dados = {
-      estado: "SÃO PAULO",
-      bioma: "Mata Atlântica",
-      dataInicial: "2025-01-01",
-      dataFinal: "2025-12-31",
-    };
-  
-    fetch("http://localhost:3000/api/focos-calor", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    fetch("http://localhost:3000/api/focos-calor")
+      .then((res) => res.json())
+      .then(setFocoCalorData);
+
+    fetch("http://localhost:3000/api/risco-fogo")
+      .then((res) => res.json())
+      .then(setRiscoFogoData);
+
+    fetch("http://localhost:3000/api/area-queimada")
+      .then((res) => res.json())
+      .then(setAreaQueimadaData);
+  }, [filtro]);
+
+  const focoCalorChartData = {
+    labels: focoCalorData.map((item) => item.date),
+    datasets: [
+      {
+        label: "Focos de Calor",
+        data: focoCalorData.map((item) => item.value),
+        borderColor: "#ff8c00",  
+        backgroundColor: "rgba(255, 140, 0, 0.2)",  
       },
-      body: JSON.stringify(dados),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setChartData(data);
-        } else {
-          console.error("Erro: Resposta da API não é um array.", data);
-        }
-      })
-      .catch((error) =>
-        console.error("Erro ao buscar dados para o gráfico:", error)
-      );
-  }, []);
-  
+    ],
+  };
+
+  const riscoFogoChartData = {
+    labels: riscoFogoData.map((item) => item.date),
+    datasets: [
+      {
+        label: "Risco de Fogo",
+        data: riscoFogoData.map((item) => item.value),
+        borderColor: "#F51427",
+        backgroundColor: "rgba(255, 30, 30, 0.2)",
+        fill: true,
+      },
+    ],
+  };
+
+  const areaQueimadaChartData = {
+    labels: areaQueimadaData.map((item) => item.date),
+    datasets: [
+      {
+        label: "Área Queimada",
+        data: areaQueimadaData.map((item) => item.value),
+        borderColor: "#F7C114",
+        backgroundColor: "rgba(255, 217, 0, 0.2)",
+        fill: true,
+      },
+    ],
+  };
 
   return (
-    <div style={styles.pageContainer}>
-      <Header />
-      <main style={styles.mainContent}>
-        <h1>CHART</h1>
-        <div style={styles.cardContainer}>
-          <pre>{JSON.stringify(chartData, null, 2)}</pre>
-        </div>
-      </main>
-      <Footer />
+    <div style={{ padding: "2rem", backgroundColor: "#121212", color: "#f0f0f0", borderRadius: "12px" }}>
+      <h2 style={{ color: "#ff8c00", marginTop: "2rem" }}>Gráfico de Foco de Calor</h2>
+      <Line data={focoCalorChartData} />
+
+      <h2 style={{ color: "#F51427", marginTop: "2rem" }}>Gráfico de Risco de Fogo</h2>
+      <Line data={riscoFogoChartData} />
+
+      <h2 style={{ color: "#F7C114", marginTop: "2rem" }}>Gráfico de Área Queimada</h2>
+      <Line data={areaQueimadaChartData} />
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  pageContainer: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-    minHeight: "100vh",
-    overflowX: "hidden",
-  },
-  mainContent: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: "80px 30px 30px",
-    color: "#000",
-  },
-  cardContainer: {
-    display: "flex",
-    height: "50vh",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    flexDirection: "row",
-    gap: "10px",
-    color: "#000",
-    backgroundColor: "#fff",
-  },
 };
 
 export default Chart;
