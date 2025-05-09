@@ -119,11 +119,11 @@ async function init() {
       OcorrenciaDataHora  TIMESTAMP WITHOUT TIME ZONE,
       SateliteID          INT,
       OcorrenciaDiaSemChuva   INT,
-      OcorrenciaPrecipitacao  INT,
-      OcorrenciaRiscoFogo     INT,
+      OcorrenciaPrecipitacao  NUMERIC(10,2),
+      OcorrenciaRiscoFogo     NUMERIC(10,2),
       OcorrenciaLatitude      NUMERIC(10,8),
       OcorrenciaLongitude     NUMERIC(11,8),
-      OcorrenciaFRP           INT,
+      OcorrenciaFRP           NUMERIC(10,2),
       PRIMARY KEY (OcorrenciaID)
     );
 
