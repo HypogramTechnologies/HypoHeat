@@ -117,60 +117,30 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 <br>
 
 ### Backlog Sprint 2 📃
-<br>
 
-| ID  | Nome                                                 | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
-|-----|------------------------------------------------------|------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
+| ID  | Nome                                                             | Responsáveis                           | Tarefa Finalizada | Link                                                                                     | Requisitos atendidos |
+|-----|------------------------------------------------------------------|----------------------------------------|-------------------|------------------------------------------------------------------------------------------|-----------------------|
+| 32  | Diagrama de classe                                               | Andressa Stéphane Toledo da Silva     | ✔                 | [Link](https://trello.com/c/6lFmqUH8/32-diagrama-de-classe)                              |                       |
+| 47  | Trabalhar consulta de área queimada utilizando o PostGIS         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/ma8TsiRd/47-trabalhar-consulta-de-%C3%A1rea-queimada-utilizando-o-postgis) |                       |
+| 82  | Automatização da importação do shapefile                         | Gustavo de Moraes Silva               | ✔                 | [Link](https://trello.com/c/OdGdkT3e/82-automatiza%C3%A7%C3%A3o-da-importa%C3%A7%C3%A3o-do-shape-file) |                       |
+| 70  | Criar identidade visual                                          | Andressa Stéphane Toledo da Silva     | ✔                 | [Link](https://trello.com/c/q3OUGmgm/70-criar-identidade-visual)                         |                       |
+| 71  | Ajustar o Figma com a nova identidade visual                     | Andressa Stéphane Toledo da Silva     | ✔                 | [Link](https://trello.com/c/lMXFjj1j/71-ajustar-o-figma-com-a-nova-identidade-visual)    |                       |
+| 73  | Trabalhar consultas para trazer os focos de calor                | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/QUMzEAq7/73-trabalhar-consultas-para-trazer-os-focos-de-calor) |                       |
+| 63  | Trabalhar consulta para identificar risco de fogo                | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/vYfbTOYk/63-trabalhar-consulta-para-identificar-risco-de-fogo) |                       |
+| 79  | Trabalhar requisições no Controller e rotas para Focos de Calor  | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/rMa9hY3R/79-trabalhar-requisi%C3%A7%C3%B5es-no-controller-e-rotas-para-focos-de-calor) |                       |
+| 74  | Trabalhar requisições nos controllers e rotas para Área Queimada | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/1Q8btLWb/74-trabalhar-requisi%C3%A7%C3%B5es-nos-controllers-e-rotas-para-area-queimada) |                       |
+| 64  | Trabalhar requisições nos controllers e rotas para Risco de Fogo | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/I9epBNEi/64-trabalhar-requisi%C3%A7%C3%B5es-nos-controllers-e-rotas-para-risco-de-fogo) |                       |
+| 15  | Componente gráfico - Área Queimada                               |                                        | ✔                 | [Link](https://trello.com/c/VGhIBHAT/15-componente-gr%C3%A1fico-%C3%A1rea-queimada)     | RF09                  |
+| 14  | Componente gráfico - Risco de Fogo por Estado e Bioma            |                                        | ✔                 | [Link](https://trello.com/c/NiitwVdo/14-componente-gr%C3%A1fico-risco-de-fogo-por-estado-e-bioma) | RF08                  |
+| 13  | Componente gráfico - Focos de Calor por Estado e Bioma           |                                        | ✔                 | [Link](https://trello.com/c/5qU6fzXU/13-componente-de-gr%C3%A1fico-focos-de-calor-por-estado-e-bioma) | RF07                  |
+| 76  | Componente Mapa - Focos de Calor                                 |                                        | ✔                 | [Link](https://trello.com/c/SKEC2Pgc/76-componente-mapa-focos-de-calor)                  |                       |
+| 77  | Componente Mapa - Área Queimada                                  |                                        | ✔                 | [Link](https://trello.com/c/35E1of6p/77-componente-mapa-area-queimada)                  |                       |
+| 78  | Componente Mapa - Risco de Fogo                                  |                                        | ✔                 | [Link](https://trello.com/c/ajwLsHbC/78-componente-mapa-risco-de-fogo)                  |                       |
+| 39  | Criar componente de gráfico                                      |                                        | ✔                 | [Link](https://trello.com/c/i5Giup4f/39-criar-componente-de-gr%C3%A1fico)               | RFN02                 |
+| 69  | Trabalhar atualização do mapa a partir dos dados inseridos no filtro |                                    | ✔                 | [Link](https://trello.com/c/wAMgR8US/69-trabalhar-atualiza%C3%A7%C3%A3o-do-mapa-a-partir-dos-dados-inseridos-no-filtro) |                       |
+| 81  | Criar View para Risco de Fogo                                    | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/0JqR7mvu/81-criar-view-para-risco-de-fogo)                  |                       |
+| 80  | Criar View Área Queimada                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/a7vxZ5l2/80-criar-view-area-queimada)                       |                       |
 
-|32|Diagrama de classe| Andressa Stéphane Toledo da Silva|✔|https://trello.com/c/6lFmqUH8/32-diagrama-de-classe||
-
-|47|Trabalhar consulta de área queimada utilizando o postgis|Carlos Magalhães|✔|Trabalhar consulta de área queimada utilizando o postgis|https://trello.com/c/ma8TsiRd/47-trabalhar-consulta-de-%C3%A1rea-queimada-utilizando-o-postgis||
-
-
-|82| Automatização da importação do shape file| Gustavo de Moraes Silva|✔| https://trello.com/c/OdGdkT3e/82-automatiza%C3%A7%C3%A3o-da-importa%C3%A7%C3%A3o-do-shape-file||
-
-|70|Criar identidade visual|Andressa Stéphane Toledo da Silva|✔|https://trello.com/c/q3OUGmgm/70-criar-identidade-visual||
-
-
-|71|Ajustar o Figma com a nova identidade visual|Andressa Stéphane Toledo da Silva|✔| https://trello.com/c/lMXFjj1j/71-ajustar-o-figma-com-a-nova-identidade-visual||
-
-
-|73|Trabalhar consultas para trazer os focos de calor| Carlos Magalhães|✔|https://trello.com/c/QUMzEAq7/73-trabalhar-consultas-para-trazer-os-focos-de-calor||
-
-|63|Trabalhar consulta para identificar risco de fogo| Carlos Magalhães|✔|https://trello.com/c/vYfbTOYk/63-trabalhar-consulta-para-identificar-risco-de-fogo||
-
-|79|Trabalhar requisições no Controller e rotas para Focos de Calor| Carlos Magalhães|✔|https://trello.com/c/rMa9hY3R/79-trabalhar-requisi%C3%A7%C3%B5es-no-controller-e-rotas-para-focos-de-calor||
-
-|74|Trabalhar requisições nos controllers e rotas 'para Area queimada| Carlos Magalhães|✔|https://trello.com/c/1Q8btLWb/74-trabalhar-requisi%C3%A7%C3%B5es-nos-controllers-e-rotas-para-area-queimada||
-
-|64|Trabalhar requisições nos controllers e rotas Para Risco de fogo| Carlos Magalhães|✔|https://trello.com/c/I9epBNEi/64-trabalhar-requisi%C3%A7%C3%B5es-nos-controllers-e-rotas-para-risco-de-fogo||
-
-
-|15|Componente gráfico - Área Queimada| |✔|https://trello.com/c/VGhIBHAT/15-componente-gr%C3%A1fico-%C3%A1rea-queimada|RF09|
-
-
-
-|14|Componente gráfico - Risco de Fogo por Estado e Bioma| |✔|https://trello.com/c/NiitwVdo/14-componente-gr%C3%A1fico-risco-de-fogo-por-estado-e-bioma| RF08|
-
-
-|13|Componente de gráfico - focos de calor por estado e bioma| |✔|https://trello.com/c/5qU6fzXU/13-componente-de-gr%C3%A1fico-focos-de-calor-por-estado-e-bioma| RF07|
-
-
-|76|Componente Mapa - Focos de Calor| |✔|https://trello.com/c/SKEC2Pgc/76-componente-mapa-focos-de-calor||
-
-
-|77|Componente Mapa - Área queimada| |✔|https://trello.com/c/35E1of6p/77-componente-mapa-area-queimada||
-
-|78|Componente Mapa - Risco de Fogo| |✔|https://trello.com/c/ajwLsHbC/78-componente-mapa-risco-de-fogo||
-
-
-|39|Criar componente de gráfico| |✔|https://trello.com/c/i5Giup4f/39-criar-componente-de-gr%C3%A1fico| RFN02|
-
-|69|Trabalhar atualização do mapa a partir dos dados inseridos no filtro| |✔|https://trello.com/c/wAMgR8US/69-trabalhar-atualiza%C3%A7%C3%A3o-do-mapa-a-partir-dos-dados-inseridos-no-filtro||
-
-|81|Criar View para risco de fogo|Carlos Magalhães |✔|https://trello.com/c/0JqR7mvu/81-criar-view-para-risco-de-fogo||
-
-|80|Criar View Area queimada|Carlos Magalhães |✔|https://trello.com/c/a7vxZ5l2/80-criar-view-area-queimada| |
 
 # EQUIPE 👨🏻‍💻
 
