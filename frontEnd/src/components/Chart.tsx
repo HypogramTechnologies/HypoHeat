@@ -21,38 +21,64 @@ const Chart: React.FC = () => {
   const [riscoFogoData, setRiscoFogoData] = useState<any[]>([]);
   const [areaQueimadaData, setAreaQueimadaData] = useState<any[]>([]);
 
+  // Defina o estado para armazenar os dados da API
+  const [chartData, setChartData] = useState<any[]>([]);
+
+  // useEffect para buscar os dados da API
   useEffect(() => {
-    fetch("http://localhost:3000/api/focos-calor")
-      .then((res) => res.json())
-      .then(setFocoCalorData);
+    //simulando filtro
+    const dados = {
+      estado: "SÃO PAULO",
+      bioma: "Mata Atlântica",
+      dataInicial: "2025-01-01",
+      dataFinal: "2025-12-31",
+    };
 
-    fetch("http://localhost:3000/api/risco-fogo")
-      .then((res) => res.json())
-      .then(setRiscoFogoData);
+    fetch("http://localhost:3000/api/focos-calor", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dados),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setChartData(data);
+        } else {
+          console.error("Erro: Resposta da API não é um array.", data);
+        }
+      })
+      .catch((error) =>
+        console.error("Erro ao buscar dados para o gráfico:", error)
+      );
+  }, []);
 
-    fetch("http://localhost:3000/api/area-queimada")
-      .then((res) => res.json())
-      .then(setAreaQueimadaData);
-  }, [filtro]);
+
 
   const focoCalorChartData = {
-    labels: focoCalorData.map((item) => item.date),
+    labels: chartData.map((item) =>
+      new Date(item.ocorrenciadatahora).toLocaleDateString("pt-BR")
+    ),
     datasets: [
       {
         label: "Focos de Calor",
-        data: focoCalorData.map((item) => item.value),
-        borderColor: "#ff8c00",  
-        backgroundColor: "rgba(255, 140, 0, 0.2)",  
+        data: chartData.map((item) => item.ocorrenciariscofogo),
+        borderColor: "#ff8c00",
+        backgroundColor: "rgba(255, 140, 0, 0.2)",
+        fill: true,
       },
     ],
   };
 
   const riscoFogoChartData = {
-    labels: riscoFogoData.map((item) => item.date),
+    labels: chartData.map((item) =>
+      new Date(item.ocorrenciadatahora).toLocaleDateString("pt-BR")
+    ),
     datasets: [
       {
         label: "Risco de Fogo",
-        data: riscoFogoData.map((item) => item.value),
+        data: chartData.map((item) => item.ocorrenciariscofogo),
         borderColor: "#F51427",
         backgroundColor: "rgba(255, 30, 30, 0.2)",
         fill: true,
@@ -60,12 +86,15 @@ const Chart: React.FC = () => {
     ],
   };
 
+
   const areaQueimadaChartData = {
-    labels: areaQueimadaData.map((item) => item.date),
+    labels: chartData.map((item) =>
+      new Date(item.ocorrenciadatahora).toLocaleDateString("pt-BR")
+    ),
     datasets: [
       {
-        label: "Área Queimada",
-        data: areaQueimadaData.map((item) => item.value),
+        label: "Ocorrencia de Fogo",
+        data: chartData.map((item) => item.ocorrenciariscofogo),
         borderColor: "#F7C114",
         backgroundColor: "rgba(255, 217, 0, 0.2)",
         fill: true,
@@ -75,14 +104,16 @@ const Chart: React.FC = () => {
 
   return (
     <div style={{ padding: "2rem", backgroundColor: "#121212", color: "#f0f0f0", borderRadius: "12px" }}>
-      <h2 style={{ color: "#ff8c00", marginTop: "2rem" }}>Gráfico de Foco de Calor</h2>
-      <Line data={focoCalorChartData} />
+
+      {/* <h2 style={{ color: "#ff8c00", marginTop: "2rem" }}>Gráfico de Focos de Calor</h2>
+      <Line data={focoCalorChartData} /> */}
 
       <h2 style={{ color: "#F51427", marginTop: "2rem" }}>Gráfico de Risco de Fogo</h2>
       <Line data={riscoFogoChartData} />
 
-      <h2 style={{ color: "#F7C114", marginTop: "2rem" }}>Gráfico de Área Queimada</h2>
-      <Line data={areaQueimadaChartData} />
+      {/* <h2 style={{ color: "#F7C114", marginTop: "2rem" }}>Gráfico de Area Queimada</h2>
+      <Line data={areaQueimadaChartData} /> */}
+
     </div>
   );
 };
