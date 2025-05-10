@@ -28,7 +28,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: "column",
     width: "100%",
     minHeight: "100vh",
-    overflow: "hidden",
+    overflowX:"hidden"
   },
   mainContent: {
     flex: 1,

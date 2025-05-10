@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFiltro } from "../context/FiltroContext";
-import "./Filtro.css";
+import { CSSProperties } from "react";
 
 const Filtro: React.FC = () => {
   const { filtro, setFiltro, aplicarFiltros, resetarFiltros } = useFiltro();
@@ -11,13 +11,10 @@ const Filtro: React.FC = () => {
 
   // useEffect para buscar os dados da API
   useEffect(() => {
-    // Busca os estados
     fetch("http://localhost:3000/api/estados")
       .then((response) => response.json())
       .then((data) => {
-
         if (Array.isArray(data)) {
-          // Verifica se 'data' é um array
           const estadosFormatados = data.map(
             (estado: any) => estado.estadonome
           );
@@ -28,13 +25,10 @@ const Filtro: React.FC = () => {
       })
       .catch((error) => console.error("Erro ao buscar estados:", error));
 
-    // Busca os biomas
     fetch("http://localhost:3000/api/biomas")
       .then((response) => response.json())
       .then((data) => {
-
         if (Array.isArray(data)) {
-          // Verifica se 'data' é um array
           const biomasFormatados = data.map((bioma: any) => bioma.biomanome);
           setBiomes(biomasFormatados);
         } else {
@@ -61,18 +55,72 @@ const Filtro: React.FC = () => {
     }
   };
 
+  const styles: { [key: string]: React.CSSProperties } = {
+    filterContainer: {
+      backgroundColor: "rgba(0, 0, 0, 1)",
+      padding: "16px",
+      width: "350px",
+      // color: "white",
+    } ,
+
+    inputGroup: {
+      display: "flex",
+      flexDirection: "column",
+      marginBottom: "10px",
+    },
+
+    inputGroupLabel: {
+      // fontSize: "14px",
+      marginBottom: "4px",
+    },
+
+    inputGroupInputSelect: {
+      backgroundColor: "black",
+      color: "white",
+      border: "1px solid #fc6d01",
+      padding: "8px",
+      borderRadius: "8px",
+    },
+
+    checkboxGroup: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px",
+      marginBottom: "10px",
+    },
+
+    buttonGroup: {
+      display: "flex",
+      gap: "10px",
+      justifyContent: "center",
+      marginTop: "10px",
+    },
+
+    button: {
+      backgroundColor: "#ff5722",
+      color: "white",
+      border: "none",
+      padding: "8px 12px",
+      fontSize: "14px",
+      borderRadius: "5px",
+      cursor: "pointer",
+    }
+  };
+
   return (
-    <div className="filter-container">
-      <div className="input-group">
-        <label htmlFor="biome">Bioma:</label>
+    <div style = {styles.filterContainer}>
+      <div style = {styles.inputGroup}>
+        <label htmlFor="biome" style={styles.inputGroupLabel}>
+          Bioma:
+        </label>
         <select
           id="biome"
           name="biome"
           value={filtro.biome || ""}
           onChange={handleChange}
-          className="select-scroll"
+          style={styles.inputGroupInputSelect}
         >
-          <option value="">Selecione o Bioma</option>
+          <option value="">Selecione</option>
           {biomes.map((b) => (
             <option key={b} value={b}>
               {b}
@@ -81,16 +129,18 @@ const Filtro: React.FC = () => {
         </select>
       </div>
 
-      <div className="input-group">
-        <label htmlFor="state">Estado:</label>
+      <div style={styles.inputGroup}>
+        <label htmlFor="state" style={styles.inputGroupLabel}>
+          Estado:
+        </label>
         <select
           id="state"
           name="state"
           value={filtro.state || ""}
           onChange={handleChange}
-          className="select-scroll"
+          style={styles.inputGroupInputSelect}
         >
-          <option value="">Selecione um Estado</option>
+          <option value="">Selecione</option>
           {states.map((s) => (
             <option key={s} value={s}>
               {s}
@@ -99,29 +149,35 @@ const Filtro: React.FC = () => {
         </select>
       </div>
 
-      <div className="input-group">
-        <label htmlFor="startDate">Data Inicial:</label>
+      <div style={styles.inputGroup}>
+        <label htmlFor="startDate" style={styles.inputGroupLabel}>
+          Data inicial:
+        </label>
         <input
           id="startDate"
           type="date"
           name="startDate"
           value={filtro.startDate}
           onChange={handleChange}
+          style={styles.inputGroupInputSelect}
         />
       </div>
 
-      <div className="input-group">
-        <label htmlFor="endDate">Data Final:</label>
+      <div style={styles.inputGroup}>
+        <label htmlFor="endDate" style={styles.inputGroupLabel}>
+          Data final:
+        </label>
         <input
           id="endDate"
           type="date"
           name="endDate"
           value={filtro.endDate}
           onChange={handleChange}
+          style={styles.inputGroupInputSelect}
         />
       </div>
 
-      <div className="checkbox-group">
+      <div style={styles.checkboxGroup}>
         <label>
           <input
             type="checkbox"
@@ -129,7 +185,7 @@ const Filtro: React.FC = () => {
             checked={filtro.burnedAreas || false}
             onChange={handleChange}
           />{" "}
-          Áreas Queimadas
+          Áreas queimadas
         </label>
         <label>
           <input
@@ -138,7 +194,7 @@ const Filtro: React.FC = () => {
             checked={filtro.heatSpots || false}
             onChange={handleChange}
           />{" "}
-          Focos de Calor
+          Focos de calor
         </label>
         <label>
           <input
@@ -147,17 +203,20 @@ const Filtro: React.FC = () => {
             checked={filtro.heatRisk || false}
             onChange={handleChange}
           />{" "}
-          Risco de Calor
+          Risco de fogo
         </label>
       </div>
 
-      <div className="button-group">
-        <button onClick={aplicarFiltros} className="apply-button">
-          Aplicar
-        </button>
-        <button onClick={resetarFiltros} className="reset-button">
+      <div style={styles.buttonGroup}>
+        <button onClick={resetarFiltros} style={styles.button}>
           Resetar
         </button>
+        
+        <button onClick={aplicarFiltros} style={styles.button}>
+          Aplicar
+        </button>
+        
+        
       </div>
     </div>
   );
