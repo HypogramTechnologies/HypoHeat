@@ -1,4 +1,5 @@
 import { query } from "../models/db";
+import { getQueryAreaQueimada  } from "./initAreaQueimada";
 
 async function installPostGIS() {
   try {
@@ -10,11 +11,11 @@ async function installPostGIS() {
         FROM pg_extension
         WHERE extname = 'postgis';
       `);
-
     const isInstalled =
-      result.rows ||
-      result.rows.length > 0 ||
-      parseInt(result.rows[0].count, 10) > 0;
+      result ||
+      result.length > 0 ||
+      parseInt(result[0].count, 10) > 0;
+      console.log(isInstalled);
     if (isInstalled) {
       console.log("A extensão PostGIS já está instalada.");
     } else {
@@ -37,17 +38,26 @@ installPostGIS()
   });
 
 async function init() {
+    const queryAreaQueimada = await getQueryAreaQueimada();
+
+  if (!queryAreaQueimada) {
+    throw new Error("Erro ao gerar a query. Tabelas não existem.");
+  }
+
   return await query(`
     START TRANSACTION;
 
-    DROP VIEW IF EXISTS view_Ocorrencias;
+    DROP FUNCTION IF EXISTS prc_percentual_area_queimada_estado_bioma;
+    DROP FUNCTION IF EXISTS prc_area_queimada;
+    DROP FUNCTION IF EXISTS prc_area_queimada_geojson;
     DROP VIEW IF EXISTS view_risco_fogo;
+    DROP VIEW IF EXISTS view_Ocorrencias;
     DROP TRIGGER IF EXISTS trg_insert_localizacao_ocorrencia ON Ocorrencia;
     DROP FUNCTION IF EXISTS insert_localizacao_ocorrencia;
     DROP TRIGGER IF EXISTS trg_delete_localizacao_ocorrencia ON Ocorrencia;
     DROP FUNCTION IF EXISTS delete_localizacao_ocorrencia;
-    DROP TABLE IF EXISTS estados_areas;
-    DROP TABLE IF EXISTS biomas_areas;
+    --DROP TABLE IF EXISTS estados_areas;
+    --DROP TABLE IF EXISTS biomas_areas;
     DROP TABLE IF EXISTS localizacao_ocorrencia;
     DROP TABLE IF EXISTS Ocorrencia;
     DROP TABLE IF EXISTS Municipio;
@@ -287,6 +297,8 @@ async function init() {
         AND t.lat IS NOT NULL
         AND t.lon IS NOT NULL;
     END $$;
+
+    ${queryAreaQueimada}
 
     COMMIT;
   `);

@@ -7,6 +7,7 @@ const routes = Router();
 routes.post("/focos-calor", ocorrencia.Filtrar_foco_calor);
 routes.post("/risco-fogo", ocorrencia.Filtrar_risco_fogo);
 routes.get("/area-queimada", ocorrencia.Filtrar_area_queimada);
+routes.get("/area-queimada-percentual", ocorrencia.Filtrar_area_queimada_percentual);
 routes.get("/estados", filtro.Estados);
 routes.get("/biomas", filtro.Biomas);
 

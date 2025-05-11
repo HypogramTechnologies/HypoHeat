@@ -38,20 +38,37 @@ class OcorrenciaController {
 
 
   public async Filtrar_area_queimada(req: Request, res: Response): Promise<void> {
-    /* Validar a área de insterseção entre o bioma e o estado, validar os pontos dentro dessa área, estabelecer a área queimada e a intesidade (frp) para colorir o mapa. */
+     const filtro: Filtro = req.body || {};
+     const consulta = `
+        SELECT * FROM prc_area_queimada_geojson(
+          ${filtro.dataInicial ? `'${filtro.dataInicial}'::TIMESTAMP` : 'NULL::TIMESTAMP'},
+          ${filtro.dataFinal ? `'${filtro.dataFinal}'::TIMESTAMP` : 'NULL::TIMESTAMP'},
+          ${filtro.bioma ? `'${filtro.bioma}'::TEXT` : 'NULL::TEXT'},
+          ${filtro.estado ? `'${filtro.estado}'::TEXT` : 'NULL::TEXT'}
+        );
+  `;
+    console.log(consulta);
+    const r: any = await query(consulta);
+    res.json(r);
+  }
 
+    public async Filtrar_area_queimada_percentual(req: Request, res: Response): Promise<void> {
+     const filtro: Filtro = req.body || {};
+     const consulta = `
+        SELECT * FROM prc_percentual_area_queimada_estado_bioma(
+          ${filtro.dataInicial ? `'${filtro.dataInicial}'::TIMESTAMP` : 'NULL::TIMESTAMP'},
+          ${filtro.dataFinal ? `'${filtro.dataFinal}'::TIMESTAMP` : 'NULL::TIMESTAMP'},
+          ${filtro.bioma ? `'${filtro.bioma}'::TEXT` : 'NULL::TEXT'},
+          ${filtro.estado ? `'${filtro.estado}'::TEXT` : 'NULL::TEXT'}
+        );
+  `;
+    const r: any = await query(consulta);
+    res.json(r);
 
-/*     const filtro: Filtro = req.body;
-    const condicaoFiltroCalor: string = `ocorrenciariscofogo > 0`;
-    const consultaEstruturada: string = estrutrarConsulta(
-      filtro,
-      condicaoFiltroCalor
-    );
-    const r: any = await query(consultaEstruturada); */
-
-    res.json({status: "EM DESENVOLVIMENTO"});
   }
 }
+
+
 
 export default new OcorrenciaController();
 
