@@ -50,6 +50,7 @@ async function init() {
     DROP FUNCTION IF EXISTS prc_percentual_area_queimada_estado_bioma;
     DROP FUNCTION IF EXISTS prc_area_queimada;
     DROP FUNCTION IF EXISTS prc_area_queimada_geojson;
+    DROP VIEW IF EXISTS view_area_queimada;
     DROP VIEW IF EXISTS view_risco_fogo;
     DROP VIEW IF EXISTS view_Ocorrencias;
     DROP TRIGGER IF EXISTS trg_insert_localizacao_ocorrencia ON Ocorrencia;

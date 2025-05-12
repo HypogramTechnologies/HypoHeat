@@ -239,6 +239,45 @@ BEGIN
         AND ST_Area(ebi.geom_intersecao) > 0;
 END;
 $$ LANGUAGE plpgsql;
+
+--VIEW DE ÁREA QUEIMADA
+CREATE OR REPLACE VIEW public.view_area_queimada AS
+    SELECT
+        vwo.biomanome,
+        vwo.estadonome,
+        ST_Union(
+            ST_Transform(
+                ST_Buffer(
+                    ST_Transform(loc.localizacao_ocorrenciageometria, 3857),
+                    CASE
+                        WHEN vwo.satelitenome ILIKE '%GOES%' THEN 2000
+                        ELSE 500
+                    END
+                ),
+                4326
+            )
+        ) AS area_queimada_geom,
+        ROUND(
+            (
+                ST_Area(
+                    ST_Union(
+                        ST_Buffer(
+                            ST_Transform(loc.localizacao_ocorrenciageometria, 3857),
+                            CASE
+                                WHEN vwo.satelitenome ILIKE '%GOES%' THEN 2000
+                                ELSE 500
+                            END
+                        )
+                    )
+                ) / 1000000.0
+            )::numeric, 2
+        ) AS area_queimada_km2
+    FROM
+        localizacao_ocorrencia loc
+    JOIN
+        view_ocorrencias vwo ON vwo.ocorrenciaid = loc.ocorrenciaid
+    GROUP BY
+        vwo.biomanome, vwo.estadonome;
 `;
 }
 
