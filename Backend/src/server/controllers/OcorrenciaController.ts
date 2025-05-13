@@ -12,6 +12,7 @@ class OcorrenciaController {
   public async Filtrar_foco_calor(req: Request, res: Response): Promise<void> {
     //Filtrar por satélite (validar)
     const filtro: Filtro = req.body;
+    console.log('Filtro: ', filtro)
     const consulta:string = `SELECT * FROM view_ocorrencias`
     const condicaoFiltroCalor: string = `ocorrenciafrp > 0 ORDER BY ocorrenciafrp DESC`;
     const consultaEstruturada: string = estrutrarConsulta(
@@ -22,6 +23,7 @@ class OcorrenciaController {
     const r: any = await query(consultaEstruturada);
 
     res.json(r);
+    console.log('focos de calor:', r);
   }
 
   public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
@@ -68,9 +70,8 @@ class OcorrenciaController {
   }
 }
 
-
-
 export default new OcorrenciaController();
+
 
 function estrutrarConsulta(consulta:string, filtro: Filtro, condicaoExtra?: string): string {
   let condicoes: string[] = [];
