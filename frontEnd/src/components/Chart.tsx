@@ -15,22 +15,30 @@ import { useFiltro } from "../context/FiltroContext";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const Chart: React.FC = () => {
-  const { filtro } = useFiltro(); // Obtém o filtro do contexto
+  const { appliedFiltro } = useFiltro();
   const [chartData, setChartData] = useState<any[]>([]);
 
-  // Função para formatar os dados do filtro para a API
-  const mapFiltroToApiPayload = () => ({
-    estado: filtro.state || "",
-    bioma: filtro.biome || "",
-    dataInicial: filtro.startDate || "",
-    dataFinal: filtro.endDate || "",
-  });
+  // Verifica se pelo menos um campo do filtro está preenchido
+  const filtroPreenchido = Object.values({
+    state: appliedFiltro.state,
+    biome: appliedFiltro.biome,
+    startDate: appliedFiltro.startDate,
+    endDate: appliedFiltro.endDate,
+  }).some((value) => value && value.trim() !== "");
 
   useEffect(() => {
-    const dados = mapFiltroToApiPayload(); // Mapeia os dados do filtro
+    if (!filtroPreenchido) {
+      setChartData([]);
+      return;
+    }
 
-    console.log(dados)
-    // Faz a requisição para a API usando os dados do filtro
+    const dados = {
+      estado: appliedFiltro.state,
+      bioma: appliedFiltro.biome,
+      dataInicial: appliedFiltro.startDate,
+      dataFinal: appliedFiltro.endDate,
+    };
+
     fetch("http://localhost:3000/api/focos-calor", {
       method: "POST",
       headers: {
@@ -49,7 +57,15 @@ const Chart: React.FC = () => {
       .catch((error) =>
         console.error("Erro ao buscar dados para o gráfico:", error)
       );
-  }, [filtro]); // Atualiza o gráfico sempre que o filtro mudar
+  }, [appliedFiltro]);
+
+  if (!filtroPreenchido) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center", color: "#888" }}>
+        <p>Preencha pelo menos um filtro e clique em "Aplicar" para visualizar o gráfico.</p>
+      </div>
+    );
+  }
 
   const riscoFogoChartData = {
     labels: chartData.map((item) =>

@@ -4,20 +4,15 @@ import { CSSProperties } from "react";
 
 const Filtro: React.FC = () => {
   const { filtro, setFiltro, aplicarFiltros, resetarFiltros } = useFiltro();
-
-  // Estados locais para armazenar biomas e estados
   const [biomes, setBiomes] = useState<string[]>([]);
   const [states, setStates] = useState<string[]>([]);
 
-  // useEffect para buscar os dados da API
   useEffect(() => {
     fetch("http://localhost:3000/api/estados")
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          const estadosFormatados = data.map(
-            (estado: any) => estado.estadonome
-          );
+          const estadosFormatados = data.map((estado: any) => estado.estadonome);
           setStates(estadosFormatados);
         } else {
           console.error("Erro: Resposta da API não é um array.", data);
@@ -41,39 +36,32 @@ const Filtro: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
-    const { name, type, value } = e.target;
+    const { name, type, value, checked } = e.target;
 
     if (type === "checkbox") {
       setFiltro({
         ...filtro,
-        burnedAreas: name === "burnedAreas",
-        heatSpots: name === "heatSpots",
-        heatRisk: name === "heatRisk",
+        [name]: checked,
       });
     } else {
       setFiltro({ ...filtro, [name]: value });
     }
   };
 
-  const styles: { [key: string]: React.CSSProperties } = {
+  const styles: { [key: string]: CSSProperties } = {
     filterContainer: {
       backgroundColor: "rgba(0, 0, 0, 1)",
       padding: "16px",
       width: "350px",
-      // color: "white",
-    } ,
-
+    },
     inputGroup: {
       display: "flex",
       flexDirection: "column",
       marginBottom: "10px",
     },
-
     inputGroupLabel: {
-      // fontSize: "14px",
       marginBottom: "4px",
     },
-
     inputGroupInputSelect: {
       backgroundColor: "black",
       color: "white",
@@ -81,21 +69,18 @@ const Filtro: React.FC = () => {
       padding: "8px",
       borderRadius: "8px",
     },
-
     checkboxGroup: {
       display: "flex",
       flexDirection: "column",
       gap: "8px",
       marginBottom: "10px",
     },
-
     buttonGroup: {
       display: "flex",
       gap: "10px",
       justifyContent: "center",
       marginTop: "10px",
     },
-
     button: {
       backgroundColor: "#ff5722",
       color: "white",
@@ -104,15 +89,13 @@ const Filtro: React.FC = () => {
       fontSize: "14px",
       borderRadius: "5px",
       cursor: "pointer",
-    }
+    },
   };
 
   return (
-    <div style = {styles.filterContainer}>
-      <div style = {styles.inputGroup}>
-        <label htmlFor="biome" style={styles.inputGroupLabel}>
-          Bioma:
-        </label>
+    <div style={styles.filterContainer}>
+      <div style={styles.inputGroup}>
+        <label htmlFor="biome" style={styles.inputGroupLabel}>Bioma:</label>
         <select
           id="biome"
           name="biome"
@@ -122,17 +105,13 @@ const Filtro: React.FC = () => {
         >
           <option value="">Selecione</option>
           {biomes.map((b) => (
-            <option key={b} value={b}>
-              {b}
-            </option>
+            <option key={b} value={b}>{b}</option>
           ))}
         </select>
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="state" style={styles.inputGroupLabel}>
-          Estado:
-        </label>
+        <label htmlFor="state" style={styles.inputGroupLabel}>Estado:</label>
         <select
           id="state"
           name="state"
@@ -142,17 +121,13 @@ const Filtro: React.FC = () => {
         >
           <option value="">Selecione</option>
           {states.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
+            <option key={s} value={s}>{s}</option>
           ))}
         </select>
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="startDate" style={styles.inputGroupLabel}>
-          Data inicial:
-        </label>
+        <label htmlFor="startDate" style={styles.inputGroupLabel}>Data inicial:</label>
         <input
           id="startDate"
           type="date"
@@ -164,9 +139,7 @@ const Filtro: React.FC = () => {
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="endDate" style={styles.inputGroupLabel}>
-          Data final:
-        </label>
+        <label htmlFor="endDate" style={styles.inputGroupLabel}>Data final:</label>
         <input
           id="endDate"
           type="date"
@@ -184,8 +157,7 @@ const Filtro: React.FC = () => {
             name="burnedAreas"
             checked={filtro.burnedAreas || false}
             onChange={handleChange}
-          />{" "}
-          Áreas queimadas
+          /> Áreas queimadas
         </label>
         <label>
           <input
@@ -193,8 +165,7 @@ const Filtro: React.FC = () => {
             name="heatSpots"
             checked={filtro.heatSpots || false}
             onChange={handleChange}
-          />{" "}
-          Focos de calor
+          /> Focos de calor
         </label>
         <label>
           <input
@@ -202,21 +173,13 @@ const Filtro: React.FC = () => {
             name="heatRisk"
             checked={filtro.heatRisk || false}
             onChange={handleChange}
-          />{" "}
-          Risco de fogo
+          /> Risco de fogo
         </label>
       </div>
 
       <div style={styles.buttonGroup}>
-        <button onClick={resetarFiltros} style={styles.button}>
-          Resetar
-        </button>
-        
-        <button onClick={aplicarFiltros} style={styles.button}>
-          Aplicar
-        </button>
-        
-        
+        <button onClick={resetarFiltros} style={styles.button}>Resetar</button>
+        <button onClick={aplicarFiltros} style={styles.button}>Aplicar</button>
       </div>
     </div>
   );
