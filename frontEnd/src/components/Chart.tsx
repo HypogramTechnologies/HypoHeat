@@ -19,7 +19,7 @@ const Chart: React.FC = () => {
   const [chartData, setChartData] = useState<any[]>([]);
 
   const tipoSelecionado = appliedFiltro.burnedAreas || appliedFiltro.heatSpots || appliedFiltro.heatRisk;
-  const localSelecionado = appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "";
+  const localSelecionado = appliedFiltro.state.trim() !== "" && appliedFiltro.biome.trim() !== "" && appliedFiltro.startDate && appliedFiltro.endDate;	
   const filtroPreenchido = tipoSelecionado && localSelecionado;
 
   useEffect(() => {
