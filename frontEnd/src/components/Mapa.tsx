@@ -6,23 +6,25 @@ import L from "leaflet";
 import fireIconUrl from "../assets/fire.png";
 
 import { focosCalor, Foco } from "../services/ocorrenciaService";
-import { FiltroConsulta } from "../types/Filtros";
+import { FiltroConsulta, TipoBusca } from "../types/Filtros";
 
 const fireIcon = new L.Icon({
   iconUrl: fireIconUrl,
-  iconSize: [30, 30],   
+  iconSize: [20, 20],   
   iconAnchor: [15, 30],    
   popupAnchor: [0, -30],   
 });
 
 const filtro: FiltroConsulta = {
   estado: "SÃO PAULO",
+  bioma: "Cerrado",
 };
 
 const Mapa = () => {
   const [focos, setFocos] = useState<Foco[]>([]); 
 
   useEffect(() => {
+    filtro.tipoBusca = TipoBusca.focosCalor
     focosCalor(filtro) 
       .then(setFocos)
       .catch((err) => console.error("Erro ao buscar focos:", err));
