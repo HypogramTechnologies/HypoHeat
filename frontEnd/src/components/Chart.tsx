@@ -18,13 +18,9 @@ const Chart: React.FC = () => {
   const { appliedFiltro } = useFiltro();
   const [chartData, setChartData] = useState<any[]>([]);
 
-  // Verifica se pelo menos um campo do filtro está preenchido
-  const filtroPreenchido = Object.values({
-    state: appliedFiltro.state,
-    biome: appliedFiltro.biome,
-    startDate: appliedFiltro.startDate,
-    endDate: appliedFiltro.endDate,
-  }).some((value) => value && value.trim() !== "");
+  const tipoSelecionado = appliedFiltro.burnedAreas || appliedFiltro.heatSpots || appliedFiltro.heatRisk;
+  const localSelecionado = appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "";
+  const filtroPreenchido = tipoSelecionado && localSelecionado;
 
   useEffect(() => {
     if (!filtroPreenchido) {
@@ -39,7 +35,23 @@ const Chart: React.FC = () => {
       dataFinal: appliedFiltro.endDate,
     };
 
-    fetch("http://localhost:3000/api/focos-calor", {
+    // Define URL com base no tipo selecionado
+    let url: string | undefined;
+
+    if (appliedFiltro.burnedAreas) {
+      url = "http://localhost:3000/api/areas-queimadas";
+      console.log("URL para áreas queimadas:", url);
+    } else if (appliedFiltro.heatSpots) {
+      url = "http://localhost:3000/api/focos-calor";
+      console.log("URL para focos de calor:", url);
+    } else if (appliedFiltro.heatRisk) {
+      url = "http://localhost:3000/api/risco-fogo";
+      console.log("URL para risco de fogo:", url);
+    }
+
+    if (!url) return; // Se por algum motivo não houver URL, evita o fetch
+
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +74,7 @@ const Chart: React.FC = () => {
   if (!filtroPreenchido) {
     return (
       <div style={{ padding: "2rem", textAlign: "center", color: "#888" }}>
-        <p>Preencha pelo menos um filtro e clique em "Aplicar" para visualizar o gráfico.</p>
+        <p>Preencha um estado ou bioma e selecione um tipo (ex: focos de calor, risco de fogo ou áreas queimadas), depois clique em "Aplicar".</p>
       </div>
     );
   }
