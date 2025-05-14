@@ -5,9 +5,7 @@ interface FiltroState {
   state: string;
   startDate: string;
   endDate: string;
-  burnedAreas: boolean;
-  heatSpots: boolean;
-  heatRisk: boolean;
+  tipoFiltro: string;
 }
 
 interface FiltroContextProps {
@@ -23,9 +21,8 @@ const defaultFiltro: FiltroState = {
   state: "",
   startDate: "",
   endDate: "",
-  burnedAreas: false,
-  heatSpots: false,
-  heatRisk: false,
+  tipoFiltro: ""
+  
 };
 
 const FiltroContext = createContext<FiltroContextProps | undefined>(undefined);

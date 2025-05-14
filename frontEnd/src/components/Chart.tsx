@@ -18,7 +18,7 @@ const Chart: React.FC = () => {
   const { appliedFiltro } = useFiltro();
   const [chartData, setChartData] = useState<any[]>([]);
 
-  const tipoSelecionado = appliedFiltro.burnedAreas || appliedFiltro.heatSpots || appliedFiltro.heatRisk;
+  const tipoSelecionado = appliedFiltro.tipoFiltro;
   const localSelecionado = appliedFiltro.state.trim() !== "" && appliedFiltro.biome.trim() !== "" && appliedFiltro.startDate && appliedFiltro.endDate;	
   const filtroPreenchido = tipoSelecionado && localSelecionado;
 
@@ -37,14 +37,14 @@ const Chart: React.FC = () => {
 
     // Define URL com base no tipo selecionado
     let url: string | undefined;
-
-    if (appliedFiltro.burnedAreas) {
+   
+    if (appliedFiltro.tipoFiltro == 'burnedAreas') {
       url = "http://localhost:3000/api/areas-queimadas";
       console.log("URL para áreas queimadas:", url);
-    } else if (appliedFiltro.heatSpots) {
+    } else if (appliedFiltro.tipoFiltro == 'heatSpots') {
       url = "http://localhost:3000/api/focos-calor";
       console.log("URL para focos de calor:", url);
-    } else if (appliedFiltro.heatRisk) {
+    } else if (appliedFiltro.tipoFiltro  == 'heatRisk') {
       url = "http://localhost:3000/api/risco-fogo";
       console.log("URL para risco de fogo:", url);
     }

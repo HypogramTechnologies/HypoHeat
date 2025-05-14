@@ -33,19 +33,13 @@ const Filtro: React.FC = () => {
       .catch((error) => console.error("Erro ao buscar biomas:", error));
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
-    const { name, type, value, checked } = e.target;
+  const handleRadioChange = (value: string) => {
+    setFiltro({ ...filtro, tipoFiltro: value });
+  };
 
-    if (type === "checkbox") {
-      setFiltro({
-        ...filtro,
-        [name]: checked,
-      });
-    } else {
-      setFiltro({ ...filtro, [name]: value });
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFiltro({ ...filtro, [name]: value });
   };
 
   const styles: { [key: string]: CSSProperties } = {
@@ -65,15 +59,9 @@ const Filtro: React.FC = () => {
     inputGroupInputSelect: {
       backgroundColor: "black",
       color: "white",
-      border: "1px solid #fc6d01",
+      border: "1px solid #f27c00",
       padding: "8px",
       borderRadius: "8px",
-    },
-    checkboxGroup: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "8px",
-      marginBottom: "10px",
     },
     buttonGroup: {
       display: "flex",
@@ -82,7 +70,7 @@ const Filtro: React.FC = () => {
       marginTop: "10px",
     },
     button: {
-      backgroundColor: "#ff5722",
+      backgroundColor: "#f27c00",
       color: "white",
       border: "none",
       padding: "8px 12px",
@@ -90,44 +78,82 @@ const Filtro: React.FC = () => {
       borderRadius: "5px",
       cursor: "pointer",
     },
+    options: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+    },
+    option: {
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+    },
+    radioButton: {
+      width: "50px",
+      height: "25px",
+      backgroundColor: "#ccc",
+      borderRadius: "15px",
+      position: "relative",
+      cursor: "pointer",
+    },
+    radioCircle: {
+      position: "absolute",
+      top: "3px",
+      left: "3px",
+      width: "20px",
+      height: "20px",
+      backgroundColor: "white",
+      borderRadius: "50%",
+      transition: "left 0.2s",
+    },
   };
 
   return (
     <div style={styles.filterContainer}>
       <div style={styles.inputGroup}>
-        <label htmlFor="biome" style={styles.inputGroupLabel}>Bioma:</label>
+        <label htmlFor="biome" style={styles.inputGroupLabel}>
+          Bioma:
+        </label>
         <select
           id="biome"
           name="biome"
-          value={filtro.biome || ""}
+          value={filtro.biome}
           onChange={handleChange}
           style={styles.inputGroupInputSelect}
         >
           <option value="">Selecione</option>
           {biomes.map((b) => (
-            <option key={b} value={b}>{b}</option>
+            <option key={b} value={b}>
+              {b}
+            </option>
           ))}
         </select>
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="state" style={styles.inputGroupLabel}>Estado:</label>
+        <label htmlFor="state" style={styles.inputGroupLabel}>
+          Estado:
+        </label>
         <select
           id="state"
           name="state"
-          value={filtro.state || ""}
+          value={filtro.state}
           onChange={handleChange}
           style={styles.inputGroupInputSelect}
         >
           <option value="">Selecione</option>
           {states.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>
+              {s}
+            </option>
           ))}
         </select>
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="startDate" style={styles.inputGroupLabel}>Data inicial:</label>
+        <label htmlFor="startDate" style={styles.inputGroupLabel}>
+          Data inicial:
+        </label>
         <input
           id="startDate"
           type="date"
@@ -139,7 +165,9 @@ const Filtro: React.FC = () => {
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="endDate" style={styles.inputGroupLabel}>Data final:</label>
+        <label htmlFor="endDate" style={styles.inputGroupLabel}>
+          Data final:
+        </label>
         <input
           id="endDate"
           type="date"
@@ -150,36 +178,45 @@ const Filtro: React.FC = () => {
         />
       </div>
 
-      <div style={styles.checkboxGroup}>
-        <label>
-          <input
-            type="checkbox"
-            name="burnedAreas"
-            checked={filtro.burnedAreas || false}
-            onChange={handleChange}
-          /> Áreas queimadas
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="heatSpots"
-            checked={filtro.heatSpots || false}
-            onChange={handleChange}
-          /> Focos de calor
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="heatRisk"
-            checked={filtro.heatRisk || false}
-            onChange={handleChange}
-          /> Risco de fogo
-        </label>
+      <div style={styles.options}>
+        {["burnedAreas", "heatSpots", "heatRisk"].map((filter) => (
+          <label key={filter} style={styles.option}>
+            <input
+              type="radio"
+              name="filterType"
+              value={filter}
+              checked={filtro.tipoFiltro === filter}
+              onChange={() => handleRadioChange(filter)}
+              style={{ display: "none" }}
+            />
+            <span
+              style={{
+                ...styles.radioButton,
+                backgroundColor: filtro.tipoFiltro === filter ? "#067ab2" : "#ccc",
+              }}
+              onClick={() => handleRadioChange(filter)}
+            >
+              <span
+                style={{
+                  ...styles.radioCircle,
+                  left: filtro.tipoFiltro === filter ? "26px" : "3px",
+                }}
+              ></span>
+            </span>
+            {filter === "burnedAreas" && "Áreas queimadas"}
+            {filter === "heatSpots" && "Focos de calor"}
+            {filter === "heatRisk" && "Risco de fogo"}
+          </label>
+        ))}
       </div>
 
       <div style={styles.buttonGroup}>
-        <button onClick={resetarFiltros} style={styles.button}>Resetar</button>
-        <button onClick={aplicarFiltros} style={styles.button}>Aplicar</button>
+        <button onClick={resetarFiltros} style={styles.button}>
+          Resetar
+        </button>
+        <button onClick={aplicarFiltros} style={styles.button}>
+          Aplicar
+        </button>
       </div>
     </div>
   );
