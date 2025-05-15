@@ -93,20 +93,20 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 
 | ID  | Nome                                                 | Estimativa | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
 |-----|------------------------------------------------------|------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
-| 28  | Criar Estrutura do projeto                          | 3          | Gustavo de Moraes Silva                       |                  | [Link](https://trello.com/c/IvkPGfbM/28-criar-estrutura-do-projeto) |                                           |
-| 29  | Criar banco de dados no PostgreSQL                  | 3          | Andressa Stéphane Toledo da Silva             |                | [Link](https://trello.com/c/gD7hoYMQ/29-criar-banco-de-dados-no-postgree) |                                           |
-| 30  | Criar Views das ocorrências                         | 3          | Carlos Magalhães e Eduardo Henrique Alves Arantes |                 | [Link](https://trello.com/c/7SGbxWtc/30-criar-views-das-ocorrencias) | BDR.01, BDR.02, MC.03                     |
-| 31  | Diagrama de caso de uso                             | 8          | Andressa Stéphane Toledo da Silva             |                  | [Link](https://trello.com/c/9cnVNH75/31-diagrama-de-caso-de-uso)    |                                           |
-| 32  | Diagrama de Classe - Implementação em typescript         | 5          | Andressa Stéphane Toledo da Silva             |                  | [Link]([https://trello.com/c/6lFmqUH8/32-diagrama-de-classe](https://trello.com/c/68msSWpP/60-diagrama-de-classe-implementa%C3%A7%C3%A3o-em-typescript))         | TP.01, TP.02, ED.01                       |
-| 33  | Estrutura backend                                   | 13         | Gustavo de Moraes Silva                       |                  | [Link](https://trello.com/c/bwpfptVc/33-estrutura-backend)          |                                           |
-| 36  | Criar Stored procedure para importar os dados do DBQueimadas | 8 | Adson Filho                                   |                  | [Link](https://trello.com/c/PNab7u8o/36-criar-stored-procedure-para-importar-os-dados-do-dbqueimadas) |        BDR.03                                   |
-| 37  | Criar componente de filtro                          | 8          | Eduardo Henrique Alves Arantes                |                  | [Link](https://trello.com/c/7JXmcaEy/37-criar-componente-de-filtro) | RF.10                                     |
-| 41  | Criar app.tsx                                       | 8          |  Gustavo de Moraes Silva                      |                  | [Link](https://trello.com/c/AYtO8uQe/41-criar-apptsx)               |                                           |
-| 42  | Protótipo do Figma                                  | 8          | Andressa Stéphane Toledo da Silva             |                 | [Link](https://trello.com/c/8nX8z9Fk/42-prototipo-do-figma)         |                                           |
-| 43  | Criar DER                                           | 3          | Andressa Stéphane Toledo da Silva             |                  | [Link](https://trello.com/c/cyS68Qbn/43-criar-der)                 |                                           |
-| 53  | Rotina para rodar a stored procedure                | 5          | Carlos Magalhães                              |                  | [Link](https://trello.com/c/dGtnWzFy/53-rotina-para-rodar-a-stored-procedure) |                                           |
-| 54  | Rotina para acessar site do INPE e realizar download do arquivo | 5 | Carlos Magalhães                            |                  | [Link](https://trello.com/c/luzmg0GV/54-rotina-para-acessar-site-do-inpe-e-realizar-download-do-arquivo) |                                           |
-| 59  | Criar arquivo de inicialização do banco de dados    |    5        |  Carlos Magalhães                              |                  | [Link](https://trello.com/c/eUqmJaN9/59-criar-arquivo-de-inicializacao-do-banco-de-dados) |                                           |
+| 28  | Criar Estrutura do projeto                          | 3          | Gustavo de Moraes Silva                       |     ✔              | [Link](https://trello.com/c/IvkPGfbM/28-criar-estrutura-do-projeto) |                                           |
+| 29  | Criar banco de dados no PostgreSQL                  | 3          | Andressa Stéphane Toledo da Silva             |  ✔               | [Link](https://trello.com/c/gD7hoYMQ/29-criar-banco-de-dados-no-postgree) |                                           |
+| 30  | Criar Views das ocorrências                         | 3          | Carlos Magalhães e Eduardo Henrique Alves Arantes |  ✔                | [Link](https://trello.com/c/7SGbxWtc/30-criar-views-das-ocorrencias) | BDR.01, BDR.02, MC.03                     |
+| 31  | Diagrama de caso de uso                             | 8          | Andressa Stéphane Toledo da Silva             |  ✔                 | [Link](https://trello.com/c/9cnVNH75/31-diagrama-de-caso-de-uso)    |                                           |
+| 32  | Diagrama de Classe - Implementação em typescript         | 5          | Andressa Stéphane Toledo da Silva             | ✔                  | [Link]([https://trello.com/c/6lFmqUH8/32-diagrama-de-classe](https://trello.com/c/68msSWpP/60-diagrama-de-classe-implementa%C3%A7%C3%A3o-em-typescript))         | TP.01, TP.02, ED.01                       |
+| 33  | Estrutura backend                                   | 13         | Gustavo de Moraes Silva                       |  ✔                 | [Link](https://trello.com/c/bwpfptVc/33-estrutura-backend)          |                                           |
+| 36  | Criar Stored procedure para importar os dados do DBQueimadas | 8 | Adson Filho                                   |  ✔                 | [Link](https://trello.com/c/PNab7u8o/36-criar-stored-procedure-para-importar-os-dados-do-dbqueimadas) |        BDR.03                                   |
+| 37  | Criar componente de filtro                          | 8          | Eduardo Henrique Alves Arantes                |  ✔                 | [Link](https://trello.com/c/7JXmcaEy/37-criar-componente-de-filtro) | RF.10                                     |
+| 41  | Criar app.tsx                                       | 8          |  Gustavo de Moraes Silva                      |    ✔               | [Link](https://trello.com/c/AYtO8uQe/41-criar-apptsx)               |                                           |
+| 42  | Protótipo do Figma                                  | 8          | Andressa Stéphane Toledo da Silva             |       ✔           | [Link](https://trello.com/c/8nX8z9Fk/42-prototipo-do-figma)         |                                           |
+| 43  | Criar DER                                           | 3          | Andressa Stéphane Toledo da Silva             |  ✔                 | [Link](https://trello.com/c/cyS68Qbn/43-criar-der)                 |                                           |
+| 53  | Rotina para rodar a stored procedure                | 5          | Carlos Magalhães                              |  ✔                 | [Link](https://trello.com/c/dGtnWzFy/53-rotina-para-rodar-a-stored-procedure) |                                           |
+| 54  | Rotina para acessar site do INPE e realizar download do arquivo | 5 | Carlos Magalhães                            |  ✔                 | [Link](https://trello.com/c/luzmg0GV/54-rotina-para-acessar-site-do-inpe-e-realizar-download-do-arquivo) |                                           |
+| 59  | Criar arquivo de inicialização do banco de dados    |    5        |  Carlos Magalhães                              |   ✔                | [Link](https://trello.com/c/eUqmJaN9/59-criar-arquivo-de-inicializacao-do-banco-de-dados) |                                           |
 
 
 ### Burndown Chart 🔥
@@ -136,7 +136,7 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 
 ### Burndown Chart 🔥
 <p align="center">
-   <img width="687" height="353" src="[https://github.com/user-attachments/assets/17c056a0-688c-4c21-91b2-e5ea4c0ecd3d]">
+   <img width="687" height="353" src="https://github.com/user-attachments/assets/17c056a0-688c-4c21-91b2-e5ea4c0ecd3d">
 
 </p>
 <br>
