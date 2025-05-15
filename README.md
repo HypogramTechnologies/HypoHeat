@@ -115,6 +115,7 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 
 </p>
 <br>
+
 ### Backlog Sprint 2 📃
 
 | ID  | Nome                                                             | Responsáveis                           | Tarefa Finalizada | Link                                                                                     | Requisitos atendidos |
