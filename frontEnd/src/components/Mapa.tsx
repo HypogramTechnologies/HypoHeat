@@ -4,9 +4,9 @@ import "../Index.css";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import fireIconUrl from "../assets/fire.png";
-
-import { focosCalor, Foco } from "../services/ocorrenciaService";
+import { focosCalor, riscoFogo, Foco, RiscoFogo } from "../services/ocorrenciaService";
 import { FiltroConsulta, TipoBusca } from "../types/Filtros";
+import { useFiltro } from "../context/FiltroContext";
 
 const fireIcon = new L.Icon({
   iconUrl: fireIconUrl,
@@ -15,20 +15,41 @@ const fireIcon = new L.Icon({
   popupAnchor: [0, -30],   
 });
 
-const filtro: FiltroConsulta = {
-  estado: "SÃO PAULO",
-  bioma: "Cerrado",
-};
-
 const Mapa = () => {
+  const { appliedFiltro } = useFiltro();
   const [focos, setFocos] = useState<Foco[]>([]); 
+  const [risco, setRisco] = useState<RiscoFogo[]>([]);
+
+  const tipoSelecionado = appliedFiltro.tipoFiltro;
+  const localSelecionado = appliedFiltro.state.trim() !== "" && appliedFiltro.biome.trim() !== "" && appliedFiltro.startDate && appliedFiltro.endDate;	
+  const filtroPreenchido = tipoSelecionado && localSelecionado;
 
   useEffect(() => {
-    filtro.tipoBusca = TipoBusca.focosCalor
-    focosCalor(filtro) 
-      .then(setFocos)
-      .catch((err) => console.error("Erro ao buscar focos:", err));
-  }, []);
+    const filtro: FiltroConsulta = {
+    estado: appliedFiltro.state,
+    bioma: appliedFiltro.biome,
+    dataInicial: appliedFiltro.startDate,
+    dataFinal: appliedFiltro.endDate,
+    tipoBusca: appliedFiltro.tipoFiltro === 'heatSpots' ? TipoBusca.focosCalor : TipoBusca.riscoFogo
+  };
+
+
+  if (appliedFiltro.tipoFiltro === 'heatSpots') {
+    focosCalor(filtro).then(setFocos).catch(console.error);
+    setRisco([]);
+  } else if (appliedFiltro.tipoFiltro === 'heatRisk') {
+    riscoFogo(filtro).then(setRisco).catch(console.error);
+    setFocos([]);
+  }
+}, [appliedFiltro]);
+
+  if (!filtroPreenchido) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center", color: "#888" }}>
+        <p>Preencha um estado ou bioma e selecione um tipo (ex: focos de calor, risco de fogo ou áreas queimadas), depois clique em "Aplicar".</p>
+      </div>
+    );
+  }
 
   return (
     <MapContainer
@@ -42,19 +63,37 @@ const Mapa = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {focos.map((foco, index) => (
-        <Marker
-          key={index}
-          position={[foco.ocorrenciaLatitude, foco.ocorrenciaLongitude]}
-          icon={fireIcon}
-        >
-          <Popup>
-            <strong>{foco.estadonome}</strong>
-            <br />
-            Lat: {foco.ocorrenciaLatitude}, Lng: {foco.ocorrenciaLongitude}
-          </Popup>
-        </Marker>
-      ))}
+{appliedFiltro.tipoFiltro === 'heatSpots' &&
+  focos.map((item, index) => (
+    <Marker
+      key={`foco-${index}`}
+      position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]}
+      icon={fireIcon}
+    >
+      <Popup>
+        <strong>{item.estadonome}</strong>
+        <br />
+        Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
+      </Popup>
+    </Marker>
+  ))
+}
+
+{appliedFiltro.tipoFiltro === 'heatRisk' &&
+  risco.map((item, index) => (
+    <Marker
+      key={`risco-${index}`}
+      position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]} // ajuste conforme sua interface RiscoFogo
+      icon={fireIcon}
+    >
+      <Popup>
+        <strong>{item.estadonome}</strong>
+        <br />
+        Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
+      </Popup>
+    </Marker>
+  ))
+}
     </MapContainer>
   );
 };
