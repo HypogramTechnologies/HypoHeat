@@ -115,12 +115,11 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 
 </p>
 <br>
-
 ### Backlog Sprint 2 📃
 
 | ID  | Nome                                                             | Responsáveis                           | Tarefa Finalizada | Link                                                                                     | Requisitos atendidos |
 |-----|------------------------------------------------------------------|----------------------------------------|-------------------|------------------------------------------------------------------------------------------|-----------------------|
-| 32  | Diagrama de classe                                               | Andressa Stéphane Toledo da Silva     | ✔                 | [Link](https://trello.com/c/6lFmqUH8/32-diagrama-de-classe)                              |                       |
+| 32  | Diagrama de classe                                               | Andressa Stéphane Toledo da Silva     | ✔                 | [Link](https://trello.com/c/6lFmqUH8/32-diagrama-de-classe)                              |     ES.02                  |
 | 47  | Trabalhar consulta de área queimada utilizando o PostGIS         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/ma8TsiRd/47-trabalhar-consulta-de-%C3%A1rea-queimada-utilizando-o-postgis) |                       |
 | 82  | Automatização da importação do shapefile                         | Gustavo de Moraes Silva               | ✔                 | [Link](https://trello.com/c/OdGdkT3e/82-automatiza%C3%A7%C3%A3o-da-importa%C3%A7%C3%A3o-do-shape-file) |                       |
 | 70  | Criar identidade visual                                          | Andressa Stéphane Toledo da Silva     | ✔                 | [Link](https://trello.com/c/q3OUGmgm/70-criar-identidade-visual)                         |                       |
@@ -131,8 +130,10 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 | 64  | Trabalhar requisições nos controllers e rotas para Risco de Fogo | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/I9epBNEi/64-trabalhar-requisi%C3%A7%C3%B5es-nos-controllers-e-rotas-para-risco-de-fogo) |                       |
 | 81  | Criar View para Risco de Fogo                                    | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/0JqR7mvu/81-criar-view-para-risco-de-fogo)                  |                       |
 | 80  | Criar View Área Queimada                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/a7vxZ5l2/80-criar-view-area-queimada)                       |                       |
-| 84  | Definições Matemáticas (enumerativas, recursivas, etc.)                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/lOAIP6nn/84-defini%C3%A7%C3%B5es-matem%C3%A1ticas-enumerativas-recursivas-etc)                       |                       |
-| 83  | Análise e otimização de algoritmos                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/eLRrLVkL/83-an%C3%A1lise-e-otimiza%C3%A7%C3%A3o-de-algoritmos)                       |                       |
+| 84  | Definições Matemáticas (enumerativas, recursivas, etc.)                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/lOAIP6nn/84-defini%C3%A7%C3%B5es-matem%C3%A1ticas-enumerativas-recursivas-etc)                       |     MC.01                  |
+| 83  | Análise e otimização de algoritmos                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/eLRrLVkL/83-an%C3%A1lise-e-otimiza%C3%A7%C3%A3o-de-algoritmos)                       |      ED.08                 |
+
+
 
 
 
