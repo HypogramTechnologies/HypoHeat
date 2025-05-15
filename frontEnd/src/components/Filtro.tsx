@@ -6,6 +6,7 @@ const Filtro: React.FC = () => {
   const { filtro, setFiltro, aplicarFiltros, resetarFiltros } = useFiltro();
   const [biomes, setBiomes] = useState<string[]>([]);
   const [states, setStates] = useState<string[]>([]);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     fetch("http://localhost:3000/api/estados")
@@ -40,6 +41,34 @@ const Filtro: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFiltro({ ...filtro, [name]: value });
+  };
+
+    const handleValidation = () => {
+    const validationErrors: { [key: string]: string } = {};
+    if (!filtro.biome && !filtro.state) {
+      validationErrors.biomeState = "Preencha o Bioma ou o Estado.";
+    }
+    if (!filtro.startDate) {
+      validationErrors.startDate = "Data de início é obrigatória.";
+    }
+    if (!filtro.endDate) {
+      validationErrors.endDate = "Data final é obrigatória.";
+    }
+    if (filtro.startDate && filtro.endDate) {
+      if (filtro.startDate > filtro.endDate) {
+        validationErrors.dateRange = "Data de início não pode ser maior que a data final.";
+      }
+    }
+
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (handleValidation()) {
+      aplicarFiltros();
+    }
   };
 
   const styles: { [key: string]: CSSProperties } = {
@@ -106,118 +135,129 @@ const Filtro: React.FC = () => {
       borderRadius: "50%",
       transition: "left 0.2s",
     },
+     errorText: {
+      color: "red",
+      fontSize: "12px",
+      marginTop: "2px",
+    },
   };
 
   return (
     <div style={styles.filterContainer}>
-      <div style={styles.inputGroup}>
-        <label htmlFor="biome" style={styles.inputGroupLabel}>
-          Bioma:
-        </label>
-        <select
-          id="biome"
-          name="biome"
-          value={filtro.biome}
-          onChange={handleChange}
-          style={styles.inputGroupInputSelect}
-        >
-          <option value="">Selecione</option>
-          {biomes.map((b) => (
-            <option key={b} value={b}>
-              {b}
-            </option>
-          ))}
-        </select>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div style={styles.inputGroup}>
+          <label htmlFor="biome" style={styles.inputGroupLabel}>
+            Bioma:
+          </label>
+          <select
+            id="biome"
+            name="biome"
+            value={filtro.biome}
+            onChange={handleChange}
+            style={styles.inputGroupInputSelect}
+          >
+            <option value="">Selecione</option>
+            {biomes.map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <div style={styles.inputGroup}>
-        <label htmlFor="state" style={styles.inputGroupLabel}>
-          Estado:
-        </label>
-        <select
-          id="state"
-          name="state"
-          value={filtro.state}
-          onChange={handleChange}
-          style={styles.inputGroupInputSelect}
-        >
-          <option value="">Selecione</option>
-          {states.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div style={styles.inputGroup}>
+          <label htmlFor="state" style={styles.inputGroupLabel}>
+            Estado:
+          </label>
+          <select
+            id="state"
+            name="state"
+            value={filtro.state}
+            onChange={handleChange}
+            style={styles.inputGroupInputSelect}
+          >
+            <option value="">Selecione</option>
+            {states.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </div>
+        {errors.biomeState && <p style={styles.errorText}>{errors.biomeState}</p>}
 
-      <div style={styles.inputGroup}>
-        <label htmlFor="startDate" style={styles.inputGroupLabel}>
-          Data inicial:
-        </label>
-        <input
-          id="startDate"
-          type="date"
-          name="startDate"
-          value={filtro.startDate}
-          onChange={handleChange}
-          style={styles.inputGroupInputSelect}
-        />
-      </div>
+        <div style={styles.inputGroup}>
+          <label htmlFor="startDate" style={styles.inputGroupLabel}>
+            Data inicial:
+          </label>
+          <input
+            id="startDate"
+            type="date"
+            name="startDate"
+            value={filtro.startDate}
+            onChange={handleChange}
+            style={styles.inputGroupInputSelect}
+          />
+          {errors.startDate && <p style={styles.errorText}>{errors.startDate}</p>}
+        </div>
 
-      <div style={styles.inputGroup}>
-        <label htmlFor="endDate" style={styles.inputGroupLabel}>
-          Data final:
-        </label>
-        <input
-          id="endDate"
-          type="date"
-          name="endDate"
-          value={filtro.endDate}
-          onChange={handleChange}
-          style={styles.inputGroupInputSelect}
-        />
-      </div>
+        <div style={styles.inputGroup}>
+          <label htmlFor="endDate" style={styles.inputGroupLabel}>
+            Data final:
+          </label>
+          <input
+            id="endDate"
+            type="date"
+            name="endDate"
+            value={filtro.endDate}
+            onChange={handleChange}
+            style={styles.inputGroupInputSelect}
+          />
+          {errors.endDate && <p style={styles.errorText}>{errors.endDate}</p>}
+        </div>
+        {errors.dateRange && <p style={styles.errorText}>{errors.dateRange}</p>}
 
-      <div style={styles.options}>
-        {["burnedAreas", "heatSpots", "heatRisk"].map((filter) => (
-          <label key={filter} style={styles.option}>
-            <input
-              type="radio"
-              name="filterType"
-              value={filter}
-              checked={filtro.tipoFiltro === filter}
-              onChange={() => handleRadioChange(filter)}
-              style={{ display: "none" }}
-            />
-            <span
-              style={{
-                ...styles.radioButton,
-                backgroundColor: filtro.tipoFiltro === filter ? "#067ab2" : "#ccc",
-              }}
-              onClick={() => handleRadioChange(filter)}
-            >
+        <div style={styles.options}>
+          {["burnedAreas", "heatSpots", "heatRisk"].map((filter) => (
+            <label key={filter} style={styles.option}>
+              <input
+                type="radio"
+                name="filterType"
+                value={filter}
+                checked={filtro.tipoFiltro === filter}
+                onChange={() => handleRadioChange(filter)}
+                style={{ display: "none" }}
+              />
               <span
                 style={{
-                  ...styles.radioCircle,
-                  left: filtro.tipoFiltro === filter ? "26px" : "3px",
+                  ...styles.radioButton,
+                  backgroundColor: filtro.tipoFiltro === filter ? "#067ab2" : "#ccc",
                 }}
-              ></span>
-            </span>
-            {filter === "burnedAreas" && "Áreas queimadas"}
-            {filter === "heatSpots" && "Focos de calor"}
-            {filter === "heatRisk" && "Risco de fogo"}
-          </label>
-        ))}
-      </div>
-
+                onClick={() => handleRadioChange(filter)}
+              >
+                <span
+                  style={{
+                    ...styles.radioCircle,
+                    left: filtro.tipoFiltro === filter ? "26px" : "3px",
+                  }}
+                ></span>
+              </span>
+              {filter === "burnedAreas" && "Áreas queimadas"}
+              {filter === "heatSpots" && "Focos de calor"}
+              {filter === "heatRisk" && "Risco de fogo"}
+            </label>
+          ))}
+        </div>
+     
       <div style={styles.buttonGroup}>
         <button onClick={resetarFiltros} style={styles.button}>
           Resetar
         </button>
-        <button onClick={aplicarFiltros} style={styles.button}>
+        <button type="submit" onClick={aplicarFiltros} style={styles.button}>
           Aplicar
         </button>
       </div>
+       </form>
     </div>
   );
 };
