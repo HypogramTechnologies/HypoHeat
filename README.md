@@ -19,7 +19,7 @@ Clique [aqui](https://www.figma.com/design/GD5tvYECJTti4SODi0g0xC/HypoHeat?node-
 | SPRINT | LINK          | INÍCIO     | ENTREGA    | STATUS        |
 | ------ | ------------- | ---------- | ---------- | ------------- |
 | 01     | [Sprint 01]() | 24/03/2025 | 17/04/2025 | Concluída |
-| 02     | [Sprint 02]() | 22/04/2025 | 15/05/2025 |  Em andamento     |
+| 02     | [Sprint 02]() | 22/04/2025 | 15/05/2025 | Concluída     |
 | 03     | [Sprint 03]() | 16/05/2024 | 10/06/2025 |  Pendente     |
 
 ## USER STORIES 🧾
