@@ -134,7 +134,12 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 | 83  | Análise e otimização de algoritmos                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/eLRrLVkL/83-an%C3%A1lise-e-otimiza%C3%A7%C3%A3o-de-algoritmos)                       |      ED.08                 |
 
 
+### Burndown Chart 🔥
+<p align="center">
+   <img width="687" height="353" src="[https://github.com/user-attachments/assets/17c056a0-688c-4c21-91b2-e5ea4c0ecd3d]">
 
+</p>
+<br>
 
 
 # EQUIPE 👨🏻‍💻
