@@ -15,6 +15,25 @@ const fireIcon = new L.Icon({
   popupAnchor: [0, -30],   
 });
 
+interface RecuperaFocoCalorIcon {
+  (frp: number): L.DivIcon;
+}
+
+const recuperaFocoCalorIcon: RecuperaFocoCalorIcon = (frp) => {
+  let color: string = "#FFD43B"; // Amarelo
+
+  if (frp > 100) color = "#FF0000"; // Vermelho
+  else if (frp > 50) color = "#FF7B00"; // Laranja
+
+  const focoCalorIcon: L.DivIcon = L.divIcon({
+    className: 'custom-fa-icon',
+    html: `<i class="fa-solid fa-circle" style="color:${color}; font-size: 10px;"></i>`,
+    iconSize: [15, 30],
+    iconAnchor: [12, 24],
+  });
+  return focoCalorIcon;
+};
+
 const Mapa = () => {
   const { appliedFiltro } = useFiltro();
   const [focos, setFocos] = useState<Foco[]>([]); 
@@ -59,19 +78,27 @@ const Mapa = () => {
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+  attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+  url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+  subdomains="abcd"
+  maxZoom={19}
+/>
 
 {appliedFiltro.tipoFiltro === 'heatSpots' &&
   focos.map((item, index) => (
     <Marker
       key={`foco-${index}`}
       position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]}
-      icon={fireIcon}
+      icon={recuperaFocoCalorIcon(item.ocorrenciafrp)}
     >
       <Popup>
-        <strong>{item.estadonome}</strong>
+        <strong>Município: {item.municipionome}</strong>
+        <br />
+        <strong>Estado: {item.estadonome}</strong>
+        <br />
+        <strong>Bioma: {item.biomanome}</strong>
+        <br />
+        <strong>FRP: {item.ocorrenciafrp}</strong>
         <br />
         Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
       </Popup>
@@ -87,7 +114,13 @@ const Mapa = () => {
       icon={fireIcon}
     >
       <Popup>
-        <strong>{item.estadonome}</strong>
+        <strong>Município: {item.municipionome}</strong>
+        <br />
+        <strong>Estado: {item.estadonome}</strong>
+        <br />
+        <strong>Bioma: {item.biomanome}</strong>
+        <br />
+        <strong>Risco de fogo: {item.ocorrenciaRiscoFogo}</strong>
         <br />
         Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
       </Popup>

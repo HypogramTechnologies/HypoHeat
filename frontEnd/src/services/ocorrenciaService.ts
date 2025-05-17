@@ -3,14 +3,21 @@ import { FiltroConsulta } from "../types/Filtros";
 
 export interface Foco {
   estadonome: string;
+  biomanome: string;
+  municipionome: string;
   ocorrenciaLatitude: number;
   ocorrenciaLongitude: number;
+  ocorrenciafrp:number;
+
 }
 
 export interface RiscoFogo {
   estadonome: string;
+  biomanome: string;
+  municipionome: string;
   ocorrenciaLatitude: number;
   ocorrenciaLongitude: number;
+  ocorrenciaRiscoFogo: number;
 }
 
 export interface AreaQueimada {
@@ -34,8 +41,11 @@ export const focosCalor = async (body: FiltroConsulta = {}): Promise<Foco[]> => 
   const { data } = await api.post("/focos-calor", body);
   return (data as any[]).map((item: any) => ({
     estadonome: item.estadonome,
+    biomanome: item.biomanome,
+    municipionome: item.municipionome,
     ocorrenciaLatitude: parseFloat(item.ocorrencialatitude),
     ocorrenciaLongitude: parseFloat(item.ocorrencialongitude),
+    ocorrenciafrp: parseFloat(item.ocorrenciafrp)
   }));
 };
 
@@ -43,8 +53,11 @@ export const riscoFogo = async (body: FiltroConsulta = {}): Promise<RiscoFogo[]>
   const { data } = await api.post("/risco-fogo", body);
   return (data as any[]).map((item: any) => ({
     estadonome: item.estadonome,
+    biomanome: item.biomanome,
+    municipionome: item.municipionome,
     ocorrenciaLatitude: parseFloat(item.ocorrencialatitude),
     ocorrenciaLongitude: parseFloat(item.ocorrencialongitude),
+    ocorrenciaRiscoFogo: parseFloat(item.ocorrenciariscofogo)
   }));
 };
 
