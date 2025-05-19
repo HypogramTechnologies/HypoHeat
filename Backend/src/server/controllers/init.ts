@@ -292,7 +292,8 @@ async function init() {
         CAST(t.FRP AS NUMERIC)
       FROM Temp_Ocorrencia t
       JOIN Satelite s ON t.Satelite = s.SateliteNome
-      JOIN Municipio m ON t.Municipio = m.MunicipioNome
+      JOIN Estado e ON t.Estado = e.EstadoNome
+      JOIN Municipio m ON t.Municipio = m.MunicipioNome AND m.EstadoID = e.EstadoID
       LEFT JOIN Bioma b ON t.Bioma = b.BiomaNome
       WHERE t.data_hora_gmt IS NOT NULL
         AND t.lat IS NOT NULL
