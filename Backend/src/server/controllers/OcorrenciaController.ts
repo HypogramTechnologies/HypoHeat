@@ -26,7 +26,6 @@ class OcorrenciaController {
 
     await validarCache(res, filtro, consultaEstruturada);
 
-    /* console.log('focos de calor:', r); */
   }
 
   public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
@@ -53,10 +52,12 @@ class OcorrenciaController {
               ? `'${filtro.dataFinal}'::TIMESTAMP`
               : "NULL::TIMESTAMP"
           },
+          ${"NULL::TEXT"},
           ${filtro.bioma ? `'${filtro.bioma}'::TEXT` : "NULL::TEXT"},
           ${filtro.estado ? `'${filtro.estado}'::TEXT` : "NULL::TEXT"}
         );
   `;
+    /* console.log(consulta) */
     await validarCache(res, filtro, consulta);
   }
 
@@ -77,10 +78,12 @@ class OcorrenciaController {
               ? `'${filtro.dataFinal}'::TIMESTAMP`
               : "NULL::TIMESTAMP"
           },
+          ${"NULL::TEXT"},
           ${filtro.bioma ? `'${filtro.bioma}'::TEXT` : "NULL::TEXT"},
           ${filtro.estado ? `'${filtro.estado}'::TEXT` : "NULL::TEXT"}
         );
   `;
+    /* console.log('Área queimada percentual: ', consulta) */
     await validarCache(res, filtro, consulta);
   }
 }
@@ -132,12 +135,14 @@ async function validarCache(
 
   if (cache.has(chaveCache)) {
     const resultado = cache.get(chaveCache);
-    console.log("Possui cache");
+    console.log(resultado)
+    console.log("Possui cache.");
     res.json(resultado);
   } else {
     const resultado: any = await query(consulta);
+    console.log(resultado)
     cache.set(chaveCache, resultado);
-    console.log("Não possui cache", resultado);
+    console.log("Não possui cache.");
     res.json(resultado);
   }
 }

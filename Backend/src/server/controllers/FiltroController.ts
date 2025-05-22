@@ -8,7 +8,7 @@ class FiltroController {
   }
 
   public async Biomas(_: Request, res: Response): Promise<void> {
-    const r: any = await query("SELECT biomanome  FROM bioma ORDER BY biomanome");
+    const r: any = await query("SELECT biomanome FROM bioma ORDER BY biomanome");
     res.json(r);
   }
 }

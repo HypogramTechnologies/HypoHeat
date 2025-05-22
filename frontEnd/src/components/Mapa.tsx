@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet";
 import "../Index.css";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import fireIconUrl from "../assets/fire.png";
-import { focosCalor, riscoFogo, Foco, RiscoFogo } from "../services/ocorrenciaService";
+import { focosCalor, riscoFogo, areaQueimada, areaQueimadaPercentual, Foco, RiscoFogo, AreaQueimada, AreaQueimadaPercentual } from "../services/ocorrenciaService";
 import { FiltroConsulta, TipoBusca } from "../types/Filtros";
 import { useFiltro } from "../context/FiltroContext";
 
 const fireIcon = new L.Icon({
   iconUrl: fireIconUrl,
-  iconSize: [20, 20],   
-  iconAnchor: [15, 30],    
-  popupAnchor: [0, -30],   
+  iconSize: [20, 20],
+  iconAnchor: [15, 30],
+  popupAnchor: [0, -30],
 });
 
 interface RecuperaFocoCalorIcon {
@@ -36,31 +36,36 @@ const recuperaFocoCalorIcon: RecuperaFocoCalorIcon = (frp) => {
 
 const Mapa = () => {
   const { appliedFiltro } = useFiltro();
-  const [focos, setFocos] = useState<Foco[]>([]); 
+  const [focos, setFocos] = useState<Foco[]>([]);
   const [risco, setRisco] = useState<RiscoFogo[]>([]);
+  const [area, setArea] = useState<AreaQueimada[]>([]);
+  const [areaPercentual, setAreaPercentual] = useState<AreaQueimadaPercentual[]>([])
 
   const tipoSelecionado = appliedFiltro.tipoFiltro;
-  const localSelecionado = (appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "" ) && appliedFiltro.startDate && appliedFiltro.endDate;	
+  const localSelecionado = (appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "") && appliedFiltro.startDate && appliedFiltro.endDate;
   const filtroPreenchido = tipoSelecionado && localSelecionado;
 
   useEffect(() => {
     const filtro: FiltroConsulta = {
-    estado: appliedFiltro.state,
-    bioma: appliedFiltro.biome,
-    dataInicial: appliedFiltro.startDate,
-    dataFinal: appliedFiltro.endDate,
-    tipoBusca: appliedFiltro.tipoFiltro === 'heatSpots' ? TipoBusca.focosCalor : TipoBusca.riscoFogo
-  };
+      estado: appliedFiltro.state,
+      bioma: appliedFiltro.biome,
+      dataInicial: appliedFiltro.startDate,
+      dataFinal: appliedFiltro.endDate,
+      tipoBusca: appliedFiltro.tipoFiltro === 'heatSpots' ? TipoBusca.focosCalor : appliedFiltro.tipoFiltro === 'heatRisk' ? TipoBusca.riscoFogo : TipoBusca.areaqueimada
+    };
 
 
-  if (appliedFiltro.tipoFiltro === 'heatSpots') {
-    focosCalor(filtro).then(setFocos).catch(console.error);
-    setRisco([]);
-  } else if (appliedFiltro.tipoFiltro === 'heatRisk') {
-    riscoFogo(filtro).then(setRisco).catch(console.error);
-    setFocos([]);
-  }
-}, [appliedFiltro]);
+    if (appliedFiltro.tipoFiltro === 'heatSpots') {
+      focosCalor(filtro).then(setFocos).catch(console.error);
+      setRisco([]);
+    } else if (appliedFiltro.tipoFiltro === 'heatRisk') {
+      riscoFogo(filtro).then(setRisco).catch(console.error);
+      setFocos([]);
+    } else if (appliedFiltro.tipoFiltro == 'burnedAreas') {
+      areaQueimada(filtro).then(setArea).catch(console.error);
+      setArea([]);
+    }
+  }, [appliedFiltro]);
 
   if (!filtroPreenchido) {
     return (
@@ -78,55 +83,69 @@ const Mapa = () => {
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
-  attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-  url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-  subdomains="abcd"
-  maxZoom={19}
-/>
+        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        subdomains="abcd"
+        maxZoom={19}
+      />
 
-{appliedFiltro.tipoFiltro === 'heatSpots' &&
-  focos.map((item, index) => (
-    <Marker
-      key={`foco-${index}`}
-      position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]}
-      icon={recuperaFocoCalorIcon(item.ocorrenciafrp)}
-    >
-      <Popup>
-        <strong>Município: {item.municipionome}</strong>
-        <br />
-        <strong>Estado: {item.estadonome}</strong>
-        <br />
-        <strong>Bioma: {item.biomanome}</strong>
-        <br />
-        <strong>FRP: {item.ocorrenciafrp}</strong>
-        <br />
-        Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
-      </Popup>
-    </Marker>
-  ))
-}
+      {appliedFiltro.tipoFiltro === 'heatSpots' &&
+        focos.map((item, index) => (
+          <Marker
+            key={`foco-${index}`}
+            position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]}
+            icon={recuperaFocoCalorIcon(item.ocorrenciafrp)}
+          >
+            <Popup>
+              <strong>Município: {item.municipionome}</strong>
+              <br />
+              <strong>Estado: {item.estadonome}</strong>
+              <br />
+              <strong>Bioma: {item.biomanome}</strong>
+              <br />
+              <strong>FRP: {item.ocorrenciafrp}</strong>
+              <br />
+              Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
+            </Popup>
+          </Marker>
+        ))
+      }
 
-{appliedFiltro.tipoFiltro === 'heatRisk' &&
-  risco.map((item, index) => (
-    <Marker
-      key={`risco-${index}`}
-      position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]} // ajuste conforme sua interface RiscoFogo
-      icon={fireIcon}
-    >
-      <Popup>
-        <strong>Município: {item.municipionome}</strong>
-        <br />
-        <strong>Estado: {item.estadonome}</strong>
-        <br />
-        <strong>Bioma: {item.biomanome}</strong>
-        <br />
-        <strong>Risco de fogo: {item.ocorrenciaRiscoFogo}</strong>
-        <br />
-        Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
-      </Popup>
-    </Marker>
-  ))
-}
+      {appliedFiltro.tipoFiltro === 'heatRisk' &&
+        risco.map((item, index) => (
+          <Marker
+            key={`risco-${index}`}
+            position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]} // ajuste conforme sua interface RiscoFogo
+            icon={fireIcon}
+          >
+            <Popup>
+              <strong>Município: {item.municipionome}</strong>
+              <br />
+              <strong>Estado: {item.estadonome}</strong>
+              <br />
+              <strong>Bioma: {item.biomanome}</strong>
+              <br />
+              <strong>Risco de fogo: {item.ocorrenciaRiscoFogo}</strong>
+              <br />
+              Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
+            </Popup>
+          </Marker>
+        ))
+      }
+
+      {appliedFiltro.tipoFiltro === 'burnedAreas' &&
+        area.map((item, index) => (
+          <GeoJSON
+            key={`area-${index}`}
+            data={typeof item.geojson === "string" ? JSON.parse(item.geojson) : item.geojson}
+            style={() => ({
+              color: "orange",
+              weight: 2,
+              fillOpacity: 0.4,
+            })} />
+        ))
+      }
+
     </MapContainer>
   );
 };

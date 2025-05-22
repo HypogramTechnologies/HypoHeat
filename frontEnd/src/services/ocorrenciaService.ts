@@ -63,6 +63,7 @@ export const riscoFogo = async (body: FiltroConsulta = {}): Promise<RiscoFogo[]>
 
 export const areaQueimada = async (body: FiltroConsulta = {}): Promise<AreaQueimada[]> => {
   const { data } = await api.post("/area-queimada", body);
+  /* console.log(data) */
   return (data as any[]).map((item: any) => ({
     biomanome: item.biomanome,
     estadonome: item.estadonome,
