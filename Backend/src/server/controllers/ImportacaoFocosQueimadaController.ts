@@ -6,10 +6,11 @@ import { from } from "pg-copy-streams";
 async function processarCargaQueimadas() {
   const conexao = await pool.connect();
   try {
-    const { nomeArquivo, caminhoArquivo } =
-      await downloadArquivoFocosQueimada();
+    for (let index = 1; index < 22; index++) {
+      const { nomeArquivo, caminhoArquivo } =
+        await downloadArquivoFocosQueimada(`202505${index.toString().length > 1 ? index.toString() : '0' + index.toString()}`);
 
-    await conexao.query(`
+      await conexao.query(`
         DROP TABLE IF EXISTS Temp_Ocorrencia;
         CREATE TEMP TABLE Temp_Ocorrencia (
             id UUID,
@@ -31,25 +32,26 @@ async function processarCargaQueimadas() {
         );
       `);
 
-    const stream = await conexao.query(
-      from(`
+      const stream = await conexao.query(
+        from(`
       COPY Temp_Ocorrencia FROM STDIN WITH (FORMAT csv, HEADER true, DELIMITER ',')
     `)
-    );
-    const fileStream = fs.createReadStream(caminhoArquivo);
-    await new Promise((resolve, reject) => {
-      fileStream.pipe(stream).on("finish", resolve).on("error", reject);
-    });
+      );
+      const fileStream = fs.createReadStream(caminhoArquivo);
+      await new Promise((resolve, reject) => {
+        fileStream.pipe(stream).on("finish", resolve).on("error", reject);
+      });
 
-    await conexao.query(`
+      await conexao.query(`
       CALL ProcessarOcorrencias();
       `);
 
-    console.log("Carga concluída com sucesso!");
+      console.log("Carga concluída com sucesso!");
 
-    if (fs.existsSync(caminhoArquivo)) {
-      fs.unlinkSync(caminhoArquivo);
-      console.log(`Arquivo ${nomeArquivo} deletado com sucesso!`);
+      if (fs.existsSync(caminhoArquivo)) {
+        fs.unlinkSync(caminhoArquivo);
+        console.log(`Arquivo ${nomeArquivo} deletado com sucesso!`);
+      }
     }
   } catch (error) {
     console.error("Erro no processamento:", error);
