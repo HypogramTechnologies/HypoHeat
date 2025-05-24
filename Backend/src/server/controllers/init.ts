@@ -239,31 +239,31 @@ async function init() {
     AS $$
     BEGIN
       INSERT INTO Satelite (SateliteNome)
-      SELECT DISTINCT Satelite FROM Temp_Ocorrencia
+      SELECT DISTINCT UPPER(Satelite) FROM Temp_Ocorrencia
       WHERE Satelite IS NOT NULL
       ON CONFLICT (SateliteNome) DO NOTHING;
 
       INSERT INTO Pais (PaisNome)
-      SELECT DISTINCT Pais FROM Temp_Ocorrencia
+      SELECT DISTINCT UPPER(Pais) FROM Temp_Ocorrencia
       WHERE Pais IS NOT NULL
       ON CONFLICT (PaisNome) DO NOTHING;
 
       INSERT INTO Estado (EstadoNome, PaisID)
-      SELECT DISTINCT t.Estado, p.PaisID
+      SELECT DISTINCT UPPER(t.Estado), p.PaisID
       FROM Temp_Ocorrencia t
-      JOIN Pais p ON t.Pais = p.PaisNome
+      JOIN Pais p ON UPPER(t.Pais) = UPPER(p.PaisNome)
       WHERE t.estado IS NOT NULL
       ON CONFLICT (EstadoNome, PaisID) DO NOTHING;
 
       INSERT INTO Municipio (MunicipioNome, EstadoID)
-      SELECT DISTINCT t.Municipio, e.EstadoID
+      SELECT DISTINCT UPPER(t.Municipio), e.EstadoID
       FROM Temp_Ocorrencia t
-      JOIN Estado e ON t.Estado = e.EstadoNome
+      JOIN Estado e ON UPPER(t.Estado) = UPPER(e.EstadoNome)
       WHERE t.municipio IS NOT NULL
       ON CONFLICT (MunicipioNome, EstadoID) DO NOTHING;
 
       INSERT INTO Bioma (BiomaNome)
-      SELECT DISTINCT Bioma FROM Temp_Ocorrencia
+      SELECT DISTINCT UPPER(Bioma) FROM Temp_Ocorrencia
       WHERE Bioma IS NOT NULL
       ON CONFLICT (BiomaNome) DO NOTHING;
 
@@ -291,10 +291,10 @@ async function init() {
         t.lon::NUMERIC(10,8), 
         CAST(t.FRP AS NUMERIC)
       FROM Temp_Ocorrencia t
-      JOIN Satelite s ON t.Satelite = s.SateliteNome
-      JOIN Estado e ON t.Estado = e.EstadoNome
-      JOIN Municipio m ON t.Municipio = m.MunicipioNome AND m.EstadoID = e.EstadoID
-      LEFT JOIN Bioma b ON t.Bioma = b.BiomaNome
+      JOIN Satelite s ON UPPER(t.Satelite) = UPPER(s.SateliteNome)
+      JOIN Estado e ON UPPER(t.Estado) = UPPER(e.EstadoNome)
+      JOIN Municipio m ON UPPER(t.Municipio) = UPPER(m.MunicipioNome) AND m.EstadoID = e.EstadoID
+      LEFT JOIN Bioma b ON UPPER(t.Bioma) = UPPER(b.BiomaNome)
       WHERE t.data_hora_gmt IS NOT NULL
         AND t.lat IS NOT NULL
         AND t.lon IS NOT NULL;
