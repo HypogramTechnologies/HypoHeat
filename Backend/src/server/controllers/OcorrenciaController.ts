@@ -57,7 +57,7 @@ class OcorrenciaController {
           ${filtro.estado ? `'${filtro.estado}'::TEXT` : "NULL::TEXT"}
         );
   `;
-    /* console.log(consulta) */
+    console.log(consulta)
     await validarCache(res, filtro, consulta);
   }
 
@@ -135,13 +135,13 @@ async function validarCache(
 
   if (cache.has(chaveCache)) {
     const resultado = cache.get(chaveCache);
-    console.log(resultado)
+    /* console.log(resultado) */
     console.log("Possui cache.");
     res.json(resultado);
   } else {
     const resultado: any = await query(consulta);
-    console.log(resultado)
-    cache.set(chaveCache, resultado);
+    /* console.log(resultado) */
+    /* cache.set(chaveCache, resultado); */
     console.log("Não possui cache.");
     res.json(resultado);
   }

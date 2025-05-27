@@ -3,12 +3,32 @@ import fs from "fs";
 import { pool } from "../models/db";
 import { from } from "pg-copy-streams";
 
+function intervaloDownload() {
+  const dataAtual = new Date();
+  const primeiroDiaMes = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
+
+  const diaAnterior:number = dataAtual.getDate() - 1;
+  const datasFormatadas:string[] = [];
+  let dataFormatada:string = '';
+
+  for (let dia = 1; dia <= diaAnterior; dia++) {
+    const data = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dia);
+    dataFormatada = `${data.getFullYear()}${String(data.getMonth() + 1).padStart(2, '0')}${String(data.getDate()).padStart(2, '0')}`;
+    datasFormatadas.push(dataFormatada);
+    
+  }
+
+  return datasFormatadas;
+}
+
+
 async function processarCargaQueimadas() {
+  const datasformatadas:string[] = intervaloDownload();
   const conexao = await pool.connect();
   try {
-    for (let index = 1; index < 22; index++) {
+    for (const dia of datasformatadas) {
       const { nomeArquivo, caminhoArquivo } =
-        await downloadArquivoFocosQueimada(`202505${index.toString().length > 1 ? index.toString() : '0' + index.toString()}`);
+        await downloadArquivoFocosQueimada(`${dia}`);
 
       await conexao.query(`
         DROP TABLE IF EXISTS Temp_Ocorrencia;
