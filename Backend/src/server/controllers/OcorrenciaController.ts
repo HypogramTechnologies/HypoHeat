@@ -9,6 +9,10 @@ interface Filtro {
   tipoBusca?: string;
 }
 
+/* select estadonome, biomanome, AVG(ocorrenciariscofogo) as ocorrenciariscofogo, SUM(ocorrenciafrp) as ocorrenciafrp
+from view_ocorrencias  where ocorrenciafrp > 0 and ocorrenciariscofogo > 0  and ocorrenciadatahora >= '2025-05-01 00:00:00' 
+and ocorrenciadatahora <= '2025-05-20 00:00:00' GROUP BY estadonome, biomanome */
+
 const cache = new Map<string, string>();
 
 class OcorrenciaController {
@@ -27,6 +31,19 @@ class OcorrenciaController {
     await validarCache(res, filtro, consultaEstruturada);
 
   }
+
+/*   public async Filtrar_foco_calor_agrupado(req: Request, res: Response): Promise<void> {
+    const filtro: Filtro = req.body;
+    const consulta: string = `SELECT * FROM view_ocorrencias_agrupadas`;
+    const condicaoFiltroCalor: string = `ocorrenciafrp > 0 ORDER BY ocorrenciafrp DESC`;
+    const consultaEstruturada: string = estrutrarConsulta(
+      consulta,
+      filtro,
+      condicaoFiltroCalor
+    );
+
+    await validarCache(res, filtro, consultaEstruturada);
+  } */
 
   public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
