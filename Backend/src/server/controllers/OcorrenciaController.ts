@@ -9,10 +9,6 @@ interface Filtro {
   tipoBusca?: string;
 }
 
-/* select estadonome, biomanome, AVG(ocorrenciariscofogo) as ocorrenciariscofogo, SUM(ocorrenciafrp) as ocorrenciafrp
-from view_ocorrencias  where ocorrenciafrp > 0 and ocorrenciariscofogo > 0  and ocorrenciadatahora >= '2025-05-01 00:00:00' 
-and ocorrenciadatahora <= '2025-05-20 00:00:00' GROUP BY estadonome, biomanome */
-
 const cache = new Map<string, string>();
 
 class OcorrenciaController {
@@ -22,7 +18,7 @@ class OcorrenciaController {
     const filtro: Filtro = req.body;
     const consulta: string = `SELECT * FROM view_ocorrencias`;
     const condicaoFiltroCalor: string = `ocorrenciafrp > 0 ORDER BY ocorrenciafrp DESC`;
-    const consultaEstruturada: string = estrutrarConsulta(
+    const consultaEstruturada: string = estruturarConsulta(
       consulta,
       filtro,
       condicaoFiltroCalor
@@ -32,23 +28,32 @@ class OcorrenciaController {
 
   }
 
-/*   public async Filtrar_foco_calor_agrupado(req: Request, res: Response): Promise<void> {
+  public async Filtrar_ocorrencia_agrupada(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
-    const consulta: string = `SELECT * FROM view_ocorrencias_agrupadas`;
-    const condicaoFiltroCalor: string = `ocorrenciafrp > 0 ORDER BY ocorrenciafrp DESC`;
-    const consultaEstruturada: string = estrutrarConsulta(
+    console.log("Filtro: ")
+    console.log(filtro)
+    const consulta: string = `SELECT estadonome, biomanome${filtro.estado && filtro.bioma ? ', ocorrenciadatahora::DATE' : ''}, AVG(ocorrenciariscofogo) AS ocorrenciariscofogo, SUM(ocorrenciafrp) AS ocorrenciafrp FROM view_ocorrencias`;
+  
+    const condicaoOcorrencia:string  = `ocorrenciafrp > 0 AND ocorrenciariscofogo > 0`
+
+    const consultaEstruturada: string = estruturarConsulta(
       consulta,
       filtro,
-      condicaoFiltroCalor
+      condicaoOcorrencia
     );
 
-    await validarCache(res, filtro, consultaEstruturada);
-  } */
+    const consultaAgrupada = `${consultaEstruturada} ${filtro.estado && filtro.bioma ? 'GROUP BY estadonome, biomanome, ocorrenciadatahora::DATE ORDER BY ocorrenciadatahora' : 'GROUP BY estadonome, biomanome'}`
+
+    /* console.log(consultaAgrupada) */
+
+    await validarCache(res, filtro, consultaAgrupada);
+
+  }
 
   public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
     const consulta: string = `SELECT * FROM view_risco_fogo`;
-    const consultaEstruturada: string = estrutrarConsulta(consulta, filtro);
+    const consultaEstruturada: string = estruturarConsulta(consulta, filtro);
     await validarCache(res, filtro, consultaEstruturada);
   }
 
@@ -107,7 +112,7 @@ class OcorrenciaController {
 
 export default new OcorrenciaController();
 
-function estrutrarConsulta(
+function estruturarConsulta(
   consulta: string,
   filtro: Filtro,
   condicaoExtra?: string
