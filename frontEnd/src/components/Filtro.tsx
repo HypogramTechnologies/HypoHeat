@@ -156,7 +156,7 @@ const Filtro: React.FC = () => {
             onChange={handleChange}
             style={styles.inputGroupInputSelect}
           >
-            <option value="">Selecione</option>
+            <option value="">SELECIONE</option>
             {biomes.map((b) => (
               <option key={b} value={b}>
                 {b}
@@ -176,7 +176,7 @@ const Filtro: React.FC = () => {
             onChange={handleChange}
             style={styles.inputGroupInputSelect}
           >
-            <option value="">Selecione</option>
+            <option value="">SELECIONE</option>
             {states.map((s) => (
               <option key={s} value={s}>
                 {s}

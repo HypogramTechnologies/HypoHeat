@@ -39,7 +39,7 @@ const Chart: React.FC = () => {
     let url: string | undefined;
    
     if (appliedFiltro.tipoFiltro == 'burnedAreas') {
-      url = "http://localhost:3000/api/areas-queimadas";
+      url = "http://localhost:3000/api/area-queimada";
       console.log("URL para áreas queimadas:", url);
     } else if (appliedFiltro.tipoFiltro == 'heatSpots') {
       url = "http://localhost:3000/api/focos-calor";

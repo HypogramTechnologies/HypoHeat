@@ -2,18 +2,15 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet";
 import "../Index.css";
 import "leaflet/dist/leaflet.css";
+import  { getFireIcon  } from "./HeatRiskIcon"
 import L from "leaflet";
-import fireIconUrl from "../assets/fire.png";
+
 import { focosCalor, riscoFogo, areaQueimada, areaQueimadaPercentual, Foco, RiscoFogo, AreaQueimada, AreaQueimadaPercentual } from "../services/ocorrenciaService";
 import { FiltroConsulta, TipoBusca } from "../types/Filtros";
 import { useFiltro } from "../context/FiltroContext";
+import Legend from "./Legend";
+import PopUp from "./Popup";
 
-const fireIcon = new L.Icon({
-  iconUrl: fireIconUrl,
-  iconSize: [20, 20],
-  iconAnchor: [15, 30],
-  popupAnchor: [0, -30],
-});
 
 interface RecuperaFocoCalorIcon {
   (frp: number): L.DivIcon;
@@ -82,12 +79,19 @@ const Mapa = () => {
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
-      <TileLayer
-        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        subdomains="abcd"
-        maxZoom={19}
-      />
+     <TileLayer
+      attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+      url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+      subdomains="abcd"
+      maxZoom={19}
+    />
+
+    <TileLayer
+      attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+      url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
+      subdomains="abcd"
+      maxZoom={19}
+    />
 
       {appliedFiltro.tipoFiltro === 'heatSpots' &&
         focos.map((item, index) => (
@@ -96,7 +100,7 @@ const Mapa = () => {
             position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]}
             icon={recuperaFocoCalorIcon(item.ocorrenciafrp)}
           >
-            <Popup>
+            {/* <Popup>
               <strong>Município: {item.municipionome}</strong>
               <br />
               <strong>Estado: {item.estadonome}</strong>
@@ -106,6 +110,9 @@ const Mapa = () => {
               <strong>FRP: {item.ocorrenciafrp}</strong>
               <br />
               Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
+            </Popup> */}
+            <Popup>
+                <PopUp item={item} />
             </Popup>
           </Marker>
         ))
@@ -116,19 +123,13 @@ const Mapa = () => {
           <Marker
             key={`risco-${index}`}
             position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]} // ajuste conforme sua interface RiscoFogo
-            icon={fireIcon}
+            icon={getFireIcon(item.ocorrenciaRiscoFogo ?? 0)}
           >
+            
             <Popup>
-              <strong>Município: {item.municipionome}</strong>
-              <br />
-              <strong>Estado: {item.estadonome}</strong>
-              <br />
-              <strong>Bioma: {item.biomanome}</strong>
-              <br />
-              <strong>Risco de fogo: {item.ocorrenciaRiscoFogo}</strong>
-              <br />
-              Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
+                <PopUp item={item} />
             </Popup>
+               
           </Marker>
         ))
       }
@@ -142,9 +143,21 @@ const Mapa = () => {
               color: "orange",
               weight: 2,
               fillOpacity: 0.4,
-            })} />
+            })} 
+            />  
         ))
+
       }
+  
+      <Legend
+      tipoBusca={
+        appliedFiltro.tipoFiltro === "heatRisk"
+          ? TipoBusca.riscoFogo
+          : appliedFiltro.tipoFiltro === "burnedAreas"
+          ? TipoBusca.areaqueimada
+          : TipoBusca.focosCalor 
+      }
+/>
 
     </MapContainer>
   );
