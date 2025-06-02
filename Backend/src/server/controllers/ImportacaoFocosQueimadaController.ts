@@ -2,17 +2,19 @@ import { downloadArquivoFocosQueimada } from "./BaixarArquivoFocosQueimada";
 import fs from "fs";
 import { pool } from "../models/db";
 import { from } from "pg-copy-streams";
+import { constants } from "fs/promises";
 
 function intervaloDownload() {
   const dataAtual = new Date();
-  const primeiroDiaMes = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
 
-  const diaAnterior:number = dataAtual.getDate() - 1;
+  const ultimoDiaDoMesAnterior = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 0);
+  const primeiroDiaMes = dataAtual.getDate() - 1 == 0
+  const diaAnterior:number = primeiroDiaMes ? ultimoDiaDoMesAnterior.getDate() : dataAtual.getDate() - 1;
   const datasFormatadas:string[] = [];
   let dataFormatada:string = '';
 
   for (let dia = 1; dia <= diaAnterior; dia++) {
-    const data = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dia);
+    const data = new Date(dataAtual.getFullYear(), primeiroDiaMes ? ultimoDiaDoMesAnterior.getMonth() : dataAtual.getMonth(), dia);
     dataFormatada = `${data.getFullYear()}${String(data.getMonth() + 1).padStart(2, '0')}${String(data.getDate()).padStart(2, '0')}`;
     datasFormatadas.push(dataFormatada);
     
@@ -24,6 +26,7 @@ function intervaloDownload() {
 
 async function processarCargaQueimadas() {
   const datasformatadas:string[] = intervaloDownload();
+  console.log("Datas formatadas para download:", datasformatadas);
   const conexao = await pool.connect();
   try {
     for (const dia of datasformatadas) {
