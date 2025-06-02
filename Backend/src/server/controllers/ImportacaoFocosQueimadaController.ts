@@ -13,7 +13,7 @@ function intervaloDownload() {
   const datasFormatadas:string[] = [];
   let dataFormatada:string = '';
 
-  for (let dia = 1; dia <= diaAnterior; dia++) {
+  for (let dia = 15; dia <= diaAnterior; dia++) {
     const data = new Date(dataAtual.getFullYear(), primeiroDiaMes ? ultimoDiaDoMesAnterior.getMonth() : dataAtual.getMonth(), dia);
     dataFormatada = `${data.getFullYear()}${String(data.getMonth() + 1).padStart(2, '0')}${String(data.getDate()).padStart(2, '0')}`;
     datasFormatadas.push(dataFormatada);
