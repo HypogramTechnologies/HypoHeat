@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
 import { useFiltro } from "../context/FiltroContext";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Chart: React.FC = () => {
   const { appliedFiltro } = useFiltro();
   const [chartData, setChartData] = useState<any[]>([]);
 
   const tipoSelecionado = appliedFiltro.tipoFiltro;
-  const localSelecionado = (appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "") && appliedFiltro.startDate && appliedFiltro.endDate;	
+  const localSelecionado = (appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "") && appliedFiltro.startDate && appliedFiltro.endDate;
   const filtroPreenchido = tipoSelecionado && localSelecionado;
 
   useEffect(() => {
@@ -35,21 +34,17 @@ const Chart: React.FC = () => {
       dataFinal: appliedFiltro.endDate,
     };
 
-    // Define URL com base no tipo selecionado
     let url: string | undefined;
-   
-    if (appliedFiltro.tipoFiltro == 'burnedAreas') {
-      url = "http://localhost:3000/api/area-queimada";
-      console.log("URL para áreas queimadas:", url);
-    } else if (appliedFiltro.tipoFiltro == 'heatSpots') {
-      url = "http://localhost:3000/api/focos-calor";
-      console.log("URL para focos de calor:", url);
-    } else if (appliedFiltro.tipoFiltro  == 'heatRisk') {
-      url = "http://localhost:3000/api/risco-fogo";
-      console.log("URL para risco de fogo:", url);
+
+    if (appliedFiltro.tipoFiltro === "burnedAreas") {
+      url = "http://localhost:3000/api/ocorrencia-agrupada";
+    } else if (appliedFiltro.tipoFiltro === "heatSpots") {
+      url = "http://localhost:3000/api/ocorrencia-agrupada";
+    } else if (appliedFiltro.tipoFiltro === "heatRisk") {
+      url = "http://localhost:3000/api/ocorrencia-agrupada";
     }
 
-    if (!url) return; // Se por algum motivo não houver URL, evita o fetch
+    if (!url) return;
 
     fetch(url, {
       method: "POST",
@@ -66,18 +61,9 @@ const Chart: React.FC = () => {
           console.error("Erro: Resposta da API não é um array.", data);
         }
       })
-      .catch((error) =>
-        console.error("Erro ao buscar dados para o gráfico:", error)
-      );
+      .catch((error) => console.error("Erro ao buscar dados para o gráfico:", error));
   }, [appliedFiltro]);
 
-  if (!filtroPreenchido) {
-    return (
-      <div style={{ padding: "2rem", textAlign: "center", color: "#888" }}>
-        <p>Preencha um estado ou bioma e selecione um tipo (ex: focos de calor, risco de fogo ou áreas queimadas), depois clique em "Aplicar".</p>
-      </div>
-    );
-  }
 
   const riscoFogoChartData = {
     labels: chartData.map((item) =>
@@ -87,9 +73,25 @@ const Chart: React.FC = () => {
       {
         label: "Risco de Fogo",
         data: chartData.map((item) => item.ocorrenciariscofogo),
-        borderColor: "#F51427",
-        backgroundColor: "rgba(255, 30, 30, 0.2)",
-        fill: true,
+         backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 205, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(201, 203, 207, 0.2)'
+        ],
+        borderColor: [
+          'rgb(255, 99, 132)',
+          'rgb(255, 159, 64)',
+          'rgb(255, 205, 86)',
+          'rgb(75, 192, 192)',
+          'rgb(54, 162, 235)',
+          'rgb(153, 102, 255)',
+          'rgb(201, 203, 207)'
+        ],
+        borderWidth: 1,
       },
     ],
   };
@@ -104,7 +106,7 @@ const Chart: React.FC = () => {
       }}
     >
       <h2 style={{ color: "#F51427", marginTop: "2rem" }}>Gráfico de Risco de Fogo</h2>
-      <Line data={riscoFogoChartData} />
+      <Bar data={riscoFogoChartData} />
     </div>
   );
 };

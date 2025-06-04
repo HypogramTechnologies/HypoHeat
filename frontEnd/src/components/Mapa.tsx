@@ -64,13 +64,6 @@ const Mapa = () => {
     }
   }, [appliedFiltro]);
 
-  if (!filtroPreenchido) {
-    return (
-      <div style={{ padding: "2rem", textAlign: "center", color: "#888" }}>
-        <p>Preencha um estado ou bioma e selecione um tipo (ex: focos de calor, risco de fogo ou áreas queimadas), depois clique em "Aplicar".</p>
-      </div>
-    );
-  }
 
   return (
     <MapContainer
