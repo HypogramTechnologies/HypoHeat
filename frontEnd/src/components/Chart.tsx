@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { useFiltro } from "../context/FiltroContext";
+import { filtroOcorrenciaAgrupado } from "../services/ocorrenciaService";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -21,49 +22,41 @@ const Chart: React.FC = () => {
   const localSelecionado = (appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "") && appliedFiltro.startDate && appliedFiltro.endDate;
   const filtroPreenchido = tipoSelecionado && localSelecionado;
 
-  useEffect(() => {
+   useEffect(() => {
+    // Verifica se os filtros estão preenchidos
+    const filtroPreenchido =
+      appliedFiltro.startDate &&
+      appliedFiltro.endDate &&
+      (appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "") &&
+      appliedFiltro.tipoFiltro;
+
     if (!filtroPreenchido) {
       setChartData([]);
       return;
     }
 
-    const dados = {
+    // Monta o filtro para a requisição
+    const filtro = {
       estado: appliedFiltro.state,
       bioma: appliedFiltro.biome,
       dataInicial: appliedFiltro.startDate,
       dataFinal: appliedFiltro.endDate,
+      tipoBusca:
+        appliedFiltro.tipoFiltro === "heatSpots"
+          ? "focosCalor"
+          : appliedFiltro.tipoFiltro === "heatRisk"
+          ? "riscoFogo"
+          : "areaQueimada",
     };
 
-    let url: string | undefined;
-
-    if (appliedFiltro.tipoFiltro === "burnedAreas") {
-      url = "http://localhost:3000/api/ocorrencia-agrupada";
-    } else if (appliedFiltro.tipoFiltro === "heatSpots") {
-      url = "http://localhost:3000/api/ocorrencia-agrupada";
-    } else if (appliedFiltro.tipoFiltro === "heatRisk") {
-      url = "http://localhost:3000/api/ocorrencia-agrupada";
-    }
-
-    if (!url) return;
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dados),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setChartData(data);
-        } else {
-          console.error("Erro: Resposta da API não é um array.", data);
-        }
-      })
-      .catch((error) => console.error("Erro ao buscar dados para o gráfico:", error));
+    // Requisição utilizando filtroOcorrenciaAgrupado
+    filtroOcorrenciaAgrupado(filtro)
+      .then(setChartData)
+      .catch((error) =>
+        console.error("Erro ao buscar dados para o gráfico:", error)
+      );
   }, [appliedFiltro]);
-
+  
 
   const riscoFogoChartData = {
     labels: chartData.map((item) =>
