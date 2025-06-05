@@ -61,6 +61,16 @@ export interface AreaQueimadaPercentual {
   areaqueimadaPercentual: number;
 }
 
+export interface FiltroOcorrenciaAgrupado {
+  estadonome: string;
+  biomanome: string;
+  municipionome: string;
+  ocorrenciariscofogo: number;
+  ocorrenciafrp: number;
+  ocorrenciadatahora: Date;
+}
+
+
 export const focosCalor = async (body: FiltroConsulta = {}): Promise<Foco[]> => {
   const { data } = await api.post("/focos-calor", body);
   return (data as any[]).map((item: any) => ({
@@ -108,5 +118,18 @@ export const areaQueimadaPercentual = async (
     dataFim: item.dataFim,
     areaQueimadaKm2: parseFloat(item.areaQueimadaKm2),
     areaqueimadaPercentual: parseFloat(item.areaqueimadaPercentual),
+  }));
+};
+
+
+export const filtroOcorrenciaAgrupado = async (body: FiltroConsulta = {}): Promise<FiltroOcorrenciaAgrupado[]> => {
+  const { data } = await api.post("/ocorrencia-agrupada", body);
+  return (data as any[]).map((item: any) => ({
+    estadonome: item.estadonome,
+    biomanome: item.biomanome,
+    municipionome: item.municipionome,
+    ocorrenciariscofogo: parseFloat(item.ocorrenciariscofogo),
+    ocorrenciafrp: parseFloat(item.ocorrenciafrp),
+    ocorrenciadatahora: item.ocorrenciadatahora
   }));
 };
