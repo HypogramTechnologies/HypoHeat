@@ -25,7 +25,31 @@ export interface AreaQueimada {
   estadonome: string;
   dataInicio: string;
   dataFim: string;
-  geojson: string;
+  geojson: AreaQueimadaGeoJSON;
+}
+
+export interface AreaQueimadaGeoJSON {
+  type: 'FeatureCollection';
+  features: AreaQueimadaFeature[];
+}
+
+export interface AreaQueimadaFeature {
+  type: 'Feature';
+  geometry: {
+    type: string;
+    coordinates: number[][][];
+  };
+  properties: AreaQueimadaFeatureProperties;
+}
+
+export interface AreaQueimadaFeatureProperties {
+  biomanome: string;
+  estadonome: string;
+  frpTotal: number;
+  area_queimada_km2: number;
+  dataMaxOcorrencia: string;
+  dataMinOcorrencia: string;
+  areaQueimadaBuffersKm2Total: number;
 }
 
 export interface AreaQueimadaPercentual {

@@ -5,11 +5,12 @@ import "leaflet/dist/leaflet.css";
 import  { getFireIcon  } from "./HeatRiskIcon"
 import L from "leaflet";
 
-import { focosCalor, riscoFogo, areaQueimada, areaQueimadaPercentual, Foco, RiscoFogo, AreaQueimada, AreaQueimadaPercentual } from "../services/ocorrenciaService";
+import { focosCalor, riscoFogo, areaQueimada, areaQueimadaPercentual, Foco, RiscoFogo, AreaQueimada, AreaQueimadaFeature, AreaQueimadaPercentual } from "../services/ocorrenciaService";
 import { FiltroConsulta, TipoBusca } from "../types/Filtros";
 import { useFiltro } from "../context/FiltroContext";
 import Legend from "./Legend";
 import PopUp from "./Popup";
+import ReactDOMServer from 'react-dom/server';
 
 
 interface RecuperaFocoCalorIcon {
@@ -30,6 +31,20 @@ const recuperaFocoCalorIcon: RecuperaFocoCalorIcon = (frp) => {
   });
   return focoCalorIcon;
 };
+
+interface MapaCalor {
+  (frp: number): string;
+}
+
+const mapaCalor: MapaCalor = (frp) => {
+  let color: string = "#FFD43B"; // Amarelo
+
+  if (frp > 100) color = "#FF0000"; // Vermelho
+  else if (frp > 50) color = "#FF7B00"; // Laranja
+
+  return color;
+};
+
 
 const Mapa = () => {
   const { appliedFiltro } = useFiltro();
@@ -63,7 +78,6 @@ const Mapa = () => {
       setArea([]);
     }
   }, [appliedFiltro]);
-
 
   return (
     <MapContainer
@@ -105,7 +119,11 @@ const Mapa = () => {
               Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
             </Popup> */}
             <Popup>
-                <PopUp item={item} />
+                <PopUp
+                  item={{
+                    ...item,
+                  }}
+                />
             </Popup>
           </Marker>
         ))
@@ -120,27 +138,55 @@ const Mapa = () => {
           >
             
             <Popup>
-                <PopUp item={item} />
+                <PopUp
+                  item={{
+                    ...item,
+                  }}
+                />
             </Popup>
                
           </Marker>
         ))
       }
 
-      {appliedFiltro.tipoFiltro === 'burnedAreas' &&
-        area.map((item, index) => (
-          <GeoJSON
-            key={`area-${index}`}
-            data={typeof item.geojson === "string" ? JSON.parse(item.geojson) : item.geojson}
-            style={() => ({
-              color: "orange",
-              weight: 2,
-              fillOpacity: 0.4,
-            })} 
-            />  
-        ))
+{appliedFiltro.tipoFiltro === 'burnedAreas' &&
+  area.map((item, index) => {
+    const geojsonData =
+      typeof item.geojson === 'string'
+        ? JSON.parse(item.geojson)
+        : item.geojson;
 
-      }
+    return (
+      <GeoJSON
+        key={`area-${index}`}
+        data={geojsonData}
+        style={(AreaQueimadaFeature) => {
+          const props = AreaQueimadaFeature?.properties;
+          return {
+            color: mapaCalor(props?.frp_total),
+            weight: 2,
+            fillOpacity: 0.4,
+          };
+        }}
+        onEachFeature={(AreaQueimadaFeature, layer) => {
+          const props = AreaQueimadaFeature.properties;
+            
+            const popupHtml = ReactDOMServer.renderToString(
+              <PopUp
+                item={{
+                    estadonome: props.estadonome,
+                    biomanome: props.biomanome,
+                    areaQueimadaKm2: props.area_queimada_km2,
+                    frpTotal: props.frp_total,
+                }}
+              />
+            );
+
+            layer.bindPopup(popupHtml);
+        }}
+      />
+    );
+  })}
   
       <Legend
       tipoBusca={
