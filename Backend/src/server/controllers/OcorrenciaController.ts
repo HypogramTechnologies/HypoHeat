@@ -83,6 +83,18 @@ class OcorrenciaController {
     await validarCache(res, filtro, consulta);
   }
 
+  public async Filtrar_estado_bioma_area(req: Request,
+    res: Response
+  ): Promise<void>{
+    const filtroVazio: Filtro = {}
+    const filtro: Filtro = req.body;
+    const consulta: string = `SELECT * FROM estado_bioma_area`;
+    const consultaExtra:string = `${filtro.estado ? `estadonome '= ${filtro.estado}'` : 'IS NULL'})
+      AND (${filtro.bioma ? `biomanome '= ${filtro.bioma}'` : 'IS NULL'}`
+    const consultaEstruturada: string = estruturarConsulta(consulta, filtroVazio, consultaExtra);
+    await validarCache(res, filtro, consultaEstruturada);
+  }
+
   public async Filtrar_area_queimada_percentual(
     req: Request,
     res: Response
@@ -114,7 +126,7 @@ export default new OcorrenciaController();
 
 function estruturarConsulta(
   consulta: string,
-  filtro: Filtro,
+  filtro?: Filtro,
   condicaoExtra?: string
 ): string {
   let condicoes: string[] = [];

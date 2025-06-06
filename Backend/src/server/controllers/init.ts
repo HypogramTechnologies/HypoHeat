@@ -66,6 +66,7 @@ async function init() {
     DROP TABLE IF EXISTS Pais;
     DROP TABLE IF EXISTS Bioma;
     DROP TABLE IF EXISTS Satelite;
+    DROP TABLE IF EXISTS Estado_Bioma_Area;
 
     CREATE TABLE Satelite (
       SateliteID   SERIAL NOT NULL,
@@ -198,6 +199,14 @@ async function init() {
     CONSTRAINT fk_ocorrencia FOREIGN KEY (ocorrenciaid) REFERENCES ocorrencia(ocorrenciaid)
     );
 
+    CREATE TABLE IF NOT EXISTS public.Estado_Bioma_Area(
+      id SERIAL PRIMARY KEY,
+      estadonome VARCHAR,
+      biomanome VARCHAR,
+      tipo TEXT,
+      geojson TEXT
+    );
+
     CREATE FUNCTION insert_localizacao_ocorrencia() RETURNS TRIGGER LANGUAGE 'plpgsql' AS $$ BEGIN
     INSERT INTO
         public.localizacao_ocorrencia (ocorrenciaid, localizacao_ocorrenciageometria)
@@ -299,6 +308,43 @@ async function init() {
         AND t.lat IS NOT NULL
         AND t.lon IS NOT NULL;
     END $$;
+
+    CREATE OR REPLACE PROCEDURE public.ProcessarAreas()
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+        DELETE FROM public.Estado_Bioma_Area;
+
+        INSERT INTO public.Estado_Bioma_Area (estadonome, biomanome, tipo, geojson)
+        SELECT
+            UPPER(s.nm_uf) AS estadonome,
+            NULL,
+            'estado' AS tipo,
+            ST_AsGeoJSON(s.geom)
+        FROM estados_areas s;
+
+        INSERT INTO public.Estado_Bioma_Area(estadonome, biomanome, tipo, geojson)
+        SELECT
+            NULL,
+            UPPER(b.bioma) AS biomanome,
+            'bioma' AS tipo,
+            ST_AsGeoJSON(b.geom)
+        FROM biomas_areas b;
+
+        INSERT INTO public.Estado_Bioma_Area (estadonome, biomanome, tipo, geojson)
+        SELECT
+            UPPER(s.nm_uf) AS estadonome,
+            UPPER(b.bioma) AS biomanome,
+            'intersecao' AS tipo,
+            ST_AsGeoJSON(ST_Intersection(s.geom, b.geom))
+        FROM estados_areas s
+        JOIN biomas_areas b
+            ON ST_Intersects(s.geom, b.geom)
+        WHERE ST_IsValid(s.geom) AND ST_IsValid(b.geom);
+    END;
+    $$;
+
+    CALL ProcessarAreas();
 
     ${queryAreaQueimada}
 
