@@ -146,6 +146,8 @@ export const estadoBiomaArea = async (
   body: FiltroConsulta = {}
 ): Promise<EstadoBiomaArea[]> => {
   const { data } = await api.post("/estado-bioma-area", body);
+  console.log("Estado Bioma Area Data: ");
+  console.log(data);
   return (data as any[]).map((item: any) => ({
     biomanome: item.biomanome,
     estadonome: item.estadonome,

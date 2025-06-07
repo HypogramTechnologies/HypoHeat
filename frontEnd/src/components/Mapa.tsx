@@ -152,44 +152,65 @@ const Mapa = () => {
         ))
       }
 
-      {appliedFiltro.tipoFiltro === 'burnedAreas' &&
-        area.map((item, index) => {
-          const geojsonData =
-            typeof item.geojson === 'string'
-              ? JSON.parse(item.geojson)
-              : item.geojson;
+  {appliedFiltro.tipoFiltro === 'burnedAreas' && (
+  <>
+    {area.map((item, index) => {
+      const geojsonData =
+        typeof item.geojson === 'string'
+          ? JSON.parse(item.geojson)
+          : item.geojson;
 
-          return (
-            <GeoJSON
-              key={`area-${index}`}
-              data={geojsonData}
-              style={(AreaQueimadaFeature) => {
-                const props = AreaQueimadaFeature?.properties;
-                return {
-                  color: mapaCalor(props?.frp_total),
-                  weight: 2,
-                  fillOpacity: 0.4,
-                };
-              }}
-              onEachFeature={(AreaQueimadaFeature, layer) => {
-                const props = AreaQueimadaFeature.properties;
+      return (
+        <GeoJSON
+          key={`area-${index}`}
+          data={geojsonData}
+          style={(AreaQueimadaFeature) => {
+            const props = AreaQueimadaFeature?.properties;
+            return {
+              color: mapaCalor(props?.frp_total),
+              weight: 2,
+              fillOpacity: 0.4,
+            };
+          }}
+          onEachFeature={(AreaQueimadaFeature, layer) => {
+            const props = AreaQueimadaFeature.properties;
 
-                const popupHtml = ReactDOMServer.renderToString(
-                  <PopUp
-                    item={{
-                      estadonome: props.estadonome,
-                      biomanome: props.biomanome,
-                      areaQueimadaKm2: props.area_queimada_km2,
-                      frpTotal: props.frp_total,
-                    }}
-                  />
-                );
+            const popupHtml = ReactDOMServer.renderToString(
+              <PopUp
+                item={{
+                  estadonome: props.estadonome,
+                  biomanome: props.biomanome,
+                  areaQueimadaKm2: props.area_queimada_km2,
+                  frpTotal: props.frp_total,
+                }}
+              />
+            );
 
-                layer.bindPopup(popupHtml);
-              }}
-            />
-          );
-        })}
+            layer.bindPopup(popupHtml);
+          }}
+        />
+      );
+    })}
+
+    {geometrias
+          .map((item, index) => {
+            const geojsonData = typeof item.geojson === 'string' ? JSON.parse(item.geojson) : item.geojson;
+
+            return (
+              <GeoJSON
+                key={`bioma-${index}`}
+                data={geojsonData}
+                style={{
+                  color: "	#63ACCF",
+                  weight: 1,
+                  dashArray: "",
+                  fillOpacity: 0,
+                }}
+              />
+            );
+          })}
+      </>
+    )}
 
       <Legend
         tipoBusca={
