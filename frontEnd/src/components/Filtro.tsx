@@ -1,11 +1,13 @@
+// Filtro.tsx
 import { useEffect, useState } from "react";
 import { useFiltro } from "../context/FiltroContext";
 import { CSSProperties } from "react";
+import AutoCompleteInput from "./AutoCompleteInput"; 
 
 const Filtro: React.FC = () => {
   const { filtro, setFiltro, aplicarFiltros, resetarFiltros } = useFiltro();
-  const [biomes, setBiomes] = useState<string[]>([]);
-  const [states, setStates] = useState<string[]>([]);
+  const [allBiomes, setAllBiomes] = useState<string[]>([]);
+  const [allStates, setAllStates] = useState<string[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
@@ -14,9 +16,9 @@ const Filtro: React.FC = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           const estadosFormatados = data.map((estado: any) => estado.estadonome);
-          setStates(estadosFormatados);
+          setAllStates(estadosFormatados);
         } else {
-          console.error("Erro: Resposta da API não é um array.", data);
+          console.error("Erro: Resposta da API de estados não é um array.", data);
         }
       })
       .catch((error) => console.error("Erro ao buscar estados:", error));
@@ -26,9 +28,9 @@ const Filtro: React.FC = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           const biomasFormatados = data.map((bioma: any) => bioma.biomanome);
-          setBiomes(biomasFormatados);
+          setAllBiomes(biomasFormatados);
         } else {
-          console.error("Erro: Resposta da API não é um array.", data);
+          console.error("Erro: Resposta da API de biomas não é um array.", data);
         }
       })
       .catch((error) => console.error("Erro ao buscar biomas:", error));
@@ -38,12 +40,12 @@ const Filtro: React.FC = () => {
     setFiltro({ ...filtro, tipoFiltro: value });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFiltro({ ...filtro, [name]: value });
   };
 
-    const handleValidation = () => {
+  const handleValidation = () => {
     const validationErrors: { [key: string]: string } = {};
     if (!filtro.biome && !filtro.state) {
       validationErrors.biomeState = "Preencha o Bioma ou o Estado.";
@@ -85,12 +87,48 @@ const Filtro: React.FC = () => {
     inputGroupLabel: {
       marginBottom: "4px",
     },
-    inputGroupInputSelect: {
+    inputGroupInput: {
       backgroundColor: "black",
       color: "white",
       border: "1px solid #f27c00",
       padding: "8px",
       borderRadius: "8px",
+    },
+    autocompleteInput: {
+        backgroundColor: "black",
+        color: "white",
+        border: "1px solid #f27c00",
+        padding: "8px",
+        borderRadius: "8px",
+        width: 'calc(100% - 18px)',
+    },
+    suggestionsList: {
+        position: "absolute",
+        top: "100%",
+        left: 0,
+        right: 0,
+        backgroundColor: "black",
+        border: "1px solid #f27c00",
+        borderTop: "none",
+        borderRadius: "0 0 8px 8px",
+        maxHeight: "150px",
+        overflowY: "auto",
+        zIndex: 10,
+        listStyle: "none",
+        padding: 0,
+        margin: 0,
+    },
+    suggestionItem: {
+      padding: "8px",
+      cursor: "pointer",
+      color: "white",
+      fontSize: "13px",
+    },
+    suggestionItemHover: {
+      backgroundColor: "#f27c00", 
+    },
+    suggestionItemFocused: {
+        backgroundColor: "#f27c00", 
     },
     buttonGroup: {
       display: "flex",
@@ -135,7 +173,7 @@ const Filtro: React.FC = () => {
       borderRadius: "50%",
       transition: "left 0.2s",
     },
-     errorText: {
+    errorText: {
       color: "red",
       fontSize: "12px",
       marginTop: "2px",
@@ -145,45 +183,31 @@ const Filtro: React.FC = () => {
   return (
     <div style={styles.filterContainer}>
       <form onSubmit={handleSubmit}>
-        <div style={styles.inputGroup}>
-          <label htmlFor="biome" style={styles.inputGroupLabel}>
-            Bioma:
-          </label>
-          <select
-            id="biome"
-            name="biome"
-            value={filtro.biome}
-            onChange={handleChange}
-            style={styles.inputGroupInputSelect}
-          >
-            <option value="">SELECIONE</option>
-            {biomes.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
-        </div>
+        <AutoCompleteInput
+          label="Bioma"
+          value={filtro.biome}
+          options={allBiomes}
+          onChange={(value) => setFiltro({ ...filtro, biome: value })}
+          onSelect={(value) => setFiltro({ ...filtro, biome: value })}
+          inputStyle={styles.autocompleteInput}
+          listStyle={styles.suggestionsList}
+          itemStyle={styles.suggestionItem}
+          itemHoverStyle={styles.suggestionItemHover}
+          itemFocusedStyle={styles.suggestionItemFocused} 
+        />
 
-        <div style={styles.inputGroup}>
-          <label htmlFor="state" style={styles.inputGroupLabel}>
-            Estado:
-          </label>
-          <select
-            id="state"
-            name="state"
-            value={filtro.state}
-            onChange={handleChange}
-            style={styles.inputGroupInputSelect}
-          >
-            <option value="">SELECIONE</option>
-            {states.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </div>
+        <AutoCompleteInput
+          label="Estado"
+          value={filtro.state}
+          options={allStates}
+          onChange={(value) => setFiltro({ ...filtro, state: value })}
+          onSelect={(value) => setFiltro({ ...filtro, state: value })}
+          inputStyle={styles.autocompleteInput}
+          listStyle={styles.suggestionsList}
+          itemStyle={styles.suggestionItem}
+          itemHoverStyle={styles.suggestionItemHover}
+          itemFocusedStyle={styles.suggestionItemFocused} 
+        />
         {errors.biomeState && <p style={styles.errorText}>{errors.biomeState}</p>}
 
         <div style={styles.inputGroup}>
@@ -196,7 +220,7 @@ const Filtro: React.FC = () => {
             name="startDate"
             value={filtro.startDate}
             onChange={handleChange}
-            style={styles.inputGroupInputSelect}
+            style={styles.inputGroupInput}
           />
           {errors.startDate && <p style={styles.errorText}>{errors.startDate}</p>}
         </div>
@@ -211,7 +235,7 @@ const Filtro: React.FC = () => {
             name="endDate"
             value={filtro.endDate}
             onChange={handleChange}
-            style={styles.inputGroupInputSelect}
+            style={styles.inputGroupInput}
           />
           {errors.endDate && <p style={styles.errorText}>{errors.endDate}</p>}
         </div>
@@ -248,16 +272,16 @@ const Filtro: React.FC = () => {
             </label>
           ))}
         </div>
-     
-      <div style={styles.buttonGroup}>
-        <button onClick={resetarFiltros} style={styles.button}>
-          Resetar
-        </button>
-        <button type="submit" onClick={aplicarFiltros} style={styles.button}>
-          Aplicar
-        </button>
-      </div>
-       </form>
+
+        <div style={styles.buttonGroup}>
+          <button onClick={resetarFiltros} style={styles.button}>
+            Resetar
+          </button>
+          <button type="submit" style={styles.button}>
+            Aplicar
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
