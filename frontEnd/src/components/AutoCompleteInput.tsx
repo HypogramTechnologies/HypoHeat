@@ -34,6 +34,26 @@ const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
+  const stringMatch = (text: string, pattern: string): boolean => {
+    if (!pattern) return true; 
+    if (!text) return false;
+
+    const n = text.length;
+    const m = pattern.length;
+
+    const lowerCaseText = text.toLowerCase();
+    const lowerCasePattern = pattern.toLowerCase();
+
+    if (m > n) return false;
+
+    for (let j = 0; j < m; j++) {
+      if (lowerCaseText[j] !== lowerCasePattern[j]) {
+        return false; 
+      }
+    }
+    return true; 
+  };
+
   useEffect(() => {
     setSearchTerm(value);
   }, [value]);
@@ -41,7 +61,7 @@ const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
   useEffect(() => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const newFilteredOptions = options.filter(option =>
-      option.toLowerCase().includes(lowerCaseSearchTerm)
+      stringMatch(option, lowerCaseSearchTerm)
     );
     setFilteredOptions(newFilteredOptions);
     setFocusedIndex(-1);
@@ -73,7 +93,7 @@ const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
 
   const handleFocus = () => {
     setShowSuggestions(true);
-    setFilteredOptions(options);
+    setFilteredOptions(options); 
     setFocusedIndex(-1);
   };
 
@@ -158,3 +178,4 @@ const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
 };
 
 export default AutoCompleteInput;
+
