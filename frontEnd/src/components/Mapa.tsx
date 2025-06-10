@@ -154,6 +154,27 @@ const Mapa = () => {
 
   {appliedFiltro.tipoFiltro === 'burnedAreas' && (
   <>
+  
+    {geometrias
+          .map((item, index) => {
+            const geojsonData = typeof item.geojson === 'string' ? JSON.parse(item.geojson) : item.geojson;
+
+            return (
+              <GeoJSON
+                key={`bioma-${index}`}
+                data={geojsonData}
+                style={{
+                  color: "	#63ACCF",
+                  weight: 1,
+                  dashArray: "",
+                  fillOpacity: 0,
+                }}
+                interactive={false}
+              />
+            );
+          })}
+
+          
     {area.map((item, index) => {
       const geojsonData =
         typeof item.geojson === 'string'
@@ -192,23 +213,6 @@ const Mapa = () => {
       );
     })}
 
-    {geometrias
-          .map((item, index) => {
-            const geojsonData = typeof item.geojson === 'string' ? JSON.parse(item.geojson) : item.geojson;
-
-            return (
-              <GeoJSON
-                key={`bioma-${index}`}
-                data={geojsonData}
-                style={{
-                  color: "	#63ACCF",
-                  weight: 1,
-                  dashArray: "",
-                  fillOpacity: 0,
-                }}
-              />
-            );
-          })}
       </>
     )}
 

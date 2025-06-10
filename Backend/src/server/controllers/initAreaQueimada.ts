@@ -79,7 +79,7 @@ BEGIN
         AND (data_fim IS NULL OR vwo.ocorrenciadatahora <= data_fim)
         AND (satelite_nome IS NULL OR vwo.satelitenome ILIKE '%' || satelite_nome || '%')
         AND (bioma_nome IS NULL OR vwo.biomanome ILIKE '%' || bioma_nome || '%')
-        AND (filtro_estadonome IS NULL OR vwo.estadonome ILIKE '%' || filtro_estadonome || '%')
+        AND (filtro_estadonome IS NULL OR vwo.estadonome = filtro_estadonome)
     GROUP BY
         vwo.biomanome, vwo.estadonome;
 END;
@@ -129,7 +129,7 @@ BEGIN
             AND (data_fim IS NULL OR vwo.ocorrenciadatahora <= data_fim)
             AND (satelite_nome IS NULL OR vwo.satelitenome ILIKE '%' || satelite_nome || '%')
             AND (bioma_nome IS NULL OR vwo.biomanome ILIKE '%' || bioma_nome || '%')
-            AND (filtro_estadonome IS NULL OR vwo.estadonome ILIKE '%' || filtro_estadonome || '%')
+            AND (filtro_estadonome IS NULL OR vwo.estadonome = filtro_estadonome)
     ),
     OcorrenciasComClusterID AS (
         SELECT
@@ -221,7 +221,7 @@ BEGIN
             ON ST_Intersects(ea.geom, ba.geom)
         WHERE
             (bioma_nome IS NULL OR ba.bioma ILIKE '%' || bioma_nome || '%') AND
-            (filtro_estadonome IS NULL OR ea.nm_uf ILIKE '%' || filtro_estadonome || '%')
+            (filtro_estadonome IS NULL OR ea.nm_uf = filtro_estadonome)
     ),
     area_queimada_unificada AS (
         SELECT

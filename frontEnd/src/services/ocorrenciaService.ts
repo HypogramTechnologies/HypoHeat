@@ -1,6 +1,5 @@
 import api from "./api";
 import { FiltroConsulta } from "../types/Filtros";
-import { geoJSON } from "leaflet";
 
 export interface Foco {
   estadonome: string;
