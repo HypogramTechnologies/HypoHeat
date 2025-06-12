@@ -70,6 +70,14 @@ export interface FiltroOcorrenciaAgrupado {
   ocorrenciadatahora: Date;
 }
 
+export interface EstadoBiomaArea {
+  estadonome: string;
+  biomanome: string;
+  tipo: string;
+  geojson: string;
+
+}
+
 
 export const focosCalor = async (body: FiltroConsulta = {}): Promise<Foco[]> => {
   const { data } = await api.post("/focos-calor", body);
@@ -121,7 +129,6 @@ export const areaQueimadaPercentual = async (
   }));
 };
 
-
 export const filtroOcorrenciaAgrupado = async (body: FiltroConsulta = {}): Promise<FiltroOcorrenciaAgrupado[]> => {
   const { data } = await api.post("/ocorrencia-agrupada", body);
   return (data as any[]).map((item: any) => ({
@@ -131,5 +138,19 @@ export const filtroOcorrenciaAgrupado = async (body: FiltroConsulta = {}): Promi
     ocorrenciariscofogo: parseFloat(item.ocorrenciariscofogo),
     ocorrenciafrp: parseFloat(item.ocorrenciafrp),
     ocorrenciadatahora: item.ocorrenciadatahora
+  }));
+};
+
+export const estadoBiomaArea = async (
+  body: FiltroConsulta = {}
+): Promise<EstadoBiomaArea[]> => {
+  const { data } = await api.post("/estado-bioma-area", body);
+  console.log("Estado Bioma Area Data: ");
+  console.log(data);
+  return (data as any[]).map((item: any) => ({
+    biomanome: item.biomanome,
+    estadonome: item.estadonome,
+    tipo: item.tipo,
+    geojson: item.geojson
   }));
 };

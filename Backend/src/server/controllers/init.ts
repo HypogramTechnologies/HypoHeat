@@ -57,6 +57,7 @@ async function init() {
     DROP FUNCTION IF EXISTS insert_localizacao_ocorrencia;
     DROP TRIGGER IF EXISTS trg_delete_localizacao_ocorrencia ON Ocorrencia;
     DROP FUNCTION IF EXISTS delete_localizacao_ocorrencia;
+    
     --DROP TABLE IF EXISTS estados_areas;
     --DROP TABLE IF EXISTS biomas_areas;
     DROP TABLE IF EXISTS localizacao_ocorrencia;
@@ -67,6 +68,7 @@ async function init() {
     DROP TABLE IF EXISTS Bioma;
     DROP TABLE IF EXISTS Satelite;
     DROP TABLE IF EXISTS Estado_Bioma_Area;
+    DROP TABLE IF EXISTS arquivo_importado;
 
     CREATE TABLE Satelite (
       SateliteID   SERIAL NOT NULL,
@@ -159,6 +161,13 @@ async function init() {
 
     ALTER TABLE Ocorrencia
       ADD CONSTRAINT FK_Ocorrencia_Satelite FOREIGN KEY (SateliteID) REFERENCES Satelite(SateliteID);
+
+    CREATE TABLE ArquivoImportado (
+      ArquivoImportadoID SERIAL PRIMARY KEY,
+      ArquivoImportadoNomeArquivo TEXT NULL,
+      ArquivoImportadoDataArquivo TIMESTAMP NULL,
+      ArquivoImportadoDataImportacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
 
     CREATE OR REPLACE VIEW view_Ocorrencias AS
     SELECT 
@@ -345,6 +354,22 @@ async function init() {
     $$;
 
     CALL ProcessarAreas();
+
+
+    CREATE OR REPLACE PROCEDURE public.ProcessarArquivoImportado(
+        nomeArquivo TEXT,
+        dataArquivo TIMESTAMP
+    )
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+        INSERT INTO public.ArquivoImportado (
+            ArquivoImportadoNomeArquivo, 
+            ArquivoImportadoDataArquivo
+        ) 
+        VALUES (nomeArquivo, dataArquivo);
+    END;
+    $$;
 
     ${queryAreaQueimada}
 

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet";
 import "../Index.css";
 import "leaflet/dist/leaflet.css";
-import  { getFireIcon  } from "./HeatRiskIcon"
+import { getFireIcon } from "./HeatRiskIcon"
 import L from "leaflet";
 
-import { focosCalor, riscoFogo, areaQueimada, areaQueimadaPercentual, Foco, RiscoFogo, AreaQueimada, AreaQueimadaFeature, AreaQueimadaPercentual } from "../services/ocorrenciaService";
+import { focosCalor, riscoFogo, areaQueimada, areaQueimadaPercentual, estadoBiomaArea, Foco, RiscoFogo, AreaQueimada, AreaQueimadaFeature, AreaQueimadaPercentual, EstadoBiomaArea } from "../services/ocorrenciaService";
 import { FiltroConsulta, TipoBusca } from "../types/Filtros";
 import { useFiltro } from "../context/FiltroContext";
 import Legend from "./Legend";
@@ -52,6 +52,7 @@ const Mapa = () => {
   const [risco, setRisco] = useState<RiscoFogo[]>([]);
   const [area, setArea] = useState<AreaQueimada[]>([]);
   const [areaPercentual, setAreaPercentual] = useState<AreaQueimadaPercentual[]>([])
+  const [geometrias, setGeometrias] = useState<EstadoBiomaArea[]>([])
 
   const tipoSelecionado = appliedFiltro.tipoFiltro;
   const localSelecionado = (appliedFiltro.state.trim() !== "" || appliedFiltro.biome.trim() !== "") && appliedFiltro.startDate && appliedFiltro.endDate;
@@ -76,6 +77,8 @@ const Mapa = () => {
     } else if (appliedFiltro.tipoFiltro == 'burnedAreas') {
       areaQueimada(filtro).then(setArea).catch(console.error);
       setArea([]);
+      estadoBiomaArea(filtro).then(setGeometrias).catch(console.error);
+      setGeometrias([]);
     }
   }, [appliedFiltro]);
 
@@ -86,19 +89,19 @@ const Mapa = () => {
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
-     <TileLayer
-      attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-      url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-      subdomains="abcd"
-      maxZoom={19}
-    />
+      <TileLayer
+        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        subdomains="abcd"
+        maxZoom={19}
+      />
 
-    <TileLayer
-      attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-      url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
-      subdomains="abcd"
-      maxZoom={19}
-    />
+      <TileLayer
+        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
+        subdomains="abcd"
+        maxZoom={19}
+      />
 
       {appliedFiltro.tipoFiltro === 'heatSpots' &&
         focos.map((item, index) => (
@@ -119,11 +122,11 @@ const Mapa = () => {
               Lat: {item.ocorrenciaLatitude}, Lng: {item.ocorrenciaLongitude}
             </Popup> */}
             <Popup>
-                <PopUp
-                  item={{
-                    ...item,
-                  }}
-                />
+              <PopUp
+                item={{
+                  ...item,
+                }}
+              />
             </Popup>
           </Marker>
         ))
@@ -136,67 +139,92 @@ const Mapa = () => {
             position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]} // ajuste conforme sua interface RiscoFogo
             icon={getFireIcon(item.ocorrenciaRiscoFogo ?? 0)}
           >
-            
+
             <Popup>
-                <PopUp
-                  item={{
-                    ...item,
-                  }}
-                />
+              <PopUp
+                item={{
+                  ...item,
+                }}
+              />
             </Popup>
-               
+
           </Marker>
         ))
       }
 
-{appliedFiltro.tipoFiltro === 'burnedAreas' &&
-  area.map((item, index) => {
-    const geojsonData =
-      typeof item.geojson === 'string'
-        ? JSON.parse(item.geojson)
-        : item.geojson;
+  {appliedFiltro.tipoFiltro === 'burnedAreas' && (
+  <>
+  
+    {geometrias
+          .map((item, index) => {
+            const geojsonData = typeof item.geojson === 'string' ? JSON.parse(item.geojson) : item.geojson;
 
-    return (
-      <GeoJSON
-        key={`area-${index}`}
-        data={geojsonData}
-        style={(AreaQueimadaFeature) => {
-          const props = AreaQueimadaFeature?.properties;
-          return {
-            color: mapaCalor(props?.frp_total),
-            weight: 2,
-            fillOpacity: 0.4,
-          };
-        }}
-        onEachFeature={(AreaQueimadaFeature, layer) => {
-          const props = AreaQueimadaFeature.properties;
-            
+            return (
+              <GeoJSON
+                key={`bioma-${index}`}
+                data={geojsonData}
+                style={{
+                  color: "	#63ACCF",
+                  weight: 1,
+                  dashArray: "",
+                  fillOpacity: 0,
+                }}
+                interactive={false}
+              />
+            );
+          })}
+
+          
+    {area.map((item, index) => {
+      const geojsonData =
+        typeof item.geojson === 'string'
+          ? JSON.parse(item.geojson)
+          : item.geojson;
+
+      return (
+        <GeoJSON
+          key={`area-${index}`}
+          data={geojsonData}
+          style={(AreaQueimadaFeature) => {
+            const props = AreaQueimadaFeature?.properties;
+            return {
+              color: mapaCalor(props?.frp_total),
+              weight: 2,
+              fillOpacity: 0.4,
+            };
+          }}
+          onEachFeature={(AreaQueimadaFeature, layer) => {
+            const props = AreaQueimadaFeature.properties;
+
             const popupHtml = ReactDOMServer.renderToString(
               <PopUp
                 item={{
-                    estadonome: props.estadonome,
-                    biomanome: props.biomanome,
-                    areaQueimadaKm2: props.area_queimada_km2,
-                    frpTotal: props.frp_total,
+                  estadonome: props.estadonome,
+                  biomanome: props.biomanome,
+                  areaQueimadaKm2: props.area_queimada_km2,
+                  frpTotal: props.frp_total,
                 }}
               />
             );
 
             layer.bindPopup(popupHtml);
-        }}
-      />
-    );
-  })}
-  
+          }}
+        />
+      );
+    })}
+
+      </>
+    )}
+
       <Legend
-      tipoBusca={
-        appliedFiltro.tipoFiltro === "heatRisk"
-          ? TipoBusca.riscoFogo
-          : appliedFiltro.tipoFiltro === "burnedAreas"
-          ? TipoBusca.areaqueimada
-          : TipoBusca.focosCalor 
-      }
-/>
+        tipoBusca={
+          appliedFiltro.tipoFiltro === "heatRisk"
+            ? TipoBusca.riscoFogo
+            : appliedFiltro.tipoFiltro === "burnedAreas"
+              ? TipoBusca.areaqueimada
+              : TipoBusca.focosCalor
+        }
+      />
 
     </MapContainer>
   );

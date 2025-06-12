@@ -89,8 +89,8 @@ class OcorrenciaController {
     const filtroVazio: Filtro = {}
     const filtro: Filtro = req.body;
     const consulta: string = `SELECT * FROM estado_bioma_area`;
-    const consultaExtra:string = `${filtro.estado ? `estadonome '= ${filtro.estado}'` : 'IS NULL'})
-      AND (${filtro.bioma ? `biomanome '= ${filtro.bioma}'` : 'IS NULL'}`
+    const consultaExtra:string = `estadonome ${filtro.estado ? `= '${filtro.estado}'` : ' IS NULL'}
+      AND biomanome ${filtro.bioma ? `= '${filtro.bioma}'` : ' IS NULL'}`
     const consultaEstruturada: string = estruturarConsulta(consulta, filtroVazio, consultaExtra);
     await validarCache(res, filtro, consultaEstruturada);
   }
@@ -169,14 +169,14 @@ async function validarCache(
 
   if (cache.has(chaveCache)) {
     const resultado = cache.get(chaveCache);
-    console.log(resultado)
-    console.log("Possui cache.");
+    /* console.log(resultado)
+    console.log("Possui cache."); */
     res.json(resultado);
   } else {
     const resultado: any = await query(consulta);
-    console.log(resultado)
+    /* console.log(resultado) */
     /* cache.set(chaveCache, resultado); */
-    console.log("Não possui cache.");
+    /* console.log("Não possui cache."); */
     res.json(resultado);
   }
 }
