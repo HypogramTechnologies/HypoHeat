@@ -44,12 +44,12 @@ export default function Home() {
             alt="Mapa"
             redirectTo="/map"
           />
-          <Card
+          {/* <Card
             src="src/assets/analyticsicon2.png"
             title="Análises"
             alt="Análises"
             redirectTo="/analytics"
-          />
+          /> */}
         </div>
       </main>
       <Footer />

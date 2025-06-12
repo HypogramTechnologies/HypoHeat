@@ -21,7 +21,7 @@ const startDate = new Date(endDate);
 startDate.setDate(endDate.getDate() - 31);
 
 const defaultFiltro: FiltroState = {
-  biome: "",
+  biome: "CERRADO",
   state: "DISTRITO FEDERAL",
   startDate: startDate.toISOString().split("T")[0], 
   endDate: endDate.toISOString().split("T")[0], 

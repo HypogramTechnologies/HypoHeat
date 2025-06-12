@@ -45,8 +45,9 @@ const Filtro: React.FC = () => {
 
     const handleValidation = () => {
     const validationErrors: { [key: string]: string } = {};
-    if (!filtro.biome && !filtro.state) {
-      validationErrors.biomeState = "Preencha o Bioma ou o Estado.";
+    if (!filtro.biome) {
+     
+      validationErrors.biome = "Bioma é obrigatório.";
     }
     if (!filtro.startDate) {
       validationErrors.startDate = "Data de início é obrigatória.";
@@ -164,6 +165,7 @@ const Filtro: React.FC = () => {
             ))}
           </select>
         </div>
+         {errors.biome && <p style={styles.errorText}>{errors.biome}</p>}
 
         <div style={styles.inputGroup}>
           <label htmlFor="state" style={styles.inputGroupLabel}>
@@ -184,7 +186,7 @@ const Filtro: React.FC = () => {
             ))}
           </select>
         </div>
-        {errors.biomeState && <p style={styles.errorText}>{errors.biomeState}</p>}
+        {errors.biomeState && <p style={styles.errorText}>{errors.state}</p>}
 
         <div style={styles.inputGroup}>
           <label htmlFor="startDate" style={styles.inputGroupLabel}>

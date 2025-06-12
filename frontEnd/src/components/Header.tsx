@@ -71,9 +71,9 @@ const Header: React.FC = () => {
                         Gráfico
                     </a>
 
-                    <a href="/Analytics" style={styles.link}>
-                        Análises
-                    </a>
+                    {/* <a href="/Analytics" style={styles.link}> */}
+                        {/* Análises */}
+                    {/* </a> */}
 
                 </nav>
             </div>

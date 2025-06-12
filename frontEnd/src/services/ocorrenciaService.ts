@@ -58,8 +58,11 @@ export interface AreaQueimadaPercentual {
   estadonome: string;
   dataInicio: string;
   dataFim: string;
+  dataOcorrencia: string;
+  areaTotalKm2: number;
   areaQueimadaKm2: number;
   areaqueimadaPercentual: number;
+ 
 }
 
 export interface FiltroOcorrenciaAgrupado {
@@ -120,14 +123,18 @@ export const areaQueimadaPercentual = async (
   body: FiltroConsulta = {}
 ): Promise<AreaQueimadaPercentual[]> => {
   const { data } = await api.post("/area-queimada-percentual", body);
+  console.log(data);
   return (data as any[]).map((item: any) => ({
-    biomanome: item.biomanome,
-    estadonome: item.estadonome,
-    dataInicio: item.dataInicio,
-    dataFim: item.dataFim,
-    areaQueimadaKm2: parseFloat(item.areaQueimadaKm2),
-    areaqueimadaPercentual: parseFloat(item.areaqueimadaPercentual),
+    biomanome: item.bioma,
+    estadonome: item.nm_uf,
+    dataInicio: item.data_min_ocorrencia,
+    dataFim: item.data_max_ocorrencia,
+    dataOcorrencia: item.data_ocorrencia,
+    areaTotalKm2: item.area_bioma_no_estado_km2,
+    areaQueimadaKm2: parseFloat(item.area_queimada_km2),
+    areaqueimadaPercentual: parseFloat(item.percentual_queimado),
   }));
+ 
 };
 
 export const filtroOcorrenciaAgrupado = async (body: FiltroConsulta = {}): Promise<FiltroOcorrenciaAgrupado[]> => {
