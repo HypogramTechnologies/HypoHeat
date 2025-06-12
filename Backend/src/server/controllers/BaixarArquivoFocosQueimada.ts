@@ -40,7 +40,7 @@ export async function downloadArquivoFocosQueimada(dataParametro?: string) {
       throw new Error("Arquivo não encontrado para mover.");
     }
 
-    console.log("Arquivo baixado com sucesso!");
+    console.log("Arquivo baixado com sucesso.");
     return { nomeArquivo, caminhoArquivo };
   } catch (error) {
     console.error("Erro ao baixar o arquivo:", error);
