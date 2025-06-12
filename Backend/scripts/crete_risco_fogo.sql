@@ -1,0 +1,7 @@
+CREATE TABLE risco_fogo (
+    id SERIAL PRIMARY KEY,
+    data DATE NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    risco_fogo DOUBLE PRECISION NOT NULL
+);
