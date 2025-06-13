@@ -117,7 +117,7 @@ class OcorrenciaController {
           ${filtro.estado ? `'${filtro.estado}'::TEXT` : "NULL::TEXT"}
         );
   `;
-    /* console.log('Área queimada percentual: ', consulta) */
+    console.log('Área queimada percentual: ', consulta)
     await validarCache(res, filtro, consulta);
   }
 }
@@ -175,7 +175,7 @@ async function validarCache(
   } else {
     const resultado: any = await query(consulta);
     /* console.log(resultado) */
-    /* cache.set(chaveCache, resultado); */
+    cache.set(chaveCache, resultado);
     /* console.log("Não possui cache."); */
     res.json(resultado);
   }
