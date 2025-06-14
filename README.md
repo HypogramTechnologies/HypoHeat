@@ -143,6 +143,44 @@ A Sprint 1 teve como principal foco estabelecer as bases do desenvolvimento do p
 <br>
 
 
+
+### Backlog Sprint 3 📃
+
+| ID  | Nome                                                             | Responsáveis                           | Tarefa Finalizada | Link                                                                                     | Requisitos atendidos |
+|-----|------------------------------------------------------------------|----------------------------------------|-------------------|------------------------------------------------------------------------------------------|-----------------------|
+| 73  | Trabalhar consultas para trazer os focos de calor                                               | Carlos Magalhães      | ✔                 | [Link](https://trello.com/c/QUMzEAq7/73-trabalhar-consultas-para-trazer-os-focos-de-calor)                              |                       |
+| 13  | Componente de gráfico - focos de calor por estado e bioma         | Andressa Stéphane Toledo da Silva                       | ✔                 | [Link](https://trello.com/c/5qU6fzXU/13-componente-de-gr%C3%A1fico-focos-de-calor-por-estado-e-bioma) |      RFN02                 |
+| 76  | Componente Mapa - Focos de Calor                       | Carlos Magalhães              | ✔                 | [Link](https://trello.com/c/SKEC2Pgc/76-componente-mapa-focos-de-calor) |          RF01, RF02, RF07, RFN01 , RF11, RF12  |
+| 79  | Trabalhar requisições no Controller e rotas para Focos de Calor                                          |  Carlos Magalhães     | ✔                 | [Link](https://trello.com/c/rMa9hY3R/79-trabalhar-requisi%C3%A7%C3%B5es-no-controller-e-rotas-para-focos-de-calor)                         |                       |
+| 14  | Componente gráfico - Risco de Fogo por Estado e Bioma                | Andressa Stéphane Toledo da Silva                      | ✔                 | [Link](https://trello.com/c/NiitwVdo/14-componente-gr%C3%A1fico-risco-de-fogo-por-estado-e-bioma) |   RFN02, RF08                   |
+| 69  | Trabalhar atualização do mapa a partir dos dados inseridos no filtro                | Adson Filho                    | ✔                 | [Link](https://trello.com/c/wAMgR8US/69-trabalhar-atualiza%C3%A7%C3%A3o-do-mapa-a-partir-dos-dados-inseridos-no-filtro) |                       |
+| 77  | Componente Mapa - Area Queimada  | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/35E1of6p/77-componente-mapa-area-queimada) |       RF05, RF06, RFN01  ,RF11, RF12              |
+| 78  | Componente Mapa - Risco de Fogo | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/ajwLsHbC/78-componente-mapa-risco-de-fogo) |          RFN01 ,RF11, RF12             |
+| 85  | Ajustar bug da importação de ocorrências | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/v6m4bmwr/85-ajustar-bug-da-importa%C3%A7%C3%A3o-de-ocorr%C3%AAncias) |           RF03, RF04 , RF05, RF06           |
+| 86  | Trabalhar consulta de área queimada para o mapa, validar valores duplicados e melhorar a performance                                    | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/ZlTLL12H/86-trabalhar-consulta-de-%C3%A1rea-queimada-para-o-mapa-validar-valores-duplicados-e-melhorar-a-performance)                  |                       |
+| 87  | Trabalhar mapa de calor                                       | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/g6pPdwCC/87-trabalhar-mapa-de-calor)                       |                       |
+| 88  | Trabalhar consultas para agrupar informações para os gráficos                                         | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/ySqOdzJK/88-trabalhar-consultas-para-agrupar-informa%C3%A7%C3%B5es-para-os-gr%C3%A1ficos)                       |                       |
+| 89  | Mudar a cor do mapa para o padrão do projeto                                       | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/ZN3sHTAu/89-mudar-a-cor-do-mapa-para-o-padr%C3%A3o-do-projeto)      |                       |
+| 90  | Adicionar camada do bioma/Estado na consulta de área queimada | Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/IEFwn9yt/90-adicionar-camada-do-bioma-estado-na-consulta-de-%C3%A1rea-queimada) |                       |
+| 91  | Ajustar importação para que todas as descrições fiquem UPPERCASE()| Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/RjbVKgfr/91-ajustar-importa%C3%A7%C3%A3o-para-que-todas-as-descri%C3%A7%C3%B5es-fiquem-uppercase) |                       |
+| 92  | Apresentar o mapa e o gráfico vazio, quando não houver filtros                                    |  Andressa Stéphane Toledo da Silva                      | ✔                 | [Link](https://trello.com/c/KKl01z2d/92-apresentar-o-mapa-e-o-gr%C3%A1fico-vazio-quando-n%C3%A3o-houver-filtros)                  |                       |
+| 93  | Trabalhar popup que aparece ao clicar no ponto do mapa                                       | Andressa Stéphane Toledo da Silva                      | ✔                 | [Link](https://trello.com/c/95Fa0AHt/93-trabalhar-popup-que-aparece-ao-clicar-no-ponto-do-mapa)                       |                       |
+| 95  | Trabalhar gráfico para focos de calor                                        | Andressa Stéphane Toledo da Silva                       | ✔                 | [Link](https://trello.com/c/xcxhw6r2/95-trabalhar-gr%C3%A1fico-para-focos-de-calor)                       |                       |
+| 96  | Trabalhar gráfico para risco de fogo                                   | Andressa Stéphane Toledo da Silva                       | ✔                 | [Link](https://trello.com/c/PwOJVm6j/96-trabalhar-gr%C3%A1fico-para-risco-de-fogo)      |                       |
+| 97  | Trabalhar gráfico para área queimada | Andressa Stéphane Toledo da Silva                       | ✔                 | [Link](https://trello.com/c/AO7fahug/97-trabalhar-gr%C3%A1fico-para-%C3%A1rea-queimada) |    RF05, RF06                   |
+| 99  | Banco de dados:  Converter functions de área queimada e área queimada percentual para stored procedure| Carlos Magalhães                       | ✔                 | [Link](https://trello.com/c/r2izZSHT/99-banco-de-dados-converter-functions-de-%C3%A1rea-queimada-e-%C3%A1rea-queimada-percentual-para-stored-procedure) |                       |
+| 100  | Matemática para computação - MC.04: Relações e suas aplicações -> conceito de projeção, seleção e predicado (SELECT) |  Carlos Magalhães                      | ✔                 | [Link](https://trello.com/c/rL57zixY/100-matem%C3%A1tica-para-computa%C3%A7%C3%A3o-mc04-rela%C3%A7%C3%B5es-e-suas-aplica%C3%A7%C3%B5es-conceito-de-proje%C3%A7%C3%A3o-sele%C3%A7%C3%A3o-e-predicado-select)                  |        MC.04               |
+| 101  |  Estruturas de - dados - ED.05: Algoritmos de busca em cadeias de caracteres -> Adicionar a opção do usuário digitar o nome do Estado e do bioma que ele deseja buscar, além de deixá-lo selecionar                                    | Eduardo Henrique                      | ✔                 | [Link](https://trello.com/c/2VXaAR8R/101-estruturas-de-dados-ed05-algoritmos-de-busca-em-cadeias-de-caracteres-adicionar-a-op%C3%A7%C3%A3o-do-usu%C3%A1rio-digitar-o-nome-do-estado-e-do)                       |                 ED.05      |
+| 102  | Engenharia de software Diagrama de sequência                                      | Adson Filho                     | ✔                 | [Link](https://trello.com/c/wjmnZ3LE/102-engenharia-de-software-diagrama-de-sequ%C3%AAncia)                       |             ES.03         |
+| 104  | Ajustar inserção de risco de fogo                              | Gustavo de Moraes Silva                       | ✔                 | [Link](https://trello.com/c/h1gotDzh/104-ajustar-inser%C3%A7%C3%A3o-de-risco-de-fogo)      |                      |
+
+### Burndown Chart 🔥
+<p align="center">
+   <img width="687" height="353" src="https://github.com/HypogramTechnologies/HypoHeat/blob/main/documentacao/Sprint%203/BurndownChart.png">
+
+</p>
+<br>
+
 # EQUIPE 👨🏻‍💻
 
 <br>
