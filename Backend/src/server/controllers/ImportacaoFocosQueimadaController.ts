@@ -8,7 +8,11 @@ async function processarCargaQueimadas() {
   const conexao = await pool.connect();
 
   const utlimoArquivoBaixado = await conexao.query(`SELECT * FROM ArquivoImportado ORDER BY ArquivoImportadoDataImportacao DESC LIMIT 1;`)
-  const datasformatadas:string[] = intervaloDownload(utlimoArquivoBaixado ? utlimoArquivoBaixado.rows[0].arquivoimportadodataarquivo : undefined);
+  let dataDownload: Date | undefined = undefined;
+  if (utlimoArquivoBaixado.rows.length > 0) {
+    dataDownload = new Date(utlimoArquivoBaixado.rows[0].arquivoimportadodataarquivo);
+  }
+  const datasformatadas:string[] = intervaloDownload(dataDownload);
   console.log("Datas formatadas para download:", datasformatadas);
   
   try {
