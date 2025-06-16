@@ -27,6 +27,8 @@ TABLE_NAME = 'risco_fogo'
 # Calcula a data de ontem
 def get_yesterday():
     yesterday = datetime.now() - timedelta(days=1)
+    print("Data arquivo: ")
+    print(yesterday.strftime("%Y%m%d"))
     return yesterday.strftime("%Y%m%d")
 
 # Monta a URL de download
@@ -35,6 +37,8 @@ def montar_url(data_arquivo):
 
 # Faz download do arquivo e salva no diretório temporário
 def download_arquivo_nc(url, pasta_temp):
+    print("URL: ")
+    print(url)
     local_path = os.path.join(pasta_temp, url.split('/')[-1])
     print(f"⬇️ Baixando arquivo: {url}")
     response = requests.get(url)

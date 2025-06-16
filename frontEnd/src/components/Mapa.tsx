@@ -25,7 +25,7 @@ const recuperaFocoCalorIcon: RecuperaFocoCalorIcon = (frp) => {
 
   const focoCalorIcon: L.DivIcon = L.divIcon({
     className: 'custom-fa-icon',
-    html: `<i class="fa-solid fa-circle" style="color:${color}; font-size: 10px;"></i>`,
+    html: `<i class="fa-solid fa-circle" style="color:${color}; font-size: 5px;"></i>`,
     iconSize: [15, 30],
     iconAnchor: [12, 24],
   });
@@ -47,6 +47,7 @@ const mapaCalor: MapaCalor = (frp) => {
 
 
 const Mapa = () => {
+  
   const { appliedFiltro } = useFiltro();
   const [focos, setFocos] = useState<Foco[]>([]);
   const [risco, setRisco] = useState<RiscoFogo[]>([]);
@@ -125,6 +126,8 @@ const Mapa = () => {
               <PopUp
                 item={{
                   ...item,
+                  estadonome: item.estadonome ?? "",
+                  biomanome: item.biomanome ?? "",
                 }}
               />
             </Popup>
@@ -132,21 +135,24 @@ const Mapa = () => {
         ))
       }
 
+  
       {appliedFiltro.tipoFiltro === 'heatRisk' &&
-        risco.map((item, index) => (
+        risco
+        .map((item, index) => (
           <Marker
             key={`risco-${index}`}
-            position={[item.ocorrenciaLatitude, item.ocorrenciaLongitude]} // ajuste conforme sua interface RiscoFogo
-            icon={getFireIcon(item.ocorrenciaRiscoFogo ?? 0)}
+            position={[item.latitude, item.longitude]} 
+            icon={recuperaFocoCalorIcon(item.risco_fogo ?? 0)}
           >
-
-            <Popup>
+{/*             <Popup>
               <PopUp
                 item={{
                   ...item,
+                  estadonome: (item as any).estadonome ?? "",
+                  biomanome: (item as any).biomanome ?? "",
                 }}
               />
-            </Popup>
+            </Popup> */}
 
           </Marker>
         ))
@@ -219,7 +225,7 @@ const Mapa = () => {
       <Legend
         tipoBusca={
           appliedFiltro.tipoFiltro === "heatRisk"
-            ? TipoBusca.riscoFogo
+            ? TipoBusca.focosCalor
             : appliedFiltro.tipoFiltro === "burnedAreas"
               ? TipoBusca.areaqueimada
               : TipoBusca.focosCalor

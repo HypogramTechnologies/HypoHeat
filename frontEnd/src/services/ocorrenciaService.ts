@@ -12,12 +12,15 @@ export interface Foco {
 }
 
 export interface RiscoFogo {
-  estadonome: string;
+/*   estadonome: string;
   biomanome: string;
   municipionome: string;
   ocorrenciaLatitude: number;
   ocorrenciaLongitude: number;
-  ocorrenciaRiscoFogo: number;
+  ocorrenciaRiscoFogo: number; */
+  latitude: number;
+  longitude: number;
+  risco_fogo: number;
 }
 
 export interface AreaQueimada {
@@ -97,12 +100,9 @@ export const focosCalor = async (body: FiltroConsulta = {}): Promise<Foco[]> => 
 export const riscoFogo = async (body: FiltroConsulta = {}): Promise<RiscoFogo[]> => {
   const { data } = await api.post("/risco-fogo", body);
   return (data as any[]).map((item: any) => ({
-    estadonome: item.estadonome,
-    biomanome: item.biomanome,
-    municipionome: item.municipionome,
-    ocorrenciaLatitude: parseFloat(item.ocorrencialatitude),
-    ocorrenciaLongitude: parseFloat(item.ocorrencialongitude),
-    ocorrenciaRiscoFogo: parseFloat(item.ocorrenciariscofogo)
+    latitude: parseFloat(item.latitude),
+    longitude: parseFloat(item.longitude),
+    risco_fogo: parseFloat(item.risco_fogo)
   }));
 };
 
@@ -122,7 +122,6 @@ export const areaQueimadaPercentual = async (
   body: FiltroConsulta = {}
 ): Promise<AreaQueimadaPercentual[]> => {
   const { data } = await api.post("/area-queimada-percentual", body);
-  console.log(data);
   return (data as any[]).map((item: any) => ({
     biomanome: item.bioma,
     estadonome: item.nm_uf,
@@ -152,8 +151,7 @@ export const estadoBiomaArea = async (
   body: FiltroConsulta = {}
 ): Promise<EstadoBiomaArea[]> => {
   const { data } = await api.post("/estado-bioma-area", body);
-  console.log("Estado Bioma Area Data: ");
-  console.log(data);
+
   return (data as any[]).map((item: any) => ({
     biomanome: item.biomanome,
     estadonome: item.estadonome,

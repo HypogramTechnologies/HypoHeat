@@ -30,8 +30,8 @@ class OcorrenciaController {
 
   public async Filtrar_ocorrencia_agrupada(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
-    console.log("Filtro: ")
-    console.log(filtro)
+    /* console.log("Filtro: ")
+    console.log(filtro) */
     const consulta: string = `SELECT estadonome, biomanome${filtro.estado && filtro.bioma ? ', ocorrenciadatahora::DATE' : ''}, AVG(ocorrenciariscofogo) AS ocorrenciariscofogo, SUM(ocorrenciafrp) AS ocorrenciafrp FROM view_ocorrencias`;
   
     const condicaoOcorrencia:string  = `ocorrenciafrp > 0 AND ocorrenciariscofogo > 0`
@@ -52,9 +52,9 @@ class OcorrenciaController {
 
   public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
-    const consulta: string = `SELECT * FROM view_risco_fogo`;
-    const consultaEstruturada: string = estruturarConsulta(consulta, filtro);
-    await validarCache(res, filtro, consultaEstruturada);
+    const consulta: string = `SELECT * FROM risco_fogo WHERE risco_fogo > 0 LIMIT 100000;`;
+    /* const consultaEstruturada: string = estruturarConsulta(consulta, filtro); */
+    await validarCache(res, filtro, consulta);
   }
 
   public async Filtrar_area_queimada(
@@ -79,7 +79,7 @@ class OcorrenciaController {
           ${filtro.estado ? `'${filtro.estado}'::TEXT` : "NULL::TEXT"}
         );
   `;
-    console.log(consulta)
+
     await validarCache(res, filtro, consulta);
   }
 
