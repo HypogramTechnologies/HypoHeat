@@ -52,7 +52,7 @@ class OcorrenciaController {
 
   public async Filtrar_risco_fogo(req: Request, res: Response): Promise<void> {
     const filtro: Filtro = req.body;
-    const consulta: string = `SELECT * FROM risco_fogo WHERE risco_fogo > 0 LIMIT 100000;`;
+    const consulta: string = `SELECT * FROM risco_fogo WHERE risco_fogo > 0 ORDER BY risco_fogo DESC LIMIT 10000;`;
     /* const consultaEstruturada: string = estruturarConsulta(consulta, filtro); */
     await validarCache(res, filtro, consulta);
   }
