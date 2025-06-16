@@ -185,22 +185,18 @@ $function$
 ;
 
 CREATE OR REPLACE FUNCTION public.prc_percentual_area_queimada_estado_bioma(
-    data_inicio TIMESTAMP DEFAULT NULL,
-    data_fim TIMESTAMP DEFAULT NULL,
-    satelite_nome TEXT DEFAULT NULL,
-    bioma_nome TEXT DEFAULT NULL,
-    filtro_estadonome TEXT DEFAULT NULL
-)
-RETURNS TABLE (
-    nm_uf TEXT,
-    sigla_uf TEXT,
-    bioma TEXT,
-    data_min_ocorrencia DATE,
-    data_max_ocorrencia DATE,
-    area_bioma_no_estado_km2 NUMERIC,
-    area_queimada_km2 NUMERIC,
-    percentual_queimado NUMERIC
-) AS $$
+	data_inicio timestamp without time zone DEFAULT NULL::timestamp without time zone,
+	data_fim timestamp without time zone DEFAULT NULL::timestamp without time zone,
+	satelite_nome text DEFAULT NULL::text,
+	bioma_nome text DEFAULT NULL::text,
+	filtro_estadonome text DEFAULT NULL::text)
+    RETURNS TABLE(nm_uf text, sigla_uf text, bioma text, data_ocorrencia date, area_bioma_no_estado_km2 numeric, area_queimada_km2 numeric, percentual_queimado numeric) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
 BEGIN
     RETURN QUERY
     WITH estado_bioma_intersecao AS (
@@ -221,10 +217,11 @@ BEGIN
             ON ST_Intersects(ea.geom, ba.geom)
         WHERE
             (bioma_nome IS NULL OR ba.bioma ILIKE '%' || bioma_nome || '%') AND
-            (filtro_estadonome IS NULL OR ea.nm_uf = filtro_estadonome)
+            (filtro_estadonome IS NULL OR ea.nm_uf ILIKE '%' || filtro_estadonome || '%')
     ),
-    area_queimada_unificada AS (
+    area_queimada_por_data AS (
         SELECT
+            DATE(vwo.ocorrenciadatahora) AS data_ocorrencia,
             ST_Union(
                 ST_Transform(
                     ST_Buffer(
@@ -236,9 +233,7 @@ BEGIN
                     ),
                     4326
                 )
-            ) AS area_queimada_geom,
-            MIN(vwo.ocorrenciadatahora)::DATE AS data_min,
-            MAX(vwo.ocorrenciadatahora)::DATE AS data_max
+            ) AS area_queimada_geom
         FROM
             localizacao_ocorrencia loc
         JOIN
@@ -248,15 +243,16 @@ BEGIN
             AND (data_fim IS NULL OR vwo.ocorrenciadatahora <= data_fim)
             AND (satelite_nome IS NULL OR vwo.satelitenome ILIKE '%' || satelite_nome || '%')
             AND (bioma_nome IS NULL OR vwo.biomanome ILIKE '%' || bioma_nome || '%')
+        GROUP BY
+            DATE(vwo.ocorrenciadatahora)
     )
     SELECT
         ebi.nm_uf,
         ebi.sigla_uf,
         ebi.bioma,
-        aq.data_min,
-        aq.data_max,
+        aq.data_ocorrencia,
         ROUND((ST_Area(ebi.geom_intersecao) / 1000000.0)::NUMERIC, 2) AS area_bioma_no_estado_km2,
-        ROUND((
+        ROUND(( 
             ST_Area(ST_Intersection(ebi.geom_intersecao, ST_Transform(aq.area_queimada_geom, 3857))) / 1000000.0
         )::NUMERIC, 2) AS area_queimada_km2,
         ROUND((
@@ -264,13 +260,15 @@ BEGIN
             NULLIF(ST_Area(ebi.geom_intersecao), 0)
         )::NUMERIC * 100, 2) AS percentual_queimado
     FROM
-        estado_bioma_intersecao ebi,
-        area_queimada_unificada aq
+        estado_bioma_intersecao ebi
+    JOIN
+        area_queimada_por_data aq ON ST_Intersects(ebi.geom_intersecao, ST_Transform(aq.area_queimada_geom, 3857))
     WHERE
         ST_IsValid(ebi.geom_intersecao)
         AND ST_Area(ebi.geom_intersecao) > 0;
 END;
-$$ LANGUAGE plpgsql;
+$BODY$;
+
 
 --VIEW DE ÁREA QUEIMADA
 CREATE OR REPLACE VIEW public.view_area_queimada AS
