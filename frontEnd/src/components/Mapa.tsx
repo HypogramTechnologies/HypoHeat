@@ -18,6 +18,8 @@ interface RecuperaFocoCalorIcon {
 }
 
 const recuperaFocoCalorIcon: RecuperaFocoCalorIcon = (frp) => {
+  console.log("FRP: ")
+  console.log(frp)
   let color: string = "#FFD43B"; // Amarelo
 
   if (frp > 100) color = "#FF0000"; // Vermelho
@@ -142,7 +144,7 @@ const Mapa = () => {
           <Marker
             key={`risco-${index}`}
             position={[item.latitude, item.longitude]} 
-            icon={recuperaFocoCalorIcon(item.risco_fogo ?? 0)}
+            icon={recuperaFocoCalorIcon(item.risco_fogo * 100)}
           >
 {/*             <Popup>
               <PopUp
