@@ -34,3 +34,10 @@ npm run pyload
   "pyload": "python ./scripts/NetCDFTranslater.py"
 }
 ```
+
+## ![Bandeira do Brasil](https://flagcdn.com/w40/br.png) Importação do shp do Brasil
+```bash
+"C:\Program Files\PostgreSQL\17\bin\shp2pgsql.exe" -I -s 4326 "C:\caminho\para\seu\arquivo\paises.shp" pais_area > pais_area.sql
+"C:\Program Files\PostgreSQL\17\bin\psql.exe" -U postgres -d nome_do_banco_de_dados -f pais_area.sql
+
+```
